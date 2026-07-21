@@ -1,0 +1,22 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">NersCare ICU icon</title>
+  <desc id="desc">A calm ICU loneliness assessment icon with heart pulse and check mark.</desc>
+  <defs>
+    <linearGradient id="iconGradient" x1="74" y1="62" x2="438" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11998E"/>
+      <stop offset="1" stop-color="#0B5F76"/>
+    </linearGradient>
+    <filter id="softShadow" x="20" y="25" width="472" height="472" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#0B5F76" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="116" fill="#F4FBFB"/>
+  <g filter="url(#softShadow)">
+    <rect x="72" y="66" width="368" height="368" rx="92" fill="url(#iconGradient)"/>
+    <path d="M166 256H211L235 191L279 333L307 256H368" stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M256 162C276 126 334 129 357 172C387 225 322 278 256 334C190 278 125 225 155 172C178 129 236 126 256 162Z" stroke="#DFF7F6" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="356" cy="355" r="56" fill="#F8B84E"/>
+    <path d="M331 356L348 373L383 333" stroke="#0B5F76" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

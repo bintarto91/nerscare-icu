@@ -1,0 +1,29 @@
+<svg width="720" height="220" viewBox="0 0 720 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">NersCare ICU AI assessment logo</title>
+  <desc id="desc">A modern assessment logo with clinical grid, check mark, and AI-assisted signal.</desc>
+  <defs>
+    <linearGradient id="aiGradient" x1="40" y1="34" x2="184" y2="184" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#087F7B"/>
+      <stop offset="1" stop-color="#155E75"/>
+    </linearGradient>
+    <filter id="aiShadow" x="0" y="0" width="220" height="220" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#155E75" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#aiShadow)">
+    <rect x="36" y="34" width="150" height="150" rx="36" fill="url(#aiGradient)"/>
+    <rect x="71" y="66" width="80" height="96" rx="18" fill="#F8FAFC"/>
+    <path d="M91 88H131" stroke="#155E75" stroke-width="7" stroke-linecap="round"/>
+    <path d="M91 111H124" stroke="#155E75" stroke-width="7" stroke-linecap="round"/>
+    <path d="M91 136L104 148L132 119" stroke="#0B8A83" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="152" cy="69" r="18" fill="#F8B84E"/>
+    <path d="M144 69H160M152 61V77" stroke="#155E75" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="68" cy="154" r="12" fill="#BFEFED"/>
+    <path d="M65 154H71" stroke="#155E75" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <text x="226" y="92" fill="#0F2530" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="0">NersCare ICU</text>
+  <text x="228" y="134" fill="#0B6F73" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="750" letter-spacing="0">AI-Assisted Assessment</text>
+  <text x="228" y="166" fill="#64748B" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="500" letter-spacing="0">Skoring loneliness, edukasi, dan dokumentasi pasien ICU</text>
+</svg>

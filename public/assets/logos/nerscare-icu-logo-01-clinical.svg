@@ -1,0 +1,25 @@
+<svg width="720" height="220" viewBox="0 0 720 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">NersCare ICU clinical logo</title>
+  <desc id="desc">A calm medical logo for ICU loneliness assessment with a heart pulse and assessment mark.</desc>
+  <defs>
+    <linearGradient id="iconGradient" x1="38" y1="34" x2="174" y2="174" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11998E"/>
+      <stop offset="1" stop-color="#0B5F76"/>
+    </linearGradient>
+    <filter id="softShadow" x="0" y="0" width="220" height="220" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#0B5F76" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <rect x="36" y="34" width="150" height="150" rx="38" fill="url(#iconGradient)"/>
+    <path d="M76 108H94L104 82L122 138L134 108H154" stroke="white" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M111 70C119 56 142 57 151 74C163 96 137 117 111 139C85 117 59 96 71 74C80 57 103 56 111 70Z" stroke="#DFF7F6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="153" cy="153" r="23" fill="#F8B84E"/>
+    <path d="M143 153L150 160L164 145" stroke="#0B5F76" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="226" y="94" fill="#0F2530" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="0">NersCare ICU</text>
+  <text x="228" y="135" fill="#0B6F73" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="750" letter-spacing="0">AI-Assisted Loneliness Assessment</text>
+  <text x="228" y="166" fill="#64748B" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="500" letter-spacing="0">Assessment terstruktur untuk pasien ICU, perawat, dan keluarga</text>
+</svg>
