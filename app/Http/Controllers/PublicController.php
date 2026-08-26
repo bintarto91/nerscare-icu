@@ -44,7 +44,7 @@ class PublicController extends Controller
     {
         $booklets = [
             'keluarga' => [
-                'title' => 'E-Booklet Edukasi Keluarga Pasien ICU',
+                'title' => 'Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU',
                 'description' => 'Tetap terhubung, mendukung, dan menenangkan pasien selama perawatan intensif.',
                 'audience_label' => 'Untuk keluarga pasien ICU',
                 'theme' => 'family',
@@ -53,7 +53,7 @@ class PublicController extends Controller
                 'page_count' => 10,
             ],
             'perawat' => [
-                'title' => 'E-Booklet Edukasi Perawat ICU',
+                'title' => 'Edukasi Perawat untuk Menurunkan Kesepian pada Pasien ICU',
                 'description' => 'Panduan intervensi multimodal untuk mengurangi rasa kesepian dan keterputusan sosial pasien ICU.',
                 'audience_label' => 'Untuk perawat ICU',
                 'theme' => 'nurse',

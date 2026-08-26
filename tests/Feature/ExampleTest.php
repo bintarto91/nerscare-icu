@@ -28,9 +28,12 @@ class ExampleTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSee('Pilih panduan sesuai peran Anda')
-            ->assertSee('Edukasi Keluarga Pasien ICU')
-            ->assertSee('Edukasi Perawat ICU')
+            ->assertSee('Edukasi Perawat/Keluarga untuk Menurunkan Kesepian pada Pasien ICU')
+            ->assertSee('Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU')
+            ->assertSee('Edukasi Perawat untuk Menurunkan Kesepian pada Pasien ICU')
+            ->assertSee('id="homeBook"', false)
+            ->assertSee('data-home-audience="family"', false)
+            ->assertSee('data-home-audience="nurse"', false)
             ->assertSee('STS')
             ->assertSee('SS')
             ->assertDontSee('Not lonely')

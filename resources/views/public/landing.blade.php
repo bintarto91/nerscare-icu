@@ -2292,6 +2292,357 @@
                 width: 100%;
             }
         }
+
+        .home-flipbook {
+            --home-accent: #0f766e;
+            --home-accent-soft: #e4f6f2;
+            max-width: 1120px;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #d7e5e9;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, .94);
+            box-shadow: 0 24px 62px rgba(16, 50, 66, .13);
+        }
+
+        .home-flipbook.nurse {
+            --home-accent: #2563a9;
+            --home-accent-soft: #e7f0fc;
+        }
+
+        .home-flipbook-toolbar {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 13px 18px;
+            border-bottom: 1px solid #dce7eb;
+            background: #f9fbfc;
+        }
+
+        .home-role-switch {
+            display: inline-flex;
+            gap: 6px;
+            padding: 5px;
+            border: 1px solid #d5e2e7;
+            border-radius: 14px;
+            background: #eef4f6;
+        }
+
+        .home-role-switch button {
+            min-height: 40px;
+            padding: 0 17px;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
+            color: #526978;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .home-role-switch button.active {
+            background: white;
+            color: var(--home-accent);
+            box-shadow: 0 5px 14px rgba(16, 50, 66, .11);
+        }
+
+        .home-page-status {
+            color: var(--home-accent);
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .home-flipbook-stage {
+            position: relative;
+            min-height: 570px;
+            display: grid;
+            place-items: center;
+            padding: 26px;
+            perspective: 2400px;
+            touch-action: pan-y;
+            background:
+                radial-gradient(circle at 50% 18%, white, transparent 42%),
+                linear-gradient(135deg, var(--home-accent-soft), #edf3f5 72%);
+        }
+
+        .home-book {
+            position: relative;
+            width: min(100%, 920px);
+            display: flex;
+            aspect-ratio: 2380 / 1684;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 25px 28px rgba(16, 50, 66, .23));
+        }
+
+        .home-book-page {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            background: white;
+        }
+
+        .home-book-page.left {
+            border-radius: 9px 2px 2px 9px;
+            box-shadow: inset -18px 0 26px -25px rgba(16, 33, 43, .75);
+        }
+
+        .home-book-page.right {
+            border-radius: 2px 9px 9px 2px;
+            box-shadow: inset 18px 0 26px -25px rgba(16, 33, 43, .75);
+        }
+
+        .home-book-page.blank {
+            background: linear-gradient(145deg, #fbfdfd, #e8eff2);
+        }
+
+        .home-book-page.blank img {
+            visibility: hidden;
+        }
+
+        .home-book-page img,
+        .home-turn-face img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+
+        .home-book-spine {
+            position: absolute;
+            z-index: 6;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 20px;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, transparent, rgba(16, 33, 43, .2), rgba(255, 255, 255, .62), rgba(16, 33, 43, .16), transparent);
+            pointer-events: none;
+        }
+
+        .home-turn-sheet {
+            position: absolute;
+            z-index: 9;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            display: none;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        .home-turn-face {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            border-radius: 3px 9px 9px 3px;
+            background: white;
+            box-shadow: 0 12px 30px rgba(16, 50, 66, .22);
+            backface-visibility: hidden;
+        }
+
+        .home-turn-face.back {
+            transform: rotateY(180deg);
+        }
+
+        .home-book.is-turning .home-turn-sheet {
+            display: block;
+        }
+
+        .home-book.turn-next .home-turn-sheet {
+            left: 50%;
+            transform-origin: left center;
+            animation: homeTurnNext .64s cubic-bezier(.62, .02, .28, 1) both;
+        }
+
+        .home-book.turn-previous .home-turn-sheet {
+            left: 0;
+            transform-origin: right center;
+            animation: homeTurnPrevious .64s cubic-bezier(.62, .02, .28, 1) both;
+        }
+
+        @keyframes homeTurnNext {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(-180deg); }
+        }
+
+        @keyframes homeTurnPrevious {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(180deg); }
+        }
+
+        .home-flipbook-controls {
+            min-height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 10px 18px;
+            border-top: 1px solid #dce7eb;
+            border-bottom: 1px solid #dce7eb;
+            color: #5b6f7d;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .home-flipbook-controls button {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #cbdde3;
+            border-radius: 12px;
+            background: white;
+            color: var(--home-accent);
+            cursor: pointer;
+            font-size: 19px;
+            font-weight: 900;
+        }
+
+        .home-flipbook-controls button:disabled {
+            cursor: not-allowed;
+            opacity: .35;
+        }
+
+        .home-flipbook-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            padding: 22px 24px 24px;
+        }
+
+        .home-flipbook-details h3 {
+            max-width: 700px;
+            margin: 10px 0 7px;
+            color: #10212b;
+            font-size: clamp(21px, 2.6vw, 29px);
+            line-height: 1.18;
+        }
+
+        .home-flipbook-details p {
+            margin: 0;
+            color: #5b6f7d;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .home-flipbook-actions {
+            display: flex;
+            flex: 0 0 auto;
+            gap: 9px;
+        }
+
+        .home-flipbook-actions .btn,
+        .home-flipbook-actions .download-link {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .home-flipbook-actions .download-link {
+            border: 1px solid #cfdee4;
+            color: #284655;
+        }
+
+        @media(max-width: 899px) {
+            .home-flipbook-stage {
+                min-height: 0;
+                padding: 16px;
+            }
+
+            .home-book {
+                width: min(100%, 570px);
+                aspect-ratio: 1190 / 1684;
+            }
+
+            .home-book-page.left {
+                width: 100%;
+                border-radius: 9px;
+                box-shadow: none;
+            }
+
+            .home-book-page.right,
+            .home-book-spine {
+                display: none;
+            }
+
+            .home-turn-sheet,
+            .home-book.turn-next .home-turn-sheet,
+            .home-book.turn-previous .home-turn-sheet {
+                left: 0;
+                width: 100%;
+            }
+
+            .home-flipbook-details {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 620px) {
+            .home-flipbook {
+                border-radius: 21px;
+            }
+
+            .home-flipbook-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+                gap: 9px;
+                padding: 12px;
+            }
+
+            .home-role-switch {
+                width: 100%;
+            }
+
+            .home-role-switch button {
+                flex: 1;
+                padding: 0 9px;
+                font-size: 12px;
+            }
+
+            .home-page-status {
+                text-align: center;
+            }
+
+            .home-flipbook-stage {
+                padding: 10px;
+            }
+
+            .home-flipbook-controls span {
+                display: none;
+            }
+
+            .home-flipbook-details {
+                gap: 17px;
+                padding: 18px;
+            }
+
+            .home-flipbook-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .home-flipbook-actions .btn,
+            .home-flipbook-actions .download-link {
+                width: 100%;
+            }
+        }
+
+        @media(prefers-reduced-motion: reduce) {
+            .home-book.turn-next .home-turn-sheet,
+            .home-book.turn-previous .home-turn-sheet {
+                animation: none;
+            }
+        }
     </style>
 </head>
 
@@ -2390,55 +2741,55 @@
         <div class="section-inner">
             <div class="final-booklet-heading">
                 <div class="section-kicker">E-booklet resmi</div>
-                <h2>Pilih panduan sesuai peran Anda</h2>
+                <h2>Edukasi Perawat/Keluarga untuk Menurunkan Kesepian pada Pasien ICU</h2>
                 <p>
-                    Pilih booklet keluarga atau perawat, lalu baca melalui flipbook responsif yang
-                    menyesuaikan tampilan HP, tablet, laptop, dan desktop.
+                    Pilih peran, lalu balik halaman langsung dari halaman ini. Isi flipbook, warna,
+                    tautan baca lengkap, dan PDF akan menyesuaikan pilihan keluarga atau perawat.
                 </p>
             </div>
 
-            <div class="final-booklet-grid">
-                <article class="final-booklet-card family">
-                    <a class="final-booklet-cover" href="{{ route('public.booklet', 'keluarga') }}" aria-label="Baca E-Booklet Edukasi Keluarga">
-                        <img src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt="Sampul E-Booklet Edukasi Keluarga Pasien ICU" loading="lazy">
-                    </a>
+            <div class="home-flipbook family" id="homeFlipbookPanel">
+                <div class="home-flipbook-toolbar">
+                    <div class="home-role-switch" aria-label="Pilih jenis booklet">
+                        <button type="button" class="active" data-home-audience="family" aria-pressed="true">Untuk Keluarga</button>
+                        <button type="button" data-home-audience="nurse" aria-pressed="false">Untuk Perawat</button>
+                    </div>
+                    <div class="home-page-status" id="homePageStatus" aria-live="polite">Halaman 1 dari 10</div>
+                </div>
 
-                    <div class="final-booklet-content">
-                        <span class="audience-badge">Untuk keluarga</span>
-                        <h3>Edukasi Keluarga Pasien ICU</h3>
-                        <p>Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.</p>
-                        <ul class="final-booklet-highlights">
-                            <li>Tanda pasien membutuhkan dukungan</li>
-                            <li>Kunjungan, suara, telepon, dan video</li>
-                            <li>Privasi, spiritual, budaya, dan perawatan diri keluarga</li>
-                        </ul>
-                        <div class="final-booklet-actions">
-                            <a class="btn" href="{{ route('public.booklet', 'keluarga') }}">Buka flipbook</a>
-                            <a class="download-link" href="{{ asset('booklets/edukasi-keluarga-icu.pdf') }}" download>Unduh PDF</a>
+                <div class="home-flipbook-stage" id="homeFlipbookStage" tabindex="0" aria-label="Balik halaman booklet">
+                    <div class="home-book" id="homeBook" aria-label="Pratinjau flipbook edukasi">
+                        <div class="home-book-page left blank" id="homeLeftPage" aria-hidden="true">
+                            <img id="homeLeftImage" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt="">
+                        </div>
+                        <div class="home-book-page right" id="homeRightPage">
+                            <img id="homeRightImage" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt="Halaman 1 booklet keluarga">
+                        </div>
+                        <div class="home-book-spine" aria-hidden="true"></div>
+                        <div class="home-turn-sheet" id="homeTurnSheet" aria-hidden="true">
+                            <div class="home-turn-face front"><img id="homeTurnFront" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt=""></div>
+                            <div class="home-turn-face back"><img id="homeTurnBack" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt=""></div>
                         </div>
                     </div>
-                </article>
+                </div>
 
-                <article class="final-booklet-card nurse">
-                    <a class="final-booklet-cover" href="{{ route('public.booklet', 'perawat') }}" aria-label="Baca E-Booklet Edukasi Perawat">
-                        <img src="{{ asset('booklets/perawat/page-01.jpg') }}" alt="Sampul E-Booklet Edukasi Perawat ICU" loading="lazy">
-                    </a>
+                <div class="home-flipbook-controls">
+                    <button type="button" id="homePreviousPage" aria-label="Halaman booklet sebelumnya" disabled>&larr;</button>
+                    <span>Klik sisi halaman, geser, atau gunakan tombol</span>
+                    <button type="button" id="homeNextPage" aria-label="Halaman booklet berikutnya">&rarr;</button>
+                </div>
 
-                    <div class="final-booklet-content">
-                        <span class="audience-badge">Untuk perawat</span>
-                        <h3>Edukasi Perawat ICU</h3>
-                        <p>Alur kaji, intervensi multimodal, dokumentasi, dan eskalasi klinis.</p>
-                        <ul class="final-booklet-highlights">
-                            <li>Alur praktis enam langkah dan intervensi I1-I5</li>
-                            <li>Pelibatan keluarga serta keamanan digital</li>
-                            <li>Dokumentasi, eskalasi, dan checklist antar-shift</li>
-                        </ul>
-                        <div class="final-booklet-actions">
-                            <a class="btn" href="{{ route('public.booklet', 'perawat') }}">Buka flipbook</a>
-                            <a class="download-link" href="{{ asset('booklets/edukasi-perawat-icu.pdf') }}" download>Unduh PDF</a>
-                        </div>
+                <div class="home-flipbook-details">
+                    <div>
+                        <span class="audience-badge" id="homeAudienceBadge">Untuk keluarga</span>
+                        <h3 id="homeBookletTitle">Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU</h3>
+                        <p id="homeBookletDescription">Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.</p>
                     </div>
-                </article>
+                    <div class="home-flipbook-actions">
+                        <a class="btn" id="homeReaderLink" href="{{ route('public.booklet', 'keluarga') }}">Baca flipbook lengkap</a>
+                        <a class="download-link" id="homePdfLink" href="{{ asset('booklets/edukasi-keluarga-icu.pdf') }}" download>Unduh PDF</a>
+                    </div>
+                </div>
             </div>
 
             <div class="final-booklet-note">
@@ -2667,7 +3018,226 @@
         {{ $settings['footer_text'] }}
     </footer>
 
+    @php
+        $homeBooklets = [
+            'family' => [
+                'label' => 'Untuk keluarga',
+                'title' => 'Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU',
+                'description' => 'Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.',
+                'reader' => route('public.booklet', 'keluarga'),
+                'pdf' => asset('booklets/edukasi-keluarga-icu.pdf'),
+                'pages' => collect(range(1, 10))->map(fn (int $page) => asset('booklets/keluarga/page-'.str_pad((string) $page, 2, '0', STR_PAD_LEFT).'.jpg'))->values(),
+            ],
+            'nurse' => [
+                'label' => 'Untuk perawat',
+                'title' => 'Edukasi Perawat untuk Menurunkan Kesepian pada Pasien ICU',
+                'description' => 'Alur kaji, intervensi multimodal, dokumentasi, dan eskalasi klinis.',
+                'reader' => route('public.booklet', 'perawat'),
+                'pdf' => asset('booklets/edukasi-perawat-icu.pdf'),
+                'pages' => collect(range(1, 10))->map(fn (int $page) => asset('booklets/perawat/page-'.str_pad((string) $page, 2, '0', STR_PAD_LEFT).'.jpg'))->values(),
+            ],
+        ];
+    @endphp
+
     <script>
+        const homeBooklets = @json($homeBooklets);
+        const homePanel = document.getElementById('homeFlipbookPanel');
+        const homeBook = document.getElementById('homeBook');
+        const homeStage = document.getElementById('homeFlipbookStage');
+        const homeLeftPage = document.getElementById('homeLeftPage');
+        const homeRightPage = document.getElementById('homeRightPage');
+        const homeLeftImage = document.getElementById('homeLeftImage');
+        const homeRightImage = document.getElementById('homeRightImage');
+        const homeTurnFront = document.getElementById('homeTurnFront');
+        const homeTurnBack = document.getElementById('homeTurnBack');
+        const homePageStatus = document.getElementById('homePageStatus');
+        const homePreviousPage = document.getElementById('homePreviousPage');
+        const homeNextPage = document.getElementById('homeNextPage');
+        const homeAudienceBadge = document.getElementById('homeAudienceBadge');
+        const homeBookletTitle = document.getElementById('homeBookletTitle');
+        const homeBookletDescription = document.getElementById('homeBookletDescription');
+        const homeReaderLink = document.getElementById('homeReaderLink');
+        const homePdfLink = document.getElementById('homePdfLink');
+        const homeAudienceButtons = Array.from(document.querySelectorAll('[data-home-audience]'));
+        const homeSpreadMedia = window.matchMedia('(min-width: 900px)');
+        const homeReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let homeAudience = 'family';
+        let homeActiveIndex = 0;
+        let homePointerStartX = null;
+        let homeIsTurning = false;
+
+        function normalizeHomeIndex(index) {
+            const pages = homeBooklets[homeAudience].pages;
+            const bounded = Math.min(Math.max(index, 0), pages.length - 1);
+            if (!homeSpreadMedia.matches || bounded === 0) {
+                return bounded;
+            }
+            return bounded % 2 === 0 ? bounded - 1 : bounded;
+        }
+
+        function visibleHomeIndexes(index = homeActiveIndex) {
+            const normalized = normalizeHomeIndex(index);
+            const pages = homeBooklets[homeAudience].pages;
+            if (!homeSpreadMedia.matches) {
+                return [normalized];
+            }
+            if (normalized === 0) {
+                return [null, 0];
+            }
+            return [normalized, normalized + 1 < pages.length ? normalized + 1 : null];
+        }
+
+        function updateHomeSlot(container, image, index) {
+            const page = index === null ? null : homeBooklets[homeAudience].pages[index];
+            container.classList.toggle('blank', page === null);
+            if (!page) {
+                container.setAttribute('aria-hidden', 'true');
+                image.alt = '';
+                return;
+            }
+            container.removeAttribute('aria-hidden');
+            image.src = page;
+            image.alt = 'Halaman ' + (index + 1) + ' booklet ' + homeBooklets[homeAudience].label.toLowerCase();
+        }
+
+        function targetHomeIndex(direction) {
+            const pages = homeBooklets[homeAudience].pages;
+            if (!homeSpreadMedia.matches) {
+                const target = homeActiveIndex + direction;
+                return target >= 0 && target < pages.length ? target : null;
+            }
+            if (direction > 0) {
+                if (homeActiveIndex === 0) {
+                    return pages.length > 1 ? 1 : null;
+                }
+                const target = homeActiveIndex + 2;
+                return target < pages.length ? target : null;
+            }
+            if (homeActiveIndex <= 0) {
+                return null;
+            }
+            return homeActiveIndex === 1 ? 0 : Math.max(1, homeActiveIndex - 2);
+        }
+
+        function renderHomeFlipbook() {
+            const booklet = homeBooklets[homeAudience];
+            homeActiveIndex = normalizeHomeIndex(homeActiveIndex);
+            const visible = visibleHomeIndexes();
+            const actual = visible.filter(index => index !== null);
+
+            if (homeSpreadMedia.matches) {
+                updateHomeSlot(homeLeftPage, homeLeftImage, visible[0]);
+                updateHomeSlot(homeRightPage, homeRightImage, visible[1]);
+            } else {
+                updateHomeSlot(homeLeftPage, homeLeftImage, homeActiveIndex);
+                updateHomeSlot(homeRightPage, homeRightImage, null);
+            }
+
+            const first = actual[0] + 1;
+            const last = actual[actual.length - 1] + 1;
+            homePageStatus.textContent = first === last
+                ? 'Halaman ' + first + ' dari ' + booklet.pages.length
+                : 'Halaman ' + first + '\u2013' + last + ' dari ' + booklet.pages.length;
+            homePreviousPage.disabled = targetHomeIndex(-1) === null || homeIsTurning;
+            homeNextPage.disabled = targetHomeIndex(1) === null || homeIsTurning;
+            homePanel.classList.toggle('family', homeAudience === 'family');
+            homePanel.classList.toggle('nurse', homeAudience === 'nurse');
+            homeAudienceBadge.textContent = booklet.label;
+            homeBookletTitle.textContent = booklet.title;
+            homeBookletDescription.textContent = booklet.description;
+            homeReaderLink.href = booklet.reader;
+            homePdfLink.href = booklet.pdf;
+
+            homeAudienceButtons.forEach(function(button) {
+                const active = button.dataset.homeAudience === homeAudience;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+        }
+
+        function changeHomePage(direction) {
+            const nextIndex = targetHomeIndex(direction);
+            if (nextIndex === null || homeIsTurning) {
+                return;
+            }
+
+            const currentVisible = visibleHomeIndexes();
+            const nextVisible = visibleHomeIndexes(nextIndex);
+            const currentTurnIndex = homeSpreadMedia.matches
+                ? (direction > 0 ? currentVisible[1] ?? currentVisible[0] : currentVisible[0] ?? currentVisible[1])
+                : currentVisible[0];
+            const nextTurnIndex = homeSpreadMedia.matches
+                ? (direction > 0 ? nextVisible[0] ?? nextVisible[1] : nextVisible[1] ?? nextVisible[0])
+                : nextVisible[0];
+            const pages = homeBooklets[homeAudience].pages;
+
+            if (homeReducedMotion.matches) {
+                homeActiveIndex = nextIndex;
+                renderHomeFlipbook();
+                return;
+            }
+
+            homeIsTurning = true;
+            homeTurnFront.src = pages[currentTurnIndex];
+            homeTurnBack.src = pages[nextTurnIndex];
+            homeActiveIndex = nextIndex;
+            renderHomeFlipbook();
+            homeBook.classList.remove('turn-next', 'turn-previous');
+            void homeBook.offsetWidth;
+            homeBook.classList.add('is-turning', direction > 0 ? 'turn-next' : 'turn-previous');
+
+            window.setTimeout(function() {
+                homeBook.classList.remove('is-turning', 'turn-next', 'turn-previous');
+                homeIsTurning = false;
+                renderHomeFlipbook();
+            }, 680);
+        }
+
+        homeAudienceButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                if (homeIsTurning) {
+                    return;
+                }
+                homeAudience = button.dataset.homeAudience;
+                homeActiveIndex = 0;
+                renderHomeFlipbook();
+            });
+        });
+
+        homePreviousPage.addEventListener('click', function() { changeHomePage(-1); });
+        homeNextPage.addEventListener('click', function() { changeHomePage(1); });
+
+        homeStage.addEventListener('pointerdown', function(event) {
+            homePointerStartX = event.clientX;
+        });
+
+        homeStage.addEventListener('pointerup', function(event) {
+            if (homePointerStartX === null) {
+                return;
+            }
+            const distance = event.clientX - homePointerStartX;
+            homePointerStartX = null;
+            if (Math.abs(distance) >= 45) {
+                changeHomePage(distance > 0 ? -1 : 1);
+                return;
+            }
+            const bounds = homeStage.getBoundingClientRect();
+            changeHomePage(event.clientX < bounds.left + (bounds.width / 2) ? -1 : 1);
+        });
+
+        homeStage.addEventListener('pointercancel', function() { homePointerStartX = null; });
+        homeStage.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                changeHomePage(-1);
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                changeHomePage(1);
+            }
+        });
+        homeSpreadMedia.addEventListener('change', renderHomeFlipbook);
+        renderHomeFlipbook();
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register('/service-worker.js');
