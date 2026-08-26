@@ -590,6 +590,23 @@
             background: #ffffff;
         }
 
+        .decision-output-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .decision-output-grid .recommendation {
+            margin: 0;
+            border: 1px solid var(--line);
+        }
+
+        .decision-output-grid .clinical-decision {
+            grid-column: 1 / -1;
+            background: #fff8e8;
+            border-color: #f3d38a;
+        }
+
         .section-label {
             display: block;
             margin-bottom: 8px;
@@ -648,8 +665,13 @@
             .hero,
             .hero-benefits,
             .answers,
-            .result-grid {
+            .result-grid,
+            .decision-output-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .decision-output-grid .clinical-decision {
+                grid-column: auto;
             }
 
             .topbar-inner {
@@ -824,8 +846,13 @@
                 </div>
 
                 <div class="result-box">
-                    <div class="result-label">Kategori Lain</div>
+                    <div class="result-label">Profil Kebutuhan</div>
                     <div id="resultDominantDimension">-</div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Kode Keputusan</div>
+                    <div class="result-number" id="resultDecisionCode">-</div>
                 </div>
 
                 <div class="result-box">
@@ -839,9 +866,21 @@
                 <div id="resultInterpretation"></div>
             </div>
 
-            <div class="recommendation">
-                <strong class="section-label">Saran Edukasi Umum</strong>
-                <div id="resultRecommendation"></div>
+            <div class="decision-output-grid">
+                <div class="recommendation">
+                    <strong class="section-label">Rekomendasi Dukungan Keperawatan</strong>
+                    <div id="resultNursingRecommendation"></div>
+                </div>
+
+                <div class="recommendation">
+                    <strong class="section-label">Rekomendasi Edukasi Keluarga</strong>
+                    <div id="resultFamilyRecommendation"></div>
+                </div>
+
+                <div class="recommendation clinical-decision">
+                    <strong class="section-label">Catatan Keputusan Klinis</strong>
+                    <div id="resultClinicalDecisionNote"></div>
+                </div>
             </div>
         </div>
     </main>
@@ -854,7 +893,7 @@
                 <br>
                 <small>Kategori: <strong id="categoryPreview">-</strong></small>
                 <br>
-                <small>Kategori lain: <strong id="dominantDimensionFooter">-</strong></small>
+                <small>Profil kebutuhan: <strong id="dominantDimensionFooter">-</strong></small>
             </div>
 
             <div class="actions">
@@ -868,6 +907,7 @@
         const questions = @json($questions);
         const interpretations = @json($interpretations);
         const scoreRules = @json($scoreRules);
+        const decisionOutputs = @json($decisionOutputs);
         const options = Object.entries(@json($answerOptions)).map(function(option) {
             return {
                 value: parseInt(option[0]),
@@ -915,7 +955,7 @@
 
             const hint = document.createElement('span');
             hint.className = 'question-hint';
-            hint.textContent = 'Pilih satu jawaban yang paling sesuai dengan kondisi pasien.';
+            hint.textContent = 'Pilih satu jawaban yang paling sesuai dengan pengalaman pasien selama dirawat di ICU.';
 
             title.appendChild(number);
             copy.appendChild(text);
@@ -997,32 +1037,37 @@
             let category = '-';
             let categoryClass = '';
             let interpretation = '';
-            let recommendation = '';
+            let decisionCode = '-';
+            let nursingRecommendation = '';
+            let familyRecommendation = '';
+            let clinicalDecisionNote = '';
             let dominantDimension = '-';
 
             if (answered === totalQuestions) {
-                if (dimensionScores.emotional > dimensionScores.social) {
-                    dominantDimension = 'Emotional Loneliness';
-                } else if (dimensionScores.social > dimensionScores.emotional) {
-                    dominantDimension = 'Social Loneliness';
-                } else {
-                    dominantDimension = 'Emotional dan Social seimbang';
-                }
-
                 const matched = interpretations.find(function(item) {
                     return totalScore >= item.min_score && totalScore <= item.max_score;
                 });
 
                 if (matched) {
                     category = matched.category;
-                    interpretation = matched.interpretation;
-                    recommendation = matched.family_education_recommendation;
+                    const decision = decisionForScores(
+                        dimensionScores.emotional,
+                        dimensionScores.social,
+                        category
+                    );
 
-                    if (category.toLowerCase().includes('not')) {
+                    dominantDimension = decision.profile;
+                    decisionCode = decision.code;
+                    interpretation = decision.interpretation || matched.interpretation;
+                    nursingRecommendation = decision.nursing_recommendation || '';
+                    familyRecommendation = decision.family_education_recommendation || '';
+                    clinicalDecisionNote = decision.clinical_decision_note || '';
+
+                    if (category.toLowerCase().includes('tidak')) {
                         categoryClass = 'cat-low';
-                    } else if (category.toLowerCase().includes('moderate')) {
+                    } else if (category.toLowerCase().includes('sedang')) {
                         categoryClass = 'cat-medium';
-                    } else if (category.toLowerCase().includes('severe')) {
+                    } else if (category.toLowerCase().includes('berat')) {
                         categoryClass = 'cat-high';
                     } else {
                         categoryClass = 'cat-medium';
@@ -1031,7 +1076,9 @@
                     category = 'Belum Ada Pengaturan';
                     categoryClass = 'cat-medium';
                     interpretation = 'Belum ada pengaturan interpretasi yang sesuai dengan total skor ini.';
-                    recommendation = 'Silakan hubungi admin untuk melengkapi pengaturan interpretasi.';
+                    nursingRecommendation = 'Silakan hubungi admin untuk melengkapi pengaturan interpretasi.';
+                    familyRecommendation = nursingRecommendation;
+                    clinicalDecisionNote = 'Hasil simulasi tidak menggantikan penilaian klinis.';
                 }
 
                 document.getElementById('resultCard').style.display = 'block';
@@ -1043,11 +1090,44 @@
             document.getElementById('resultEmotionalScore').innerText = dimensionScores.emotional;
             document.getElementById('resultSocialScore').innerText = dimensionScores.social;
             document.getElementById('resultDominantDimension').innerText = dominantDimension;
+            document.getElementById('resultDecisionCode').innerText = decisionCode;
             document.getElementById('resultCategory').innerHTML = category === '-'
                 ? '-'
                 : '<span class="category ' + categoryClass + '">' + category + '</span>';
             document.getElementById('resultInterpretation').innerText = interpretation;
-            document.getElementById('resultRecommendation').innerText = recommendation;
+            document.getElementById('resultNursingRecommendation').innerText = nursingRecommendation;
+            document.getElementById('resultFamilyRecommendation').innerText = familyRecommendation;
+            document.getElementById('resultClinicalDecisionNote').innerText = clinicalDecisionNote;
+        }
+
+        function decisionForScores(emotionalScore, socialScore, category) {
+            let code;
+            let profile;
+
+            if (emotionalScore === 0 && socialScore === 0) {
+                code = 'N0';
+                profile = 'Tidak ada domain menonjol';
+            } else {
+                const emotionalPercentage = (emotionalScore / 6) * 100;
+                const socialPercentage = (socialScore / 5) * 100;
+
+                if (Math.abs(emotionalPercentage - socialPercentage) <= 15) {
+                    profile = emotionalScore + socialScore === 11
+                        ? 'Emotional dan Social sangat menonjol'
+                        : 'Emotional dan Social relatif seimbang';
+                    code = category === 'Tidak kesepian'
+                        ? 'NB'
+                        : (category === 'Kesepian tingkat sedang' ? 'MB' : (category === 'Kesepian tingkat berat' ? 'HB' : 'VHB'));
+                } else if (emotionalPercentage > socialPercentage) {
+                    profile = 'Emotional dominan';
+                    code = category === 'Tidak kesepian' ? 'NE' : (category === 'Kesepian tingkat sedang' ? 'ME' : 'HE');
+                } else {
+                    profile = 'Social dominan';
+                    code = category === 'Tidak kesepian' ? 'NS' : (category === 'Kesepian tingkat sedang' ? 'MS' : 'HS');
+                }
+            }
+
+            return Object.assign({ code: code, profile: profile }, decisionOutputs[code] || {});
         }
 
         function resetCalculator() {

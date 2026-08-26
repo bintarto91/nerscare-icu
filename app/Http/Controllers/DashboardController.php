@@ -70,7 +70,7 @@ class DashboardController extends Controller
             'totalUsers' => User::count(),
             'totalPatients' => Patient::count(),
             'totalAssessments' => Assessment::count(),
-            'totalQuestions' => AssessmentQuestion::count(),
+            'totalQuestions' => AssessmentQuestion::whereBetween('sort_order', [1, 11])->count(),
             'totalEducation' => EducationContent::where('status', 'published')->count(),
             'latestAssessments' => $latestAssessments,
             'latestPatients' => $latestPatients,

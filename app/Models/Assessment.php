@@ -12,10 +12,19 @@ class Assessment extends Model
         'user_id',
         'assessment_date',
         'total_score',
+        'emotional_score',
+        'social_score',
         'category',
+        'decision_code',
+        'decision_profile',
         'interpretation',
         'nursing_recommendation',
         'family_education_recommendation',
+        'clinical_decision_note',
+        'personalization_triggers',
+        'safety_alert',
+        'safety_alert_details',
+        'safety_alert_notes',
         'notes',
         'follow_up_status',
         'follow_up_notes',
@@ -26,6 +35,9 @@ class Assessment extends Model
     protected $casts = [
         'assessment_date' => 'date',
         'follow_up_date' => 'date',
+        'personalization_triggers' => 'array',
+        'safety_alert' => 'boolean',
+        'safety_alert_details' => 'array',
     ];
 
     public function patient()

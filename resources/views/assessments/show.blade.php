@@ -25,28 +25,22 @@
     if (str_contains($categoryLower, 'not') || str_contains($categoryLower, 'tidak') || str_contains($categoryLower, 'rendah')) {
         $categoryClass = 'result-low';
         $categoryIcon = '✅';
-        $categoryLabel = str_contains($categoryLower, 'not') ? 'Not lonely' : 'Risiko Rendah';
-        $categoryMessage = str_contains($categoryLower, 'not')
-            ? 'Total skor berada pada kategori not lonely berdasarkan De Jong Gierveld Loneliness Scale.'
-            : 'Kondisi loneliness relatif rendah. Tetap lakukan komunikasi terapeutik dan observasi berkala.';
+        $categoryLabel = 'Tidak kesepian';
+        $categoryMessage = 'Hasil skor pada saat asesmen menunjukkan kategori tidak kesepian.';
     } elseif (str_contains($categoryLower, 'moderate') || str_contains($categoryLower, 'sedang')) {
         $categoryClass = 'result-medium';
         $categoryIcon = '⚠️';
-        $categoryLabel = str_contains($categoryLower, 'moderate') ? 'Moderate lonely' : 'Risiko Sedang';
-        $categoryMessage = str_contains($categoryLower, 'moderate')
-            ? 'Total skor berada pada kategori moderate lonely dan perlu dukungan emosional maupun sosial.'
-            : 'Perlu perhatian lanjutan melalui dukungan emosional, komunikasi terstruktur, dan edukasi keluarga.';
-    } elseif (str_contains($categoryLower, 'severe') || str_contains($categoryLower, 'tinggi')) {
+        $categoryLabel = 'Kesepian tingkat sedang';
+        $categoryMessage = 'Hasil skor pada saat asesmen menunjukkan tingkat kesepian sedang.';
+    } elseif (str_contains($categoryLower, 'severe') || str_contains($categoryLower, 'tinggi') || str_contains($categoryLower, 'berat')) {
         $categoryClass = 'result-high';
         $categoryIcon = '🚨';
-        $categoryLabel = str_contains($categoryLower, 'very severe')
-            ? 'Very severe lonely'
-            : (str_contains($categoryLower, 'severe') ? 'Severe lonely' : 'Risiko Tinggi');
-        $categoryMessage = str_contains($categoryLower, 'very severe')
-            ? 'Total skor berada pada kategori very severe lonely dan perlu menjadi prioritas tindak lanjut.'
-            : (str_contains($categoryLower, 'severe')
-                ? 'Total skor berada pada kategori severe lonely dan membutuhkan tindak lanjut dukungan lebih intensif.'
-                : 'Pasien perlu menjadi prioritas tindak lanjut, observasi lebih intensif, dan dukungan keluarga/perawat.');
+        $categoryLabel = str_contains($categoryLower, 'sangat') || str_contains($categoryLower, 'very')
+            ? 'Kesepian tingkat sangat berat'
+            : 'Kesepian tingkat berat';
+        $categoryMessage = $categoryLabel === 'Kesepian tingkat sangat berat'
+            ? 'Hasil skor pada saat asesmen menunjukkan tingkat kesepian sangat berat.'
+            : 'Hasil skor pada saat asesmen menunjukkan tingkat kesepian berat.';
     } else {
         $categoryClass = 'result-default';
         $categoryIcon = 'ℹ️';
@@ -84,7 +78,18 @@
         $dimensionScores[$dimension] += (int) ($answer->score ?? 0);
     }
 
-    $dominantDimension = \App\Support\DeJongGierveldScale::dominantDimensionLabel($dimensionScores);
+    $decision = \App\Support\DeJongGierveldScale::decisionForScores(
+        $dimensionScores['emotional'],
+        $dimensionScores['social']
+    );
+    $dominantDimension = $assessment->decision_profile ?: $decision['profile'];
+    $decisionCode = $assessment->decision_code ?: $decision['code'];
+    $clinicalDecisionNote = $assessment->clinical_decision_note ?: $decision['clinical_decision_note'];
+    $personalizationTriggers = collect($assessment->personalization_triggers ?? [])
+        ->map(fn (string $trigger) => \App\Support\DeJongGierveldScale::personalizationTriggers()[$trigger] ?? null)
+        ->filter()
+        ->values();
+    $safetyAlertDetails = collect($assessment->safety_alert_details ?? []);
 @endphp
 
 <style>
@@ -577,6 +582,44 @@
         margin-top: 18px;
     }
 
+    .safety-alert {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+        border-radius: 20px;
+        padding: 18px;
+        line-height: 1.7;
+        font-size: 14px;
+        margin-top: 18px;
+    }
+
+    .safety-actions {
+        display: grid;
+        gap: 10px;
+        margin: 12px 0 0;
+        padding-left: 20px;
+    }
+
+    .safety-actions li strong,
+    .safety-actions li span {
+        display: block;
+    }
+
+    .safety-actions li span {
+        margin-top: 3px;
+        color: #7f1d1d;
+    }
+
+    .trigger-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding-left: 20px;
+        color: #334155;
+        line-height: 1.65;
+        font-size: 14px;
+    }
+
     .answer-score {
         font-weight: 900;
         color: #0b6f73;
@@ -895,7 +938,7 @@
             </div>
 
             <div class="dimension-pill dimension-dominant">
-                <span>Lebih Tinggi</span>
+                <span>Profil Kebutuhan</span>
                 <strong>{{ $dominantDimension }}</strong>
             </div>
         </div>
@@ -940,6 +983,13 @@
         </div>
         <div class="stat-sub">Status tindak lanjut perawat</div>
     </div>
+
+    <div class="result-stat-card">
+        <div class="result-stat-icon">AI</div>
+        <div class="label">Kode Keputusan</div>
+        <div class="number">{{ $decisionCode }}</div>
+        <div class="stat-sub">Lookup rekomendasi berdasarkan skor dan profil kebutuhan</div>
+    </div>
 </div>
 
 <div class="panel" style="margin-bottom: 22px;">
@@ -969,6 +1019,11 @@
                 <p>{{ $assessment->family_education_recommendation ?: 'Belum ada rekomendasi edukasi keluarga.' }}</p>
             </div>
 
+            <div class="result-section">
+                <h3>Catatan Keputusan Klinis</h3>
+                <p>{{ $clinicalDecisionNote }}</p>
+            </div>
+
             @if($assessment->notes)
                 <div class="result-section">
                     <h3>Catatan Perawat</h3>
@@ -977,6 +1032,40 @@
             @endif
         </div>
     </div>
+
+    @if($personalizationTriggers->isNotEmpty())
+        <div class="result-section">
+            <h3>Fokus Personalisasi yang Dipilih</h3>
+            <ul class="trigger-list">
+                @foreach($personalizationTriggers as $trigger)
+                    <li><strong>{{ $trigger['code'] }}:</strong> {{ $trigger['recommendation'] }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if($assessment->safety_alert)
+        <div class="safety-alert">
+            <strong>Safety Gate Aktif - Tindak Lanjut Klinis Diperlukan</strong>
+
+            @if($safetyAlertDetails->isNotEmpty())
+                <ul class="safety-actions">
+                    @foreach($safetyAlertDetails as $alert)
+                        <li>
+                            <strong>{{ $alert['label'] }}</strong>
+                            <span>Tindakan: {{ $alert['response'] }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <div style="margin-top: 8px;">Evaluasi klinis dan lakukan eskalasi sesuai temuan serta SOP rumah sakit.</div>
+            @endif
+
+            @if($assessment->safety_alert_notes)
+                <div style="margin-top: 10px;"><strong>Catatan perawat:</strong> {{ $assessment->safety_alert_notes }}</div>
+            @endif
+        </div>
+    @endif
 
     <div class="clinical-warning">
         <strong>Catatan Klinis:</strong>

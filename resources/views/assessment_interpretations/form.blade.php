@@ -30,7 +30,7 @@
             type="text"
             name="category"
             value="{{ old('category', $interpretation->category ?? '') }}"
-            placeholder="Contoh: Not lonely / Moderate lonely / Severe lonely"
+            placeholder="Contoh: Tidak kesepian / Kesepian tingkat sedang"
             required
         >
     </div>
@@ -65,7 +65,7 @@
             min="0"
             required
         >
-        <div class="input-help">Contoh: Not lonely 0-2, Moderate lonely 3-8, Severe lonely 9-10, Very severe lonely 11.</div>
+        <div class="input-help">Kategori baku: Tidak kesepian 0-2, Kesepian tingkat sedang 3-8, tingkat berat 9-10, dan tingkat sangat berat 11.</div>
     </div>
 </div>
 

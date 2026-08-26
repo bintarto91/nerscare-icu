@@ -12,84 +12,17 @@ class AssessmentQuestionController extends Controller
         $this->ensureAdmin();
 
         $search = $request->get('search');
-        $status = $request->get('status');
-
         $questions = AssessmentQuestion::query()
+            ->whereBetween('sort_order', [1, 11])
             ->when($search, function ($query) use ($search) {
                 $query->where('question_text', 'like', "%{$search}%");
             })
-            ->when($status !== null && $status !== '', function ($query) use ($status) {
-                $query->where('is_active', (bool) $status);
-            })
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->paginate(10)
+            ->paginate(11)
             ->withQueryString();
 
-        return view('assessment_questions.index', compact('questions', 'search', 'status'));
-    }
-
-    public function create()
-    {
-        $this->ensureAdmin();
-
-        $nextOrder = (AssessmentQuestion::max('sort_order') ?? 0) + 1;
-
-        return view('assessment_questions.create', compact('nextOrder'));
-    }
-
-    public function store(Request $request)
-    {
-        $this->ensureAdmin();
-
-        $validated = $request->validate([
-            'question_text' => ['required', 'string'],
-            'sort_order' => ['required', 'integer', 'min:1'],
-        ]);
-
-        $validated['is_active'] = $request->has('is_active');
-
-        AssessmentQuestion::create($validated);
-
-        return redirect()
-            ->route('questions.index')
-            ->with('success', 'Pertanyaan assessment berhasil ditambahkan.');
-    }
-
-    public function edit(AssessmentQuestion $question)
-    {
-        $this->ensureAdmin();
-
-        return view('assessment_questions.edit', compact('question'));
-    }
-
-    public function update(Request $request, AssessmentQuestion $question)
-    {
-        $this->ensureAdmin();
-
-        $validated = $request->validate([
-            'question_text' => ['required', 'string'],
-            'sort_order' => ['required', 'integer', 'min:1'],
-        ]);
-
-        $validated['is_active'] = $request->has('is_active');
-
-        $question->update($validated);
-
-        return redirect()
-            ->route('questions.index')
-            ->with('success', 'Pertanyaan assessment berhasil diperbarui.');
-    }
-
-    public function destroy(AssessmentQuestion $question)
-    {
-        $this->ensureAdmin();
-
-        $question->delete();
-
-        return redirect()
-            ->route('questions.index')
-            ->with('success', 'Pertanyaan assessment berhasil dihapus.');
+        return view('assessment_questions.index', compact('questions', 'search'));
     }
 
     private function ensureAdmin(): void

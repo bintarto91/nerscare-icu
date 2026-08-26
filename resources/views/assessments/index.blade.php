@@ -200,13 +200,9 @@
                 <label>Kategori</label>
                 <select name="category">
                     <option value="">Semua Kategori</option>
-                    <option value="Not lonely" {{ $category === 'Not lonely' ? 'selected' : '' }}>Not lonely</option>
-                    <option value="Moderate lonely" {{ $category === 'Moderate lonely' ? 'selected' : '' }}>Moderate lonely</option>
-                    <option value="Severe lonely" {{ $category === 'Severe lonely' ? 'selected' : '' }}>Severe lonely</option>
-                    <option value="Very severe lonely" {{ $category === 'Very severe lonely' ? 'selected' : '' }}>Very severe lonely</option>
-                    <option value="Rendah" {{ $category === 'Rendah' ? 'selected' : '' }}>Rendah</option>
-                    <option value="Sedang" {{ $category === 'Sedang' ? 'selected' : '' }}>Sedang</option>
-                    <option value="Tinggi" {{ $category === 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
+                    @foreach(\App\Support\DeJongGierveldScale::categoryLabels() as $categoryOption)
+                        <option value="{{ $categoryOption }}" {{ $category === $categoryOption ? 'selected' : '' }}>{{ $categoryOption }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -267,17 +263,13 @@
             <tbody>
                 @forelse($assessments as $assessment)
                     @php
-                        $categoryLower = strtolower($assessment->category ?? '');
-
-                        if (str_contains($categoryLower, 'not') || str_contains($categoryLower, 'rendah')) {
-                            $catClass = 'cat-rendah';
-                        } elseif (str_contains($categoryLower, 'moderate') || str_contains($categoryLower, 'sedang')) {
-                            $catClass = 'cat-sedang';
-                        } elseif (str_contains($categoryLower, 'severe') || str_contains($categoryLower, 'tinggi')) {
-                            $catClass = 'cat-tinggi';
-                        } else {
-                            $catClass = 'cat-default';
-                        }
+                        $riskLevel = \App\Support\DeJongGierveldScale::categoryRiskLevel($assessment->category);
+                        $catClass = match ($riskLevel) {
+                            'low' => 'cat-rendah',
+                            'medium' => 'cat-sedang',
+                            'high' => 'cat-tinggi',
+                            default => 'cat-default',
+                        };
 
                         $assessmentDate = $assessment->assessment_date
                             ? \Carbon\Carbon::parse($assessment->assessment_date)->format('d/m/Y')

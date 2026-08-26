@@ -10,30 +10,12 @@ class EducationController extends Controller
 {
     public function perawat()
     {
-        $contents = EducationContent::where('target', 'perawat')
-            ->where('status', 'published')
-            ->latest()
-            ->paginate(10);
-
-        return view('education.index', [
-            'contents' => $contents,
-            'title' => 'Edukasi Perawat',
-            'description' => 'Materi edukasi untuk membantu perawat memahami loneliness pasien ICU dan dukungan keperawatan.',
-        ]);
+        return redirect()->route('public.booklet', 'perawat');
     }
 
     public function keluarga()
     {
-        $contents = EducationContent::where('target', 'keluarga')
-            ->where('status', 'published')
-            ->latest()
-            ->paginate(10);
-
-        return view('education.index', [
-            'contents' => $contents,
-            'title' => 'Edukasi Keluarga',
-            'description' => 'Panduan sederhana bagi keluarga dalam memberikan dukungan emosional kepada pasien ICU.',
-        ]);
+        return redirect()->route('public.booklet', 'keluarga');
     }
 
     public function show(EducationContent $educationContent)

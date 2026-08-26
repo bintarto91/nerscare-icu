@@ -32,13 +32,13 @@
     $riskLowTotal = 0;
 
     foreach ($categoryCollection as $category => $total) {
-        $categoryLower = strtolower($category ?? '');
+        $riskLevel = \App\Support\DeJongGierveldScale::categoryRiskLevel($category);
 
-        if (str_contains($categoryLower, 'severe') || str_contains($categoryLower, 'tinggi')) {
+        if ($riskLevel === 'high') {
             $riskHighTotal += $total;
-        } elseif (str_contains($categoryLower, 'moderate') || str_contains($categoryLower, 'sedang')) {
+        } elseif ($riskLevel === 'medium') {
             $riskMediumTotal += $total;
-        } elseif (str_contains($categoryLower, 'not') || str_contains($categoryLower, 'rendah')) {
+        } elseif ($riskLevel === 'low') {
             $riskLowTotal += $total;
         }
     }
@@ -692,10 +692,10 @@
     </div>
 
     <div class="insight-card risk-card">
-        <div class="insight-label">Severe / Very severe</div>
+        <div class="insight-label">Kesepian berat / sangat berat</div>
         <div class="insight-value">{{ $riskHighTotal }}</div>
         <div class="insight-note">
-            Pasien dengan kategori severe atau very severe lonely perlu menjadi prioritas tindak lanjut.
+            Pasien dengan kategori kesepian berat atau sangat berat perlu menjadi prioritas tindak lanjut.
         </div>
     </div>
 
@@ -720,17 +720,17 @@
         <div class="category-summary">
             <div class="category-summary-card low">
                 <strong>{{ $riskLowTotal }}</strong>
-                <span>Not lonely</span>
+                <span>Tidak kesepian</span>
             </div>
 
             <div class="category-summary-card medium">
                 <strong>{{ $riskMediumTotal }}</strong>
-                <span>Moderate lonely</span>
+                <span>Kesepian sedang</span>
             </div>
 
             <div class="category-summary-card high">
                 <strong>{{ $riskHighTotal }}</strong>
-                <span>Severe / Very severe</span>
+                <span>Berat / sangat berat</span>
             </div>
         </div>
 
@@ -834,16 +834,8 @@
                 @forelse($latestAssessments as $assessment)
                     @php
                         $categoryText = $assessment['category'] ?? null;
-                        $categoryLower = strtolower($categoryText ?? '');
-
-                        $categoryClass = '';
-                        if (str_contains($categoryLower, 'tinggi')) {
-                            $categoryClass = 'high';
-                        } elseif (str_contains($categoryLower, 'sedang')) {
-                            $categoryClass = 'medium';
-                        } elseif (str_contains($categoryLower, 'rendah')) {
-                            $categoryClass = 'low';
-                        }
+                        $categoryClass = \App\Support\DeJongGierveldScale::categoryRiskLevel($categoryText);
+                        $categoryClass = $categoryClass === 'unknown' ? '' : $categoryClass;
                     @endphp
 
                     <tr>

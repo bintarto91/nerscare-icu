@@ -67,10 +67,10 @@ return new class extends Migration
                 'title' => 'Membaca Kategori Hasil',
                 'body' => 'Total skor loneliness berada pada rentang 0 sampai 11. Semakin tinggi skor, semakin besar kebutuhan dukungan emosional dan sosial.',
                 'points' => [
-                    '0-2: Not lonely.',
-                    '3-8: Moderate lonely.',
-                    '9-10: Severe lonely.',
-                    '11: Very severe lonely.',
+                    '0-2: Tidak kesepian.',
+                    '3-8: Kesepian tingkat sedang.',
+                    '9-10: Kesepian tingkat berat.',
+                    '11: Kesepian tingkat sangat berat.',
                 ],
             ],
             [

@@ -955,13 +955,13 @@
             @if($role !== 'keluarga')
                 <div class="menu-title">Edukasi</div>
 
-                <a href="{{ route('education.perawat') }}" class="{{ request()->routeIs('education.perawat') ? 'active' : '' }}">
+                <a href="{{ route('public.booklet', 'perawat') }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'book'])</span>
                     <span>Edukasi Perawat</span>
                 </a>
             @endif
 
-            <a href="{{ route('education.keluarga') }}" class="{{ request()->routeIs('education.keluarga') ? 'active' : '' }}">
+            <a href="{{ route('public.booklet', 'keluarga') }}">
                 <span class="menu-icon">@include('partials.ui-icon', ['name' => 'family'])</span>
                 <span>Edukasi Keluarga</span>
             </a>
@@ -975,19 +975,19 @@
                 </a>
                 <a href="{{ route('interpretations.index') }}" class="{{ request()->routeIs('interpretations.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'settings'])</span>
-                    <span>Pengaturan Interpretasi</span>
+                    <span>Matriks Keputusan</span>
                 </a>
                 <a href="{{ route('questions.index') }}" class="{{ request()->routeIs('questions.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'question'])</span>
-                    <span>Manajemen Pertanyaan</span>
+                    <span>Instrumen 11 Item</span>
                 </a>
                 <a href="{{ route('site-settings.index') }}" class="{{ request()->routeIs('site-settings.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'landing'])</span>
                     <span>Pengaturan Landing</span>
                 </a>
-                <a href="{{ route('booklet-pages.index') }}" class="{{ request()->routeIs('booklet-pages.*') ? 'active' : '' }}">
+                <a href="{{ route('public.landing') }}#booklet-edukasi">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'booklet'])</span>
-                    <span>Booklet Landing</span>
+                    <span>Booklet Final</span>
                 </a>
                 <a href="{{ route('report-settings.index') }}" class="{{ request()->routeIs('report-settings.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'report'])</span>

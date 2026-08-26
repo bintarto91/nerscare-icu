@@ -720,7 +720,7 @@
 
         .mini-options {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
         }
 
@@ -1766,7 +1766,7 @@
             }
 
             .mini-options {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(5, 1fr);
             }
 
             .book-spread {
@@ -2027,6 +2027,264 @@
                 padding: 0 12px;
             }
         }
+
+        .final-booklet-heading {
+            max-width: 780px;
+            margin: 0 auto 34px;
+            text-align: center;
+        }
+
+        .final-booklet-heading h2 {
+            margin: 10px 0 12px;
+            font-size: clamp(30px, 4vw, 46px);
+            line-height: 1.08;
+            letter-spacing: -1.1px;
+        }
+
+        .final-booklet-heading p {
+            margin: 0;
+            color: #526978;
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        .final-booklet-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .final-booklet-card {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(150px, .72fr) minmax(0, 1.28fr);
+            gap: 24px;
+            overflow: hidden;
+            padding: 24px;
+            border: 1px solid #d9e6ea;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, .92);
+            box-shadow: 0 22px 54px rgba(16, 50, 66, .1);
+        }
+
+        .final-booklet-card::before {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            content: '';
+            right: -90px;
+            top: -100px;
+            opacity: .12;
+            pointer-events: none;
+        }
+
+        .final-booklet-card.family::before {
+            background: #0f766e;
+        }
+
+        .final-booklet-card.nurse::before {
+            background: #2563a9;
+        }
+
+        .final-booklet-cover {
+            position: relative;
+            align-self: start;
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+        .final-booklet-card.family .final-booklet-cover {
+            background: linear-gradient(145deg, #dff6f1, #b9e4dc);
+        }
+
+        .final-booklet-card.nurse .final-booklet-cover {
+            background: linear-gradient(145deg, #e2efff, #c4dbf6);
+        }
+
+        .final-booklet-cover img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1190 / 1684;
+            object-fit: cover;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 18px 34px rgba(16, 50, 66, .2);
+            transition: transform .25s ease;
+        }
+
+        .final-booklet-card:hover .final-booklet-cover img {
+            transform: translateY(-4px);
+        }
+
+        .final-booklet-content {
+            position: relative;
+            z-index: 1;
+            align-self: center;
+        }
+
+        .audience-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 0 11px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: .35px;
+            text-transform: uppercase;
+        }
+
+        .family .audience-badge {
+            background: #e4f6f2;
+            color: #087269;
+        }
+
+        .nurse .audience-badge {
+            background: #e7f0fc;
+            color: #205b96;
+        }
+
+        .final-booklet-content h3 {
+            margin: 12px 0 9px;
+            color: #10212b;
+            font-size: 24px;
+            line-height: 1.2;
+        }
+
+        .final-booklet-content > p {
+            margin: 0;
+            color: #5b6f7d;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .final-booklet-highlights {
+            display: grid;
+            gap: 8px;
+            margin: 16px 0 20px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .final-booklet-highlights li {
+            position: relative;
+            padding-left: 23px;
+            color: #29404e;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .final-booklet-highlights li::before {
+            position: absolute;
+            left: 0;
+            top: 1px;
+            display: grid;
+            width: 16px;
+            height: 16px;
+            place-items: center;
+            border-radius: 999px;
+            background: #e2f4f1;
+            color: #0f766e;
+            content: '\2713';
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .nurse .final-booklet-highlights li::before {
+            background: #e5effb;
+            color: #2563a9;
+        }
+
+        .final-booklet-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .final-booklet-actions .btn {
+            min-height: 42px;
+            padding: 0 15px;
+            font-size: 13px;
+        }
+
+        .final-booklet-actions .download-link {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 13px;
+            border: 1px solid #cfdee4;
+            border-radius: 12px;
+            color: #284655;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .final-booklet-note {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            max-width: 820px;
+            margin: 24px auto 0;
+            padding: 15px 18px;
+            border: 1px solid #d9e6ea;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .78);
+            color: #526978;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .final-booklet-note strong {
+            color: #123746;
+        }
+
+        @media(max-width: 1050px) {
+            .final-booklet-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-booklet-card {
+                grid-template-columns: 190px minmax(0, 1fr);
+            }
+        }
+
+        @media(max-width: 620px) {
+            .final-booklet-card {
+                grid-template-columns: 116px minmax(0, 1fr);
+                gap: 16px;
+                padding: 16px;
+                border-radius: 22px;
+            }
+
+            .final-booklet-cover {
+                padding: 7px;
+                border-radius: 15px;
+            }
+
+            .final-booklet-cover img {
+                border-radius: 9px;
+            }
+
+            .final-booklet-content h3 {
+                font-size: 20px;
+            }
+
+            .final-booklet-highlights {
+                display: none;
+            }
+
+            .final-booklet-actions {
+                margin-top: 14px;
+            }
+
+            .final-booklet-actions .btn,
+            .final-booklet-actions .download-link {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -2121,101 +2379,64 @@
         </div>
     </section>
 
-    @php
-        $bookletSpreads = collect($bookletSpreads ?? []);
-        $bookletTotal = (int) ($bookletTotal ?? 0);
-        $initialBookletSpread = $bookletSpreads->first();
-        $initialLeftPage = $initialBookletSpread['left'] ?? [
-            'kicker' => 'Halaman 1',
-            'title' => 'Booklet Edukasi ICU Loneliness',
-            'text' => 'Panduan singkat untuk mengenali loneliness pada pasien ICU.',
-            'list' => [],
-            'number' => '1',
-        ];
-        $initialRightPage = $initialBookletSpread['right'] ?? [
-            'kicker' => 'Halaman 2',
-            'title' => 'Booklet Edukasi',
-            'text' => 'Isi booklet dapat diatur dari dashboard admin.',
-            'list' => [],
-            'number' => '2',
-        ];
-        $initialBookletProgress = $bookletSpreads->count() > 0 ? 100 / $bookletSpreads->count() : 100;
-    @endphp
-
     <section class="section booklet-section" id="booklet-edukasi">
         <div class="section-inner">
-            <div class="booklet-layout">
-                <div class="booklet-copy">
-                    <div class="section-kicker">Booklet edukasi</div>
-                    <h2>Panduan ringkas untuk memahami loneliness pasien ICU</h2>
-                    <p>
-                        Booklet ini dibuat sebagai pendamping web agar perawat, keluarga,
-                        dan pengunjung awam dapat memahami tujuan assessment, arti hasil,
-                        serta bentuk dukungan yang dapat diberikan.
-                    </p>
+            <div class="final-booklet-heading">
+                <div class="section-kicker">E-booklet resmi</div>
+                <h2>Pilih panduan sesuai peran Anda</h2>
+                <p>
+                    Dua booklet final ditampilkan terpisah agar keluarga dan perawat langsung menemukan
+                    materi yang relevan, tanpa tercampur dengan contoh halaman atau simulasi lama.
+                </p>
+            </div>
 
-                    <ul class="booklet-points">
-                        <li><span>1</span><strong>Berisi penjelasan singkat loneliness pada pasien ICU.</strong></li>
-                        <li><span>2</span><strong>Memakai acuan De Jong Gierveld Loneliness Scale 11 item.</strong></li>
-                        <li><span>3</span><strong>Disusun dengan bahasa edukatif dan mudah dibaca.</strong></li>
-                    </ul>
+            <div class="final-booklet-grid">
+                <article class="final-booklet-card family">
+                    <a class="final-booklet-cover" href="{{ route('public.booklet', 'keluarga') }}" aria-label="Baca E-Booklet Edukasi Keluarga">
+                        <img src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt="Sampul E-Booklet Edukasi Keluarga Pasien ICU" loading="lazy">
+                    </a>
 
-                    <div class="booklet-actions">
-                        <a href="#booklet-edukasi" class="btn" onclick="nextBookletPage(); return false;">Balik Halaman</a>
-                        <a href="{{ route('public.calculator') }}" class="btn btn-light">Coba Kalkulator</a>
-                    </div>
-                </div>
-
-                <div class="book-shell" id="bookletShell" aria-label="Booklet edukasi interaktif">
-                    <div class="booklet-book" id="bookletBook" aria-live="polite">
-                        <article class="booklet-open-page booklet-left-page">
-                            <div class="booklet-page-top">
-                                <span id="bookLeftKicker">{{ $initialLeftPage['kicker'] }}</span>
-                                <small id="bookLeftNumber">{{ $initialLeftPage['number'] }}</small>
-                            </div>
-                            <h3 id="bookLeftTitle">{{ $initialLeftPage['title'] }}</h3>
-                            <p id="bookLeftText">{{ $initialLeftPage['text'] }}</p>
-                            <ul class="book-list" id="bookLeftList">
-                                @foreach($initialLeftPage['list'] as $point)
-                                    <li>{{ $point }}</li>
-                                @endforeach
-                            </ul>
-                        </article>
-
-                        <div class="booklet-gutter" aria-hidden="true"></div>
-
-                        <article class="booklet-open-page booklet-right-page">
-                            <div class="booklet-page-top">
-                                <span id="bookRightKicker">{{ $initialRightPage['kicker'] }}</span>
-                                <small id="bookRightNumber">{{ $initialRightPage['number'] }}</small>
-                            </div>
-                            <h3 id="bookRightTitle">{{ $initialRightPage['title'] }}</h3>
-                            <p id="bookRightText">{{ $initialRightPage['text'] }}</p>
-                            <ul class="book-list" id="bookRightList">
-                                @foreach($initialRightPage['list'] as $point)
-                                    <li>{{ $point }}</li>
-                                @endforeach
-                            </ul>
-                            <div class="booklet-corner" aria-hidden="true"></div>
-                        </article>
-
-                        <div class="booklet-turn-page" aria-hidden="true"></div>
-                    </div>
-
-                    <div class="booklet-control-panel">
-                        <div>
-                            <strong id="bookStepText">Halaman {{ $initialLeftPage['number'] }}-{{ $initialRightPage['number'] }} dari {{ $bookletTotal }}</strong>
-                            <span>Otomatis membuka halaman, arahkan kursor untuk jeda.</span>
-                        </div>
-                        <div class="booklet-progress-line">
-                            <div id="bookletProgress" style="width: {{ $initialBookletProgress }}%;"></div>
-                        </div>
-                        <div class="booklet-control-buttons">
-                            <button type="button" onclick="prevBookletPage()" aria-label="Halaman sebelumnya">&lt;</button>
-                            <button type="button" onclick="nextBookletPage()" aria-label="Halaman berikutnya">&gt;</button>
+                    <div class="final-booklet-content">
+                        <span class="audience-badge">Untuk keluarga</span>
+                        <h3>Edukasi Keluarga Pasien ICU</h3>
+                        <p>Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.</p>
+                        <ul class="final-booklet-highlights">
+                            <li>Tanda pasien membutuhkan dukungan</li>
+                            <li>Kunjungan, suara, telepon, dan video</li>
+                            <li>Privasi, spiritual, budaya, dan perawatan diri keluarga</li>
+                        </ul>
+                        <div class="final-booklet-actions">
+                            <a class="btn" href="{{ route('public.booklet', 'keluarga') }}">Baca booklet</a>
+                            <a class="download-link" href="{{ asset('booklets/edukasi-keluarga-icu.pdf') }}" download>Unduh PDF</a>
                         </div>
                     </div>
-                </div>
+                </article>
+
+                <article class="final-booklet-card nurse">
+                    <a class="final-booklet-cover" href="{{ route('public.booklet', 'perawat') }}" aria-label="Baca E-Booklet Edukasi Perawat">
+                        <img src="{{ asset('booklets/perawat/page-01.jpg') }}" alt="Sampul E-Booklet Edukasi Perawat ICU" loading="lazy">
+                    </a>
+
+                    <div class="final-booklet-content">
+                        <span class="audience-badge">Untuk perawat</span>
+                        <h3>Edukasi Perawat ICU</h3>
+                        <p>Alur kaji, intervensi multimodal, dokumentasi, dan eskalasi klinis.</p>
+                        <ul class="final-booklet-highlights">
+                            <li>Alur praktis enam langkah dan intervensi I1-I5</li>
+                            <li>Pelibatan keluarga serta keamanan digital</li>
+                            <li>Dokumentasi, eskalasi, dan checklist antar-shift</li>
+                        </ul>
+                        <div class="final-booklet-actions">
+                            <a class="btn" href="{{ route('public.booklet', 'perawat') }}">Baca booklet</a>
+                            <a class="download-link" href="{{ asset('booklets/edukasi-perawat-icu.pdf') }}" download>Unduh PDF</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="final-booklet-note">
+                <strong>Catatan:</strong>
+                <span>Booklet merupakan materi pendamping edukasi. Penilaian klinis, preferensi pasien, kebijakan ICU, dan SOP rumah sakit tetap menjadi acuan utama.</span>
             </div>
         </div>
     </section>
@@ -2284,7 +2505,7 @@
                     </div>
                     <h3>Edukasi Perawat</h3>
                     <p>Materi komunikasi terapeutik, dukungan emosional, dan dokumentasi edukasi keperawatan.</p>
-                    <a href="{{ route('login') }}" class="feature-link">Buka edukasi</a>
+                    <a href="{{ route('public.booklet', 'perawat') }}" class="feature-link">Buka booklet</a>
                 </div>
 
                 <div class="feature-card feature-rose">
@@ -2298,7 +2519,7 @@
                     </div>
                     <h3>Edukasi Keluarga</h3>
                     <p>Panduan komunikasi positif dan dukungan emosional keluarga sesuai arahan petugas ICU.</p>
-                    <a href="{{ route('login') }}" class="feature-link">Pelajari panduan</a>
+                    <a href="{{ route('public.booklet', 'keluarga') }}" class="feature-link">Buka booklet</a>
                 </div>
 
                 <div class="feature-card feature-amber">
@@ -2342,20 +2563,22 @@
                     <h3>Contoh ringkasan hasil</h3>
                     <div class="score-row">
                         <div class="score-circle">
-                            <span>18</span>
+                            <span>6</span>
                         </div>
                         <div class="score-copy">
-                            <strong>Perlu dukungan emosional</strong>
+                            <strong>Kesepian tingkat sedang</strong>
                             <small>Skor, kategori, dan rekomendasi awal muncul dalam format yang mudah dibaca.</small>
                         </div>
                     </div>
                     <div class="mini-question">
                         <span>Contoh pertanyaan</span>
-                        <strong>Seberapa sering pasien merasa tidak memiliki teman berbicara?</strong>
+                        <strong>Selalu ada seseorang yang bisa saya ajak bicara mengenai masalah sehari-hari saya.</strong>
                         <div class="mini-options">
-                            <div>Jarang</div>
-                            <div>Kadang</div>
-                            <div>Sering</div>
+                            <div>STS</div>
+                            <div>TS</div>
+                            <div>KL</div>
+                            <div>S</div>
+                            <div>SS</div>
                         </div>
                     </div>
                 </div>
@@ -2438,224 +2661,6 @@
     </footer>
 
     <script>
-        const fallbackBookletPages = [
-            {
-                left: {
-                    kicker: 'Halaman 1',
-                    title: 'Booklet Edukasi ICU Loneliness',
-                    text: 'Panduan singkat untuk mengenali loneliness pada pasien ICU dan membaca hasil assessment secara hati-hati.',
-                    list: [
-                        'Untuk perawat, keluarga, dan pengunjung awam.',
-                        'Membantu memahami hasil tanpa menggantikan penilaian klinis.',
-                        'Dapat dibaca sebelum atau sesudah mencoba kalkulator.'
-                    ],
-                    number: '1'
-                },
-                right: {
-                    kicker: 'Halaman 2',
-                    title: 'Apa yang dinilai?',
-                    text: 'Skala De Jong Gierveld membantu melihat gambaran loneliness dari dua sisi: emotional loneliness dan social loneliness.',
-                    list: [
-                        'Emotional loneliness berkaitan dengan rasa kosong, ditolak, atau kehilangan kedekatan.',
-                        'Social loneliness berkaitan dengan dukungan sosial dan orang yang dapat dipercaya.',
-                        'Total skor dipakai untuk melihat kategori loneliness secara umum.'
-                    ],
-                    number: '2'
-                }
-            },
-            {
-                left: {
-                    kicker: 'Halaman 3',
-                    title: 'Emotional Loneliness',
-                    text: 'Bagian ini menggambarkan perasaan kehilangan kedekatan emosional atau tidak adanya relasi yang benar-benar terasa dekat.',
-                    list: [
-                        'Merindukan teman yang benar-benar dekat.',
-                        'Merasakan kekosongan secara umum.',
-                        'Merasa ditolak atau kehilangan kehadiran orang lain.'
-                    ],
-                    number: '3'
-                },
-                right: {
-                    kicker: 'Halaman 4',
-                    title: 'Social Loneliness',
-                    text: 'Bagian ini menggambarkan apakah pasien merasa memiliki jaringan sosial, orang yang dapat dipercaya, dan dukungan saat membutuhkan bantuan.',
-                    list: [
-                        'Ada orang yang bisa diajak bicara tentang masalah sehari-hari.',
-                        'Ada orang yang dapat diandalkan ketika mengalami masalah.',
-                        'Ada cukup orang yang dirasa dekat dan dapat dipercaya.'
-                    ],
-                    number: '4'
-                }
-            },
-            {
-                left: {
-                    kicker: 'Halaman 5',
-                    title: 'Membaca Kategori Hasil',
-                    text: 'Total skor loneliness berada pada rentang 0 sampai 11. Semakin tinggi skor, semakin besar kebutuhan dukungan emosional dan sosial.',
-                    list: [
-                        '0-2: Not lonely.',
-                        '3-8: Moderate lonely.',
-                        '9-10: Severe lonely.',
-                        '11: Very severe lonely.'
-                    ],
-                    number: '5'
-                },
-                right: {
-                    kicker: 'Halaman 6',
-                    title: 'Catatan Klinis',
-                    text: 'Hasil assessment adalah alat bantu edukasi dan dokumentasi awal. Keputusan klinis tetap perlu menyesuaikan kondisi pasien dan kebijakan ruang ICU.',
-                    list: [
-                        'Lihat kemampuan komunikasi pasien.',
-                        'Perhatikan observasi perawat dan kondisi klinis.',
-                        'Gunakan hasil sebagai dasar tindak lanjut, bukan diagnosis tunggal.'
-                    ],
-                    number: '6'
-                }
-            },
-            {
-                left: {
-                    kicker: 'Halaman 7',
-                    title: 'Panduan untuk Perawat',
-                    text: 'Perawat dapat menggunakan hasil assessment untuk menyusun komunikasi terapeutik dan edukasi yang lebih sesuai.',
-                    list: [
-                        'Validasi perasaan pasien dengan bahasa tenang.',
-                        'Jelaskan tindakan perawatan secara sederhana.',
-                        'Fasilitasi dukungan keluarga sesuai kebijakan ICU.'
-                    ],
-                    number: '7'
-                },
-                right: {
-                    kicker: 'Halaman 8',
-                    title: 'Panduan untuk Keluarga',
-                    text: 'Keluarga dapat membantu pasien merasa lebih didampingi melalui komunikasi yang positif dan konsisten.',
-                    list: [
-                        'Gunakan kalimat singkat, lembut, dan menenangkan.',
-                        'Yakinkan pasien bahwa ia tidak sendiri.',
-                        'Ikuti arahan perawat saat berkomunikasi dengan pasien.'
-                    ],
-                    number: '8'
-                }
-            }
-        ];
-
-        const dynamicBookletPages = @json($bookletSpreads->values());
-        const bookletPages = dynamicBookletPages.length ? dynamicBookletPages : fallbackBookletPages;
-        const bookletTotalPages = {{ (int) $bookletTotal }} || 8;
-
-        let activeBookletSpread = 0;
-        let bookletAutoTimer = null;
-        const bookletSpreadThemes = [
-            ['#0f766e', '#2563eb'],
-            ['#0b7285', '#0f766e'],
-            ['#1d4ed8', '#d97706'],
-            ['#0f766e', '#b45309'],
-        ];
-
-        function setBookletList(elementId, items) {
-            const list = document.getElementById(elementId);
-            if (!list) {
-                return;
-            }
-
-            list.innerHTML = '';
-
-            items.forEach(function(item) {
-                const listItem = document.createElement('li');
-                listItem.textContent = item;
-                list.appendChild(listItem);
-            });
-        }
-
-        function setBookletPage(side, page) {
-            document.getElementById('book' + side + 'Kicker').textContent = page.kicker;
-            document.getElementById('book' + side + 'Title').textContent = page.title;
-            document.getElementById('book' + side + 'Text').textContent = page.text;
-            document.getElementById('book' + side + 'Number').textContent = page.number;
-            setBookletList('book' + side + 'List', page.list);
-        }
-
-        function renderBooklet() {
-            const spread = bookletPages[activeBookletSpread];
-            const book = document.getElementById('bookletBook');
-
-            if (!spread || !book) {
-                return;
-            }
-
-            book.classList.add('is-flipping');
-
-            window.setTimeout(function() {
-                const progress = ((activeBookletSpread + 1) / bookletPages.length) * 100;
-                const theme = bookletSpreadThemes[activeBookletSpread] || bookletSpreadThemes[0];
-
-                setBookletPage('Left', spread.left);
-                setBookletPage('Right', spread.right);
-                book.style.setProperty('--spread-accent', theme[0]);
-                book.style.setProperty('--spread-accent-2', theme[1]);
-                document.getElementById('bookStepText').textContent =
-                    'Halaman ' + spread.left.number + '-' + spread.right.number + ' dari ' + bookletTotalPages;
-                document.getElementById('bookletProgress').style.width = progress + '%';
-            }, 300);
-
-            window.setTimeout(function() {
-                book.classList.remove('is-flipping');
-            }, 860);
-        }
-
-        function changeBookletPage(direction, restartAuto) {
-            activeBookletSpread += direction;
-
-            if (activeBookletSpread >= bookletPages.length) {
-                activeBookletSpread = 0;
-            }
-
-            if (activeBookletSpread < 0) {
-                activeBookletSpread = bookletPages.length - 1;
-            }
-
-            renderBooklet();
-
-            if (restartAuto) {
-                startBookletAuto();
-            }
-        }
-
-        function nextBookletPage() {
-            changeBookletPage(1, true);
-        }
-
-        function prevBookletPage() {
-            changeBookletPage(-1, true);
-        }
-
-        function startBookletAuto() {
-            stopBookletAuto();
-            bookletAutoTimer = window.setInterval(function() {
-                changeBookletPage(1, false);
-            }, 5200);
-        }
-
-        function stopBookletAuto() {
-            if (bookletAutoTimer) {
-                window.clearInterval(bookletAutoTimer);
-                bookletAutoTimer = null;
-            }
-        }
-
-        window.addEventListener('load', function() {
-            const bookletShell = document.getElementById('bookletShell');
-
-            renderBooklet();
-            startBookletAuto();
-
-            if (bookletShell) {
-                bookletShell.addEventListener('mouseenter', stopBookletAuto);
-                bookletShell.addEventListener('mouseleave', startBookletAuto);
-                bookletShell.addEventListener('focusin', stopBookletAuto);
-                bookletShell.addEventListener('focusout', startBookletAuto);
-            }
-        });
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register('/service-worker.js');

@@ -7,6 +7,7 @@ use App\Models\AssessmentAnswer;
 use App\Models\AssessmentQuestion;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\SiteSetting;
 use App\Support\DeJongGierveldScale;
 
@@ -97,7 +98,7 @@ class AssessmentController extends Controller
                 ->withErrors('Pasien belum memenuhi syarat untuk dilakukan assessment.');
         }
 
-        $questions = AssessmentQuestion::where('is_active', true)
+        $questions = AssessmentQuestion::whereBetween('sort_order', [1, 11])
             ->orderBy('sort_order')
             ->get();
 
@@ -108,13 +109,24 @@ class AssessmentController extends Controller
     {
         $this->ensureClinicalUser();
 
-        $questions = AssessmentQuestion::where('is_active', true)
+        $questions = AssessmentQuestion::whereBetween('sort_order', [1, 11])
             ->orderBy('sort_order')
             ->get();
 
         $rules = [
             'assessment_date' => ['required', 'date'],
             'notes' => ['nullable', 'string'],
+            'personalization_triggers' => ['nullable', 'array'],
+            'personalization_triggers.*' => [
+                'string',
+                Rule::in(array_keys(DeJongGierveldScale::personalizationTriggers())),
+            ],
+            'safety_alerts' => ['nullable', 'array'],
+            'safety_alerts.*' => [
+                'string',
+                Rule::in(array_keys(DeJongGierveldScale::safetyAlerts())),
+            ],
+            'safety_alert_notes' => ['nullable', 'string'],
         ];
 
         foreach ($questions as $question) {
@@ -124,7 +136,10 @@ class AssessmentController extends Controller
         $validated = $request->validate($rules);
 
         $scoredAnswers = [];
-        $totalScore = 0;
+        $dimensionScores = [
+            'emotional' => 0,
+            'social' => 0,
+        ];
 
         foreach ($questions as $question) {
             $answerValue = (int) $validated['answers'][$question->id];
@@ -135,20 +150,39 @@ class AssessmentController extends Controller
                 'score' => $itemScore,
             ];
 
-            $totalScore += $itemScore;
+            $dimension = DeJongGierveldScale::dimensionForQuestion($question);
+            $dimensionScores[$dimension] += $itemScore;
         }
 
-        $result = $this->generateResult($totalScore);
+        $result = DeJongGierveldScale::decisionForScores(
+            $dimensionScores['emotional'],
+            $dimensionScores['social']
+        );
+
+        $personalizationTriggers = array_values($validated['personalization_triggers'] ?? []);
+        $safetyAlerts = array_values($validated['safety_alerts'] ?? []);
+        $safetyAlertDetails = DeJongGierveldScale::selectedSafetyAlerts($safetyAlerts);
 
         $assessment = Assessment::create([
             'patient_id' => $patient->id,
             'user_id' => auth()->id(),
             'assessment_date' => $validated['assessment_date'],
-            'total_score' => $totalScore,
+            'total_score' => $result['total_score'],
+            'emotional_score' => $result['emotional_score'],
+            'social_score' => $result['social_score'],
             'category' => $result['category'],
+            'decision_code' => $result['code'],
+            'decision_profile' => $result['profile'],
             'interpretation' => $result['interpretation'],
             'nursing_recommendation' => $result['nursing_recommendation'],
             'family_education_recommendation' => $result['family_education_recommendation'],
+            'clinical_decision_note' => $result['clinical_decision_note'],
+            'personalization_triggers' => $personalizationTriggers ?: null,
+            'safety_alert' => $safetyAlertDetails !== [],
+            'safety_alert_details' => $safetyAlertDetails ?: null,
+            'safety_alert_notes' => $safetyAlertDetails !== []
+                ? ($validated['safety_alert_notes'] ?? null)
+                : null,
             'notes' => $validated['notes'] ?? null,
         ]);
 
@@ -232,10 +266,6 @@ class AssessmentController extends Controller
         return DeJongGierveldScale::answerLabel($score);
     }
 
-    private function generateResult(int $score): array
-    {
-        return DeJongGierveldScale::resultForScore($score);
-    }
     private function ensureClinicalUser(): void
     {
         if (auth()->user()->role === 'keluarga') {

@@ -231,7 +231,18 @@
         $dimensionScores[$dimension] += (int) ($answer->score ?? 0);
     }
 
-    $dominantDimension = \App\Support\DeJongGierveldScale::dominantDimensionLabel($dimensionScores);
+    $decision = \App\Support\DeJongGierveldScale::decisionForScores(
+        $dimensionScores['emotional'],
+        $dimensionScores['social']
+    );
+    $dominantDimension = $assessment->decision_profile ?: $decision['profile'];
+    $decisionCode = $assessment->decision_code ?: $decision['code'];
+    $clinicalDecisionNote = $assessment->clinical_decision_note ?: $decision['clinical_decision_note'];
+    $personalizationTriggers = collect($assessment->personalization_triggers ?? [])
+        ->map(fn (string $trigger) => \App\Support\DeJongGierveldScale::personalizationTriggers()[$trigger] ?? null)
+        ->filter()
+        ->values();
+    $safetyAlertDetails = collect($assessment->safety_alert_details ?? []);
 @endphp
 
 <div class="print-actions">
@@ -309,10 +320,15 @@
             </div>
 
             <div class="summary-card">
-                <div class="summary-label">Kategori Lain</div>
+                <div class="summary-label">Profil Kebutuhan</div>
                 <div>
                     <span class="category">{{ $dominantDimension }}</span>
                 </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-label">Kode Keputusan</div>
+                <div class="summary-value">{{ $decisionCode }}</div>
             </div>
 
             <div class="summary-card">
@@ -339,6 +355,44 @@
             <h3>Rekomendasi Edukasi Keluarga</h3>
             <p>{{ $assessment->family_education_recommendation }}</p>
         </div>
+
+        <div class="text-box">
+            <h3>Catatan Keputusan Klinis</h3>
+            <p>{{ $clinicalDecisionNote }}</p>
+        </div>
+
+        @if($personalizationTriggers->isNotEmpty())
+            <div class="text-box">
+                <h3>Fokus Personalisasi yang Dipilih</h3>
+                <ul style="margin:0; padding-left:18px;">
+                    @foreach($personalizationTriggers as $trigger)
+                        <li><strong>{{ $trigger['code'] }}:</strong> {{ $trigger['recommendation'] }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if($assessment->safety_alert)
+            <div class="clinical-note">
+                <strong>Safety Gate Aktif - Tindak Lanjut Klinis Diperlukan</strong>
+
+                @if($safetyAlertDetails->isNotEmpty())
+                    <ul style="margin:8px 0 0; padding-left:18px;">
+                        @foreach($safetyAlertDetails as $alert)
+                            <li style="margin-bottom:6px;">
+                                <strong>{{ $alert['label'] }}:</strong> {{ $alert['response'] }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div style="margin-top:6px;">Evaluasi klinis dan lakukan eskalasi sesuai temuan serta SOP rumah sakit.</div>
+                @endif
+
+                @if($assessment->safety_alert_notes)
+                    <div style="margin-top:6px;"><strong>Catatan perawat:</strong> {{ $assessment->safety_alert_notes }}</div>
+                @endif
+            </div>
+        @endif
 
         @if($assessment->notes)
             <div class="text-box">

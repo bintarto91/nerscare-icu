@@ -11,12 +11,14 @@ use App\Http\Controllers\AssessmentInterpretationController;
 use App\Http\Controllers\AssessmentQuestionController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\ReportSettingController;
-use App\Http\Controllers\BookletPageController;
 
 use App\Http\Controllers\PublicController;
 
 Route::get('/', [PublicController::class, 'landing'])->name('public.landing');
 Route::get('/cek-loneliness', [PublicController::class, 'calculator'])->name('public.calculator');
+Route::get('/booklet/{audience}', [PublicController::class, 'booklet'])
+    ->whereIn('audience', ['keluarga', 'perawat'])
+    ->name('public.booklet');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -43,17 +45,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/site-settings', [SiteSettingController::class, 'update'])    
     ->name('site-settings.update');
 
-    Route::resource('admin/interpretations', AssessmentInterpretationController::class)
-    ->names('interpretations');
+    Route::get('admin/interpretations', [AssessmentInterpretationController::class, 'index'])
+    ->name('interpretations.index');
 
-    Route::resource('admin/questions', AssessmentQuestionController::class)
-    ->names('questions');
+    Route::get('admin/questions', [AssessmentQuestionController::class, 'index'])
+    ->name('questions.index');
 
-    Route::resource('admin/booklet-pages', BookletPageController::class)
-    ->except(['show'])
-    ->parameters(['booklet-pages' => 'bookletPage'])
-    ->names('booklet-pages');
-    
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('patients', PatientController::class);

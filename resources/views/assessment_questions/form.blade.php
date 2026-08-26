@@ -68,7 +68,7 @@
     >{{ old('question_text', $question->question_text ?? '') }}</textarea>
 
     <div class="input-help">
-        Pertanyaan dijawab dengan 5 pilihan: Tidak pernah, Jarang, Kadang-kadang, Sering, Selalu.
+        Pertanyaan dijawab dengan lima pilihan baku: STS (sangat tidak sesuai), TS (tidak sesuai), KL (kurang lebih), S (sesuai), dan SS (sangat sesuai).
         Skor item dihitung otomatis menjadi 0 atau 1 sesuai aturan De Jong Gierveld.
     </div>
 </div>

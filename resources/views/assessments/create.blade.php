@@ -309,6 +309,72 @@
         color: #0b6f73;
     }
 
+    .decision-input-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .decision-check {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 14px;
+        border: 1px solid #d8e4ea;
+        border-radius: 14px;
+        background: #f8fbfc;
+        cursor: pointer;
+    }
+
+    .decision-check input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        accent-color: #0b6f73;
+        flex: 0 0 auto;
+    }
+
+    .decision-check strong,
+    .decision-check span {
+        display: block;
+    }
+
+    .decision-check strong {
+        color: #0f172a;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+
+    .decision-check span {
+        margin-top: 4px;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .decision-check .decision-copy {
+        margin-top: 0;
+    }
+
+    .decision-check .safety-response {
+        margin-top: 8px;
+        color: #9f2d20;
+    }
+
+    .decision-check .safety-response b {
+        color: #7f1d1d;
+    }
+
+    .safety-panel {
+        border-color: #f3b7ae;
+        background: #fff7f5;
+    }
+
+    .safety-panel .decision-check {
+        border-color: #f5cdc6;
+        background: #ffffff;
+    }
+
     @media(max-width: 1000px) {
         .assessment-header,
         .answer-options {
@@ -416,6 +482,10 @@
         .result-preview-box .cards {
             grid-template-columns: 1fr;
         }
+
+        .decision-input-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
@@ -424,14 +494,17 @@
     $answerOptions = \App\Support\DeJongGierveldScale::answerOptions();
     $scoreRules = \App\Support\DeJongGierveldScale::scoreRules();
     $scoreCategories = \App\Support\DeJongGierveldScale::scoreCategoryFromClient();
+    $decisionOutputs = \App\Support\DeJongGierveldScale::decisionOutputsForClient();
+    $personalizationTriggers = \App\Support\DeJongGierveldScale::personalizationTriggers();
+    $safetyAlerts = \App\Support\DeJongGierveldScale::safetyAlerts();
 @endphp
 
 <div class="assessment-header">
     <div>
         <h2>Assessment Loneliness</h2>
         <p>
-            Isi instrumen berdasarkan respons pasien atau hasil komunikasi dengan pasien.
-            Pastikan semua pertanyaan terjawab sebelum submit.
+            Jawablah berdasarkan pengalaman dan perasaan pasien selama dirawat di ICU sampai saat asesmen.
+            Bila dibacakan, sampaikan setiap item secara verbatim dan jangan mengarahkan jawaban.
         </p>
     </div>
 
@@ -456,10 +529,9 @@
 </div>
 
 <div class="clinical-note">
-    <strong>Petunjuk:</strong>
-    Pilih jawaban sesuai kondisi pasien. Sistem menghitung skor De Jong Gierveld secara otomatis:
-    item emotional dihitung dari jawaban kadang-kadang sampai selalu, sedangkan item social
-    dihitung dari jawaban tidak pernah sampai kadang-kadang.
+    <strong>Pedoman respons:</strong>
+    STS = sangat tidak sesuai, TS = tidak sesuai, KL = kurang lebih, S = sesuai, dan SS = sangat sesuai.
+    Skor setiap item dipetakan menjadi 0 atau 1 sesuai arah item; hasil bukan diagnosis gangguan jiwa.
 </div>
 
 @if($questions->count() <= 0)
@@ -518,6 +590,68 @@
                         placeholder="Opsional: catatan singkat kondisi pasien"
                     >
                 </div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-bottom: 18px;">
+            <div class="panel-header">
+                <div>
+                    <h3>Personalisasi Rekomendasi</h3>
+                    <p>Pilih kondisi yang ditemukan. Sistem menambahkan fokus intervensi I2-I5 pada hasil keputusan.</p>
+                </div>
+            </div>
+
+            <div class="decision-input-grid">
+                @foreach($personalizationTriggers as $trigger => $detail)
+                    <label class="decision-check">
+                        <input
+                            type="checkbox"
+                            name="personalization_triggers[]"
+                            value="{{ $trigger }}"
+                            {{ in_array($trigger, old('personalization_triggers', []), true) ? 'checked' : '' }}
+                        >
+                        <span>
+                            <strong>{{ $detail['code'] }} - {{ $detail['label'] }}</strong>
+                            <span>{{ $detail['recommendation'] }}</span>
+                        </span>
+                    </label>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="panel safety-panel" style="margin-bottom: 18px;">
+            <div class="panel-header">
+                <div>
+                    <h3>Safety Gate</h3>
+                    <p>Centang hanya bila ada tanda bahaya. Setiap temuan menghasilkan tindakan klinis yang spesifik sesuai dokumen Decision AI.</p>
+                </div>
+            </div>
+
+            <div class="decision-input-grid">
+                @foreach($safetyAlerts as $alert => $detail)
+                    <label class="decision-check">
+                        <input
+                            type="checkbox"
+                            name="safety_alerts[]"
+                            value="{{ $alert }}"
+                            {{ in_array($alert, old('safety_alerts', []), true) ? 'checked' : '' }}
+                        >
+                        <span class="decision-copy">
+                            <strong>{{ $detail['label'] }}</strong>
+                            <span class="safety-response"><b>Tindakan:</b> {{ $detail['response'] }}</span>
+                        </span>
+                    </label>
+                @endforeach
+            </div>
+
+            <div class="clinical-note" style="margin-top: 16px;">
+                <strong>Bila tidak ada tanda bahaya:</strong>
+                lanjutkan rekomendasi keperawatan berdasarkan hasil asesmen dan evaluasi ulang bila kondisi pasien berubah.
+            </div>
+
+            <div class="form-group" style="margin-top: 16px;">
+                <label>Catatan Safety Gate</label>
+                <textarea name="safety_alert_notes" rows="3" placeholder="Opsional: temuan, tindakan segera, atau rencana eskalasi">{{ old('safety_alert_notes') }}</textarea>
             </div>
         </div>
 
@@ -596,13 +730,23 @@
             </div>
 
             <div class="dimension-note" style="margin-bottom:16px;">
-                Kategori lain yang lebih tinggi:
+                Profil kebutuhan:
                 <strong id="dominantDimensionPreview">-</strong>
+            </div>
+
+            <div class="dimension-note" style="margin-bottom:16px;">
+                Kode output keputusan:
+                <strong id="decisionCodePreview">-</strong>
             </div>
 
             <div class="clinical-note">
                 <strong>Interpretasi Awal:</strong>
                 <div id="interpretationPreview" style="margin-top:8px;">-</div>
+            </div>
+
+            <div class="clinical-note" style="margin-top:16px;">
+                <strong>Catatan Keputusan Klinis:</strong>
+                <div id="clinicalDecisionPreview" style="margin-top:8px;">-</div>
             </div>
 
             <div class="alert-success" style="margin-top:16px;">
@@ -629,7 +773,7 @@
                     </div>
 
                     <div style="margin-top:6px;">
-                        Kategori lain:
+                        Profil kebutuhan:
                         <strong id="dominantDimensionFooter" style="color:#0b6f73;">-</strong>
                     </div>
                 </div>
@@ -655,6 +799,7 @@
         const totalQuestions = {{ $totalQuestions }};
         const scoreRules = @json($scoreRules);
         const scoreCategories = @json($scoreCategories);
+        const decisionOutputs = @json($decisionOutputs);
         let activeQuestionIndex = 0;
 
         function isMobileView() {
@@ -792,18 +937,13 @@
             const socialScorePreview = document.getElementById('socialScorePreview');
             const dominantDimensionPreview = document.getElementById('dominantDimensionPreview');
             const dominantDimensionFooter = document.getElementById('dominantDimensionFooter');
+            const decisionCodePreview = document.getElementById('decisionCodePreview');
+            const clinicalDecisionPreview = document.getElementById('clinicalDecisionPreview');
 
             let category = '-';
             let interpretation = '-';
             let dominantDimension = '-';
-
-            if (dimensionScores.emotional > dimensionScores.social) {
-                dominantDimension = 'Emotional Loneliness';
-            } else if (dimensionScores.social > dimensionScores.emotional) {
-                dominantDimension = 'Social Loneliness';
-            } else if (answered > 0) {
-                dominantDimension = 'Emotional dan Social seimbang';
-            }
+            let decision = null;
 
             if (emotionalScorePreview) {
                 emotionalScorePreview.innerText = dimensionScores.emotional;
@@ -825,12 +965,18 @@
                 const matchedCategory = findScoreCategory(totalScore);
 
                 category = matchedCategory ? matchedCategory.category : '-';
-                interpretation = matchedCategory ? matchedCategory.interpretation : '-';
+                decision = decisionForScores(dimensionScores.emotional, dimensionScores.social, category);
+                interpretation = decision ? decision.interpretation : (matchedCategory ? matchedCategory.interpretation : '-');
+                dominantDimension = decision ? decision.profile : '-';
 
                 categoryPreview.innerText = category;
                 resultScorePreview.innerText = totalScore;
                 resultCategoryPreview.innerText = category;
                 interpretationPreview.innerText = interpretation;
+                dominantDimensionPreview.innerText = dominantDimension;
+                dominantDimensionFooter.innerText = dominantDimension;
+                decisionCodePreview.innerText = decision ? decision.code : '-';
+                clinicalDecisionPreview.innerText = decision ? decision.clinical_decision_note : '-';
 
                 resultPreviewBox.style.display = 'block';
 
@@ -839,9 +985,10 @@
                 submitBtn.style.cursor = 'pointer';
             } else {
                 categoryPreview.innerText = '-';
-                if (dominantDimensionFooter) {
-                    dominantDimensionFooter.innerText = '-';
-                }
+                dominantDimensionPreview.innerText = '-';
+                dominantDimensionFooter.innerText = '-';
+                decisionCodePreview.innerText = '-';
+                clinicalDecisionPreview.innerText = '-';
                 resultPreviewBox.style.display = 'none';
 
                 submitBtn.disabled = true;
@@ -866,6 +1013,36 @@
             return scoreCategories.find(function(item) {
                 return totalScore >= item.min_score && totalScore <= item.max_score;
             });
+        }
+
+        function decisionForScores(emotionalScore, socialScore, category) {
+            let code;
+            let profile;
+
+            if (emotionalScore === 0 && socialScore === 0) {
+                code = 'N0';
+                profile = 'Tidak ada domain menonjol';
+            } else {
+                const emotionalPercentage = (emotionalScore / 6) * 100;
+                const socialPercentage = (socialScore / 5) * 100;
+
+                if (Math.abs(emotionalPercentage - socialPercentage) <= 15) {
+                    profile = emotionalScore + socialScore === 11
+                        ? 'Emotional dan Social sangat menonjol'
+                        : 'Emotional dan Social relatif seimbang';
+                    code = category === 'Tidak kesepian'
+                        ? 'NB'
+                        : (category === 'Kesepian tingkat sedang' ? 'MB' : (category === 'Kesepian tingkat berat' ? 'HB' : 'VHB'));
+                } else if (emotionalPercentage > socialPercentage) {
+                    profile = 'Emotional dominan';
+                    code = category === 'Tidak kesepian' ? 'NE' : (category === 'Kesepian tingkat sedang' ? 'ME' : 'HE');
+                } else {
+                    profile = 'Social dominan';
+                    code = category === 'Tidak kesepian' ? 'NS' : (category === 'Kesepian tingkat sedang' ? 'MS' : 'HS');
+                }
+            }
+
+            return Object.assign({ code: code, profile: profile }, decisionOutputs[code] || {});
         }
 
         function resetAnswers() {
