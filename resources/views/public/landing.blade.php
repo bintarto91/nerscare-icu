@@ -2740,12 +2740,9 @@
     <section class="section booklet-section" id="booklet-edukasi">
         <div class="section-inner">
             <div class="final-booklet-heading">
-                <div class="section-kicker">E-booklet resmi</div>
-                <h2>Edukasi Perawat/Keluarga untuk Menurunkan Kesepian pada Pasien ICU</h2>
-                <p>
-                    Pilih peran, lalu balik halaman langsung dari halaman ini. Isi flipbook, warna,
-                    tautan baca lengkap, dan PDF akan menyesuaikan pilihan keluarga atau perawat.
-                </p>
+                <div class="section-kicker">{{ $bookletSettings['booklet_section_kicker'] }}</div>
+                <h2>{{ $bookletSettings['booklet_section_title'] }}</h2>
+                <p>{{ $bookletSettings['booklet_section_description'] }}</p>
             </div>
 
             <div class="home-flipbook family" id="homeFlipbookPanel">
@@ -2754,47 +2751,47 @@
                         <button type="button" class="active" data-home-audience="family" aria-pressed="true">Untuk Keluarga</button>
                         <button type="button" data-home-audience="nurse" aria-pressed="false">Untuk Perawat</button>
                     </div>
-                    <div class="home-page-status" id="homePageStatus" aria-live="polite">Halaman 1 dari 10</div>
+                    <div class="home-page-status" id="homePageStatus" aria-live="polite">Halaman 1 dari {{ count($homeBooklets['family']['pages']) }}</div>
                 </div>
 
                 <div class="home-flipbook-stage" id="homeFlipbookStage" tabindex="0" aria-label="Balik halaman booklet">
                     <div class="home-book" id="homeBook" aria-label="Pratinjau flipbook edukasi">
                         <div class="home-book-page left blank" id="homeLeftPage" aria-hidden="true">
-                            <img id="homeLeftImage" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt="">
+                            <img id="homeLeftImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="">
                         </div>
                         <div class="home-book-page right" id="homeRightPage">
-                            <img id="homeRightImage" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt="Halaman 1 booklet keluarga">
+                            <img id="homeRightImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="Halaman 1 booklet keluarga">
                         </div>
                         <div class="home-book-spine" aria-hidden="true"></div>
                         <div class="home-turn-sheet" id="homeTurnSheet" aria-hidden="true">
-                            <div class="home-turn-face front"><img id="homeTurnFront" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt=""></div>
-                            <div class="home-turn-face back"><img id="homeTurnBack" src="{{ asset('booklets/keluarga/page-01.jpg') }}" alt=""></div>
+                            <div class="home-turn-face front"><img id="homeTurnFront" src="{{ $homeBooklets['family']['pages'][0] }}" alt=""></div>
+                            <div class="home-turn-face back"><img id="homeTurnBack" src="{{ $homeBooklets['family']['pages'][0] }}" alt=""></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="home-flipbook-controls">
                     <button type="button" id="homePreviousPage" aria-label="Halaman booklet sebelumnya" disabled>&larr;</button>
-                    <span>Klik sisi halaman, geser, atau gunakan tombol</span>
+                    <span>Otomatis setiap {{ $bookletSettings['booklet_autoplay_seconds'] }} detik · klik, geser, atau gunakan tombol</span>
                     <button type="button" id="homeNextPage" aria-label="Halaman booklet berikutnya">&rarr;</button>
                 </div>
 
                 <div class="home-flipbook-details">
                     <div>
                         <span class="audience-badge" id="homeAudienceBadge">Untuk keluarga</span>
-                        <h3 id="homeBookletTitle">Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU</h3>
-                        <p id="homeBookletDescription">Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.</p>
+                        <h3 id="homeBookletTitle">{{ $homeBooklets['family']['title'] }}</h3>
+                        <p id="homeBookletDescription">{{ $homeBooklets['family']['description'] }}</p>
                     </div>
                     <div class="home-flipbook-actions">
                         <a class="btn" id="homeReaderLink" href="{{ route('public.booklet', 'keluarga') }}">Baca flipbook lengkap</a>
-                        <a class="download-link" id="homePdfLink" href="{{ asset('booklets/edukasi-keluarga-icu.pdf') }}" download>Unduh PDF</a>
+                        <a class="download-link" id="homePdfLink" href="{{ $homeBooklets['family']['pdf'] }}" download>Unduh PDF</a>
                     </div>
                 </div>
             </div>
 
             <div class="final-booklet-note">
                 <strong>Catatan:</strong>
-                <span>Booklet merupakan materi pendamping edukasi. Penilaian klinis, preferensi pasien, kebijakan ICU, dan SOP rumah sakit tetap menjadi acuan utama.</span>
+                <span>{{ $bookletSettings['booklet_clinical_note'] }}</span>
             </div>
         </div>
     </section>
@@ -3018,29 +3015,9 @@
         {{ $settings['footer_text'] }}
     </footer>
 
-    @php
-        $homeBooklets = [
-            'family' => [
-                'label' => 'Untuk keluarga',
-                'title' => 'Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU',
-                'description' => 'Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.',
-                'reader' => route('public.booklet', 'keluarga'),
-                'pdf' => asset('booklets/edukasi-keluarga-icu.pdf'),
-                'pages' => collect(range(1, 10))->map(fn (int $page) => asset('booklets/keluarga/page-'.str_pad((string) $page, 2, '0', STR_PAD_LEFT).'.jpg'))->values(),
-            ],
-            'nurse' => [
-                'label' => 'Untuk perawat',
-                'title' => 'Edukasi Perawat untuk Menurunkan Kesepian pada Pasien ICU',
-                'description' => 'Alur kaji, intervensi multimodal, dokumentasi, dan eskalasi klinis.',
-                'reader' => route('public.booklet', 'perawat'),
-                'pdf' => asset('booklets/edukasi-perawat-icu.pdf'),
-                'pages' => collect(range(1, 10))->map(fn (int $page) => asset('booklets/perawat/page-'.str_pad((string) $page, 2, '0', STR_PAD_LEFT).'.jpg'))->values(),
-            ],
-        ];
-    @endphp
-
     <script>
         const homeBooklets = @json($homeBooklets);
+        const homeAutoplayMilliseconds = {{ (int) $bookletSettings['booklet_autoplay_seconds'] * 1000 }};
         const homePanel = document.getElementById('homeFlipbookPanel');
         const homeBook = document.getElementById('homeBook');
         const homeStage = document.getElementById('homeFlipbookStage');
@@ -3065,6 +3042,14 @@
         let homeActiveIndex = 0;
         let homePointerStartX = null;
         let homeIsTurning = false;
+        let homeAutoplayTimer = null;
+
+        function stopHomeAutoplay() {
+            if (homeAutoplayTimer !== null) {
+                window.clearInterval(homeAutoplayTimer);
+                homeAutoplayTimer = null;
+            }
+        }
 
         function normalizeHomeIndex(index) {
             const pages = homeBooklets[homeAudience].pages;
@@ -3155,9 +3140,16 @@
             });
         }
 
-        function changeHomePage(direction) {
+        function changeHomePage(direction, automated = false) {
             const nextIndex = targetHomeIndex(direction);
-            if (nextIndex === null || homeIsTurning) {
+            if (homeIsTurning) {
+                return;
+            }
+            if (nextIndex === null) {
+                if (automated) {
+                    homeActiveIndex = 0;
+                    renderHomeFlipbook();
+                }
                 return;
             }
 
@@ -3195,6 +3187,7 @@
 
         homeAudienceButtons.forEach(function(button) {
             button.addEventListener('click', function() {
+                stopHomeAutoplay();
                 if (homeIsTurning) {
                     return;
                 }
@@ -3204,10 +3197,11 @@
             });
         });
 
-        homePreviousPage.addEventListener('click', function() { changeHomePage(-1); });
-        homeNextPage.addEventListener('click', function() { changeHomePage(1); });
+        homePreviousPage.addEventListener('click', function() { stopHomeAutoplay(); changeHomePage(-1); });
+        homeNextPage.addEventListener('click', function() { stopHomeAutoplay(); changeHomePage(1); });
 
         homeStage.addEventListener('pointerdown', function(event) {
+            stopHomeAutoplay();
             homePointerStartX = event.clientX;
         });
 
@@ -3228,15 +3222,24 @@
         homeStage.addEventListener('pointercancel', function() { homePointerStartX = null; });
         homeStage.addEventListener('keydown', function(event) {
             if (event.key === 'ArrowLeft') {
+                stopHomeAutoplay();
                 event.preventDefault();
                 changeHomePage(-1);
             } else if (event.key === 'ArrowRight') {
+                stopHomeAutoplay();
                 event.preventDefault();
                 changeHomePage(1);
             }
         });
         homeSpreadMedia.addEventListener('change', renderHomeFlipbook);
         renderHomeFlipbook();
+        if (!homeReducedMotion.matches && homeAutoplayMilliseconds > 0) {
+            homeAutoplayTimer = window.setInterval(function() {
+                if (!document.hidden) {
+                    changeHomePage(1, true);
+                }
+            }, homeAutoplayMilliseconds);
+        }
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {

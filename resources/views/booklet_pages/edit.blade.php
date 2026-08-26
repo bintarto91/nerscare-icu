@@ -17,7 +17,7 @@
         </a>
     </div>
 
-    <form method="POST" action="{{ route('booklet-pages.update', $bookletPage) }}">
+    <form method="POST" action="{{ route('booklet-pages.update', $bookletPage) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 

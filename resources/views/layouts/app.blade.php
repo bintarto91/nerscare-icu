@@ -985,9 +985,9 @@
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'landing'])</span>
                     <span>Pengaturan Landing</span>
                 </a>
-                <a href="{{ route('public.landing') }}#booklet-edukasi">
+                <a href="{{ route('booklet-pages.index') }}" class="{{ request()->routeIs('booklet-pages.*') || request()->routeIs('booklet-settings.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'booklet'])</span>
-                    <span>Booklet Final</span>
+                    <span>Kelola Booklet</span>
                 </a>
                 <a href="{{ route('report-settings.index') }}" class="{{ request()->routeIs('report-settings.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'report'])</span>

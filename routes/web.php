@@ -11,6 +11,7 @@ use App\Http\Controllers\AssessmentInterpretationController;
 use App\Http\Controllers\AssessmentQuestionController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\ReportSettingController;
+use App\Http\Controllers\BookletPageController;
 
 use App\Http\Controllers\PublicController;
 
@@ -44,6 +45,13 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/admin/site-settings', [SiteSettingController::class, 'update'])    
     ->name('site-settings.update');
+
+    Route::put('/admin/booklet-settings', [BookletPageController::class, 'updateSettings'])
+        ->name('booklet-settings.update');
+
+    Route::resource('/admin/booklet-pages', BookletPageController::class)
+        ->except('show')
+        ->names('booklet-pages');
 
     Route::get('admin/interpretations', [AssessmentInterpretationController::class, 'index'])
     ->name('interpretations.index');

@@ -36,6 +36,32 @@ class SiteSetting extends Model
 
         return array_merge($defaults, $settings);
     }
+
+    public static function getBookletSettings(): array
+    {
+        $defaults = [
+            'booklet_section_kicker' => 'E-booklet resmi',
+            'booklet_section_title' => 'Edukasi Perawat/Keluarga untuk Menurunkan Kesepian pada Pasien ICU',
+            'booklet_section_description' => 'Pilih peran, lalu balik halaman langsung dari halaman ini. Isi flipbook, warna, tautan baca lengkap, dan PDF akan menyesuaikan pilihan keluarga atau perawat.',
+            'booklet_clinical_note' => 'Booklet merupakan materi pendamping edukasi. Penilaian klinis, preferensi pasien, kebijakan ICU, dan SOP rumah sakit tetap menjadi acuan utama.',
+            'booklet_reader_note' => 'Tetap sesuaikan penerapan isi booklet dengan kondisi klinis, preferensi pasien, kebijakan ICU, dan SOP rumah sakit.',
+            'booklet_autoplay_seconds' => '3',
+            'booklet_family_title' => 'Edukasi Keluarga untuk Menurunkan Kesepian pada Pasien ICU',
+            'booklet_family_description' => 'Dukungan yang aman, menenangkan, dan tetap menghormati preferensi pasien.',
+            'booklet_family_pdf' => 'booklets/edukasi-keluarga-icu.pdf',
+            'booklet_nurse_title' => 'Edukasi Perawat untuk Menurunkan Kesepian pada Pasien ICU',
+            'booklet_nurse_description' => 'Alur kaji, intervensi multimodal, dokumentasi, dan eskalasi klinis.',
+            'booklet_nurse_pdf' => 'booklets/edukasi-perawat-icu.pdf',
+        ];
+
+        $settings = static::query()
+            ->whereIn('setting_key', array_keys($defaults))
+            ->pluck('setting_value', 'setting_key')
+            ->toArray();
+
+        return array_merge($defaults, $settings);
+    }
+
     public static function getReportSettings(): array
     {
         $defaults = [

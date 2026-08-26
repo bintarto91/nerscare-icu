@@ -17,10 +17,10 @@
         </a>
     </div>
 
-    <form method="POST" action="{{ route('booklet-pages.store') }}">
+    <form method="POST" action="{{ route('booklet-pages.store') }}" enctype="multipart/form-data">
         @csrf
 
-        @include('booklet_pages.form', ['bookletPage' => null, 'nextOrder' => $nextOrder])
+        @include('booklet_pages.form', ['bookletPage' => null, 'nextOrder' => $nextOrder, 'audience' => $audience])
 
         <div class="actions" style="margin-top: 22px;">
             <button type="submit" class="btn">

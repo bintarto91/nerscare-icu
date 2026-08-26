@@ -729,12 +729,7 @@
 </head>
 <body class="theme-{{ $booklet['theme'] }}">
     @php
-        $bookletPages = collect(range(1, (int) $booklet['page_count']))
-            ->map(fn (int $number): array => [
-                'number' => $number,
-                'src' => asset($booklet['page_directory'].'/page-'.str_pad((string) $number, 2, '0', STR_PAD_LEFT).'.jpg'),
-            ])
-            ->values();
+        $bookletPages = collect($booklet['pages']);
         $firstPage = $bookletPages->first();
     @endphp
 
@@ -830,7 +825,7 @@
                                 <img
                                     id="rightPageImage"
                                     src="{{ $firstPage['src'] }}"
-                                    alt="Halaman 1 dari {{ $booklet['title'] }}"
+                                    alt="{{ $firstPage['alt'] }}"
                                     fetchpriority="high"
                                     decoding="async"
                                 >
@@ -854,7 +849,7 @@
 
                 <div class="reader-note">
                     <strong>Materi pendamping:</strong>
-                    <span>Tetap sesuaikan penerapan isi booklet dengan kondisi klinis, preferensi pasien, kebijakan ICU, dan SOP rumah sakit.</span>
+                    <span>{{ $booklet['reader_note'] }}</span>
                 </div>
             </div>
         </section>
