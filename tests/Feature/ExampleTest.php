@@ -37,7 +37,7 @@ class ExampleTest extends TestCase
             ->assertDontSee('Halaman 5-6 dari 8');
     }
 
-    public function test_public_booklet_reader_uses_a_single_page_with_thumbnails(): void
+    public function test_public_booklet_reader_uses_a_responsive_flipbook_with_thumbnails(): void
     {
         $response = $this->get('/booklet/keluarga');
 
@@ -46,7 +46,9 @@ class ExampleTest extends TestCase
             ->assertSee('Pilih halaman')
             ->assertSee('Halaman 1 dari 10')
             ->assertSee('booklets/keluarga/page-01.jpg', false)
-            ->assertDontSee('book-gutter')
+            ->assertSee('id="flipbook"', false)
+            ->assertSee('Flipbook responsif')
+            ->assertSee('turnPageNext', false)
             ->assertDontSee('Otomatis membuka halaman');
     }
 

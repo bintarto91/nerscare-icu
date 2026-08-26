@@ -2059,6 +2059,8 @@
             display: grid;
             grid-template-columns: minmax(150px, .72fr) minmax(0, 1.28fr);
             gap: 24px;
+            align-items: stretch;
+            height: 100%;
             overflow: hidden;
             padding: 24px;
             border: 1px solid #d9e6ea;
@@ -2120,7 +2122,10 @@
         .final-booklet-content {
             position: relative;
             z-index: 1;
-            align-self: center;
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            align-items: flex-start;
         }
 
         .audience-badge {
@@ -2201,6 +2206,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 9px;
+            width: 100%;
+            margin-top: auto;
         }
 
         .final-booklet-actions .btn {
@@ -2385,8 +2392,8 @@
                 <div class="section-kicker">E-booklet resmi</div>
                 <h2>Pilih panduan sesuai peran Anda</h2>
                 <p>
-                    Dua booklet final ditampilkan terpisah agar keluarga dan perawat langsung menemukan
-                    materi yang relevan, tanpa tercampur dengan contoh halaman atau simulasi lama.
+                    Pilih booklet keluarga atau perawat, lalu baca melalui flipbook responsif yang
+                    menyesuaikan tampilan HP, tablet, laptop, dan desktop.
                 </p>
             </div>
 
@@ -2406,7 +2413,7 @@
                             <li>Privasi, spiritual, budaya, dan perawatan diri keluarga</li>
                         </ul>
                         <div class="final-booklet-actions">
-                            <a class="btn" href="{{ route('public.booklet', 'keluarga') }}">Baca booklet</a>
+                            <a class="btn" href="{{ route('public.booklet', 'keluarga') }}">Buka flipbook</a>
                             <a class="download-link" href="{{ asset('booklets/edukasi-keluarga-icu.pdf') }}" download>Unduh PDF</a>
                         </div>
                     </div>
@@ -2427,7 +2434,7 @@
                             <li>Dokumentasi, eskalasi, dan checklist antar-shift</li>
                         </ul>
                         <div class="final-booklet-actions">
-                            <a class="btn" href="{{ route('public.booklet', 'perawat') }}">Baca booklet</a>
+                            <a class="btn" href="{{ route('public.booklet', 'perawat') }}">Buka flipbook</a>
                             <a class="download-link" href="{{ asset('booklets/edukasi-perawat-icu.pdf') }}" download>Unduh PDF</a>
                         </div>
                     </div>

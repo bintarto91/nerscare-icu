@@ -384,11 +384,13 @@
         }
 
         .page-stage {
-            min-height: 720px;
+            position: relative;
+            min-height: 660px;
             display: grid;
             place-items: center;
             padding: 26px;
             touch-action: pan-y;
+            perspective: 2400px;
             background:
                 linear-gradient(45deg, rgba(16, 33, 43, .025) 25%, transparent 25%),
                 linear-gradient(-45deg, rgba(16, 33, 43, .025) 25%, transparent 25%),
@@ -397,28 +399,131 @@
             background-size: 24px 24px;
         }
 
-        .page-frame {
+        .flipbook {
             position: relative;
-            width: min(100%, 690px);
-            overflow: hidden;
-            border-radius: 7px;
-            background: white;
-            box-shadow: 0 26px 56px rgba(15, 43, 58, .23);
+            width: min(100%, 1040px);
+            display: flex;
+            aspect-ratio: 2380 / 1684;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 28px 32px rgba(15, 43, 58, .22));
         }
 
-        .page-frame img {
+        .book-page {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(16, 33, 43, .025), transparent 7%),
+                white;
+            transition: opacity .18s ease;
+        }
+
+        .book-page.left {
+            border-radius: 9px 2px 2px 9px;
+            box-shadow: inset -18px 0 28px -26px rgba(16, 33, 43, .7);
+        }
+
+        .book-page.right {
+            border-radius: 2px 9px 9px 2px;
+            box-shadow: inset 18px 0 28px -26px rgba(16, 33, 43, .7);
+        }
+
+        .book-page.blank {
+            background:
+                linear-gradient(135deg, #fbfdfd, #edf3f5),
+                white;
+        }
+
+        .book-page.blank img {
+            visibility: hidden;
+        }
+
+        .book-page img,
+        .turn-face img {
             display: block;
             width: 100%;
-            height: auto;
-            aspect-ratio: 1190 / 1684;
+            height: 100%;
             object-fit: contain;
             background: white;
-            opacity: 1;
-            transition: opacity .14s ease;
         }
 
-        .page-frame img.is-changing {
-            opacity: .35;
+        .book-spine {
+            position: absolute;
+            z-index: 7;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 22px;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, transparent, rgba(16, 33, 43, .2), rgba(255, 255, 255, .55), rgba(16, 33, 43, .16), transparent);
+            pointer-events: none;
+        }
+
+        .turn-sheet {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            display: none;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        .turn-face {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            border-radius: 3px 9px 9px 3px;
+            background: white;
+            box-shadow: 0 12px 32px rgba(16, 33, 43, .24);
+            backface-visibility: hidden;
+        }
+
+        .turn-back {
+            transform: rotateY(180deg);
+        }
+
+        .flipbook.is-turning .turn-sheet {
+            display: block;
+        }
+
+        .flipbook.turn-next .turn-sheet {
+            left: 50%;
+            transform-origin: left center;
+            animation: turnPageNext .64s cubic-bezier(.62, .02, .28, 1) both;
+        }
+
+        .flipbook.turn-previous .turn-sheet {
+            left: 0;
+            transform-origin: right center;
+            animation: turnPagePrevious .64s cubic-bezier(.62, .02, .28, 1) both;
+        }
+
+        @keyframes turnPageNext {
+            0% { transform: rotateY(0deg); }
+            45% { box-shadow: 18px 10px 34px rgba(16, 33, 43, .22); }
+            100% { transform: rotateY(-180deg); }
+        }
+
+        @keyframes turnPagePrevious {
+            0% { transform: rotateY(0deg); }
+            45% { box-shadow: -18px 10px 34px rgba(16, 33, 43, .22); }
+            100% { transform: rotateY(180deg); }
+        }
+
+        .page-stage::after {
+            position: absolute;
+            right: 18px;
+            bottom: 12px;
+            color: #607582;
+            content: 'Geser atau klik sisi halaman';
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .15px;
+            pointer-events: none;
         }
 
         .page-progress {
@@ -526,6 +631,43 @@
             }
         }
 
+        @media(max-width: 899px) {
+            .flipbook {
+                width: min(100%, 620px);
+                aspect-ratio: 1190 / 1684;
+            }
+
+            .book-page.left {
+                width: 100%;
+                border-radius: 9px;
+                box-shadow: none;
+            }
+
+            .book-page.right,
+            .book-spine {
+                display: none;
+            }
+
+            .turn-sheet,
+            .flipbook.turn-next .turn-sheet,
+            .flipbook.turn-previous .turn-sheet {
+                left: 0;
+                width: 100%;
+            }
+
+            .flipbook.turn-next .turn-sheet {
+                transform-origin: left center;
+            }
+
+            .flipbook.turn-previous .turn-sheet {
+                transform-origin: right center;
+            }
+
+            .turn-face {
+                border-radius: 9px;
+            }
+        }
+
         @media(max-width: 560px) {
             .audience-switch a {
                 padding: 0 8px;
@@ -556,6 +698,14 @@
             .viewer-buttons button {
                 min-width: 39px;
                 height: 39px;
+            }
+
+            .page-stage {
+                padding: 9px;
+            }
+
+            .page-stage::after {
+                display: none;
             }
 
             .reader-note strong {
@@ -651,7 +801,7 @@
                     <div class="viewer-toolbar">
                         <div class="page-status" aria-live="polite">
                             <strong id="pageStatus">Halaman 1 dari {{ $booklet['page_count'] }}</strong>
-                            <span>Gunakan panah keyboard atau pilih thumbnail</span>
+                            <span>Flipbook responsif: klik, geser, atau gunakan panah keyboard</span>
                         </div>
 
                         <input
@@ -672,14 +822,28 @@
                     </div>
 
                     <div class="page-stage" id="pageStage">
-                        <div class="page-frame">
-                            <img
-                                id="mainPageImage"
-                                src="{{ $firstPage['src'] }}"
-                                alt="Halaman 1 dari {{ $booklet['title'] }}"
-                                fetchpriority="high"
-                                decoding="async"
-                            >
+                        <div class="flipbook" id="flipbook" aria-label="Flipbook {{ $booklet['title'] }}">
+                            <div class="book-page left blank" id="leftPage" aria-hidden="true">
+                                <img id="leftPageImage" src="{{ $firstPage['src'] }}" alt="" decoding="async">
+                            </div>
+                            <div class="book-page right" id="rightPage">
+                                <img
+                                    id="rightPageImage"
+                                    src="{{ $firstPage['src'] }}"
+                                    alt="Halaman 1 dari {{ $booklet['title'] }}"
+                                    fetchpriority="high"
+                                    decoding="async"
+                                >
+                            </div>
+                            <div class="book-spine" aria-hidden="true"></div>
+                            <div class="turn-sheet" id="turnSheet" aria-hidden="true">
+                                <div class="turn-face turn-front">
+                                    <img id="turnFrontImage" src="{{ $firstPage['src'] }}" alt="">
+                                </div>
+                                <div class="turn-face turn-back">
+                                    <img id="turnBackImage" src="{{ $firstPage['src'] }}" alt="">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -699,7 +863,13 @@
     <script>
         const bookletPages = @json($bookletPages);
         const bookletTitle = @json($booklet['title']);
-        const mainPageImage = document.getElementById('mainPageImage');
+        const flipbook = document.getElementById('flipbook');
+        const leftPage = document.getElementById('leftPage');
+        const rightPage = document.getElementById('rightPage');
+        const leftPageImage = document.getElementById('leftPageImage');
+        const rightPageImage = document.getElementById('rightPageImage');
+        const turnFrontImage = document.getElementById('turnFrontImage');
+        const turnBackImage = document.getElementById('turnBackImage');
         const pageStatus = document.getElementById('pageStatus');
         const pageRange = document.getElementById('pageRange');
         const pageProgress = document.getElementById('pageProgress');
@@ -707,28 +877,106 @@
         const nextPage = document.getElementById('nextPage');
         const pageStage = document.getElementById('pageStage');
         const thumbnailButtons = Array.from(document.querySelectorAll('.thumbnail-button'));
+        const spreadMedia = window.matchMedia('(min-width: 900px)');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const requestedPage = Number.parseInt(new URLSearchParams(window.location.search).get('page') || '1', 10);
         let activePageIndex = Number.isInteger(requestedPage)
             ? Math.min(Math.max(requestedPage - 1, 0), bookletPages.length - 1)
             : 0;
         let pointerStartX = null;
+        let isTurning = false;
 
-        function renderPage(options = {}) {
-            const page = bookletPages[activePageIndex];
+        function normalizePageIndex(index) {
+            const boundedIndex = Math.min(Math.max(index, 0), bookletPages.length - 1);
 
-            mainPageImage.classList.add('is-changing');
-            mainPageImage.src = page.src;
-            mainPageImage.alt = 'Halaman ' + page.number + ' dari ' + bookletTitle;
-            pageStatus.textContent = 'Halaman ' + page.number + ' dari ' + bookletPages.length;
-            pageRange.value = page.number;
-            pageProgress.style.width = ((page.number / bookletPages.length) * 100) + '%';
-            previousPage.disabled = activePageIndex === 0;
-            nextPage.disabled = activePageIndex === bookletPages.length - 1;
+            if (!spreadMedia.matches || boundedIndex === 0) {
+                return boundedIndex;
+            }
+
+            return boundedIndex % 2 === 0 ? boundedIndex - 1 : boundedIndex;
+        }
+
+        function visiblePageIndexes(index = activePageIndex) {
+            const normalizedIndex = normalizePageIndex(index);
+
+            if (!spreadMedia.matches) {
+                return [normalizedIndex];
+            }
+
+            if (normalizedIndex === 0) {
+                return [null, 0];
+            }
+
+            return [
+                normalizedIndex,
+                normalizedIndex + 1 < bookletPages.length ? normalizedIndex + 1 : null,
+            ];
+        }
+
+        function updatePageSlot(container, image, pageIndex) {
+            const page = pageIndex === null ? null : bookletPages[pageIndex];
+            container.classList.toggle('blank', page === null);
+
+            if (!page) {
+                container.setAttribute('aria-hidden', 'true');
+                image.alt = '';
+                return;
+            }
+
+            container.removeAttribute('aria-hidden');
+            image.src = page.src;
+            image.alt = 'Halaman ' + page.number + ' dari ' + bookletTitle;
+        }
+
+        function targetPageIndex(direction) {
+            if (!spreadMedia.matches) {
+                const target = activePageIndex + direction;
+                return target >= 0 && target < bookletPages.length ? target : null;
+            }
+
+            if (direction > 0) {
+                if (activePageIndex === 0) {
+                    return bookletPages.length > 1 ? 1 : null;
+                }
+
+                const target = activePageIndex + 2;
+                return target < bookletPages.length ? target : null;
+            }
+
+            if (activePageIndex <= 0) {
+                return null;
+            }
+
+            return activePageIndex === 1 ? 0 : Math.max(1, activePageIndex - 2);
+        }
+
+        function renderPages(options = {}) {
+            activePageIndex = normalizePageIndex(activePageIndex);
+            const visibleIndexes = visiblePageIndexes();
+            const actualIndexes = visibleIndexes.filter(index => index !== null);
+
+            if (spreadMedia.matches) {
+                updatePageSlot(leftPage, leftPageImage, visibleIndexes[0]);
+                updatePageSlot(rightPage, rightPageImage, visibleIndexes[1]);
+            } else {
+                updatePageSlot(leftPage, leftPageImage, activePageIndex);
+                updatePageSlot(rightPage, rightPageImage, null);
+            }
+
+            const firstNumber = bookletPages[actualIndexes[0]].number;
+            const lastNumber = bookletPages[actualIndexes[actualIndexes.length - 1]].number;
+            pageStatus.textContent = firstNumber === lastNumber
+                ? 'Halaman ' + firstNumber + ' dari ' + bookletPages.length
+                : 'Halaman ' + firstNumber + '\u2013' + lastNumber + ' dari ' + bookletPages.length;
+            pageRange.value = firstNumber;
+            pageProgress.style.width = ((lastNumber / bookletPages.length) * 100) + '%';
+            previousPage.disabled = targetPageIndex(-1) === null || isTurning;
+            nextPage.disabled = targetPageIndex(1) === null || isTurning;
 
             thumbnailButtons.forEach(function(button, index) {
-                const isActive = index === activePageIndex;
+                const isActive = actualIndexes.includes(index);
                 button.classList.toggle('active', isActive);
-                if (isActive) {
+                if (index === activePageIndex) {
                     button.setAttribute('aria-current', 'page');
                 } else {
                     button.removeAttribute('aria-current');
@@ -741,14 +989,11 @@
             }
 
             const url = new URL(window.location.href);
-            url.searchParams.set('page', page.number);
+            url.searchParams.set('page', firstNumber);
             window.history.replaceState({}, '', url);
 
-            window.requestAnimationFrame(function() {
-                mainPageImage.classList.remove('is-changing');
-            });
-
-            const next = bookletPages[activePageIndex + 1];
+            const nextIndex = targetPageIndex(1);
+            const next = nextIndex === null ? null : bookletPages[nextIndex];
             if (next) {
                 const preload = new Image();
                 preload.src = next.src;
@@ -756,19 +1001,49 @@
         }
 
         function changePage(direction) {
-            const nextIndex = activePageIndex + direction;
-            if (nextIndex < 0 || nextIndex >= bookletPages.length) {
+            const nextIndex = targetPageIndex(direction);
+            if (nextIndex === null || isTurning) {
                 return;
             }
 
+            const currentVisible = visiblePageIndexes();
+            const nextVisible = visiblePageIndexes(nextIndex);
+            const currentTurnIndex = spreadMedia.matches
+                ? (direction > 0 ? currentVisible[1] ?? currentVisible[0] : currentVisible[0] ?? currentVisible[1])
+                : currentVisible[0];
+            const nextTurnIndex = spreadMedia.matches
+                ? (direction > 0 ? nextVisible[0] ?? nextVisible[1] : nextVisible[1] ?? nextVisible[0])
+                : nextVisible[0];
+
+            if (reducedMotion.matches) {
+                activePageIndex = nextIndex;
+                renderPages();
+                return;
+            }
+
+            isTurning = true;
+            turnFrontImage.src = bookletPages[currentTurnIndex].src;
+            turnBackImage.src = bookletPages[nextTurnIndex].src;
             activePageIndex = nextIndex;
-            renderPage();
+            renderPages();
+            flipbook.classList.remove('turn-next', 'turn-previous');
+            void flipbook.offsetWidth;
+            flipbook.classList.add('is-turning', direction > 0 ? 'turn-next' : 'turn-previous');
+
+            window.setTimeout(function() {
+                flipbook.classList.remove('is-turning', 'turn-next', 'turn-previous');
+                isTurning = false;
+                renderPages({ scrollThumbnail: false });
+            }, 680);
         }
 
         thumbnailButtons.forEach(function(button) {
             button.addEventListener('click', function() {
+                if (isTurning) {
+                    return;
+                }
                 activePageIndex = Number.parseInt(button.dataset.pageIndex, 10);
-                renderPage({ scrollThumbnail: false });
+                renderPages({ scrollThumbnail: false });
             });
         });
 
@@ -782,7 +1057,7 @@
 
         pageRange.addEventListener('input', function() {
             activePageIndex = Number.parseInt(pageRange.value, 10) - 1;
-            renderPage();
+            renderPages();
         });
 
         window.addEventListener('keydown', function(event) {
@@ -809,12 +1084,25 @@
             const distance = event.clientX - pointerStartX;
             pointerStartX = null;
 
-            if (Math.abs(distance) >= 55) {
+            if (Math.abs(distance) >= 45) {
                 changePage(distance > 0 ? -1 : 1);
+                return;
             }
+
+            const bounds = pageStage.getBoundingClientRect();
+            changePage(event.clientX < bounds.left + (bounds.width / 2) ? -1 : 1);
         });
 
-        renderPage({ scrollThumbnail: false });
+        pageStage.addEventListener('pointercancel', function() {
+            pointerStartX = null;
+        });
+
+        spreadMedia.addEventListener('change', function() {
+            activePageIndex = normalizePageIndex(activePageIndex);
+            renderPages({ scrollThumbnail: false });
+        });
+
+        renderPages({ scrollThumbnail: false });
     </script>
 </body>
 </html>
