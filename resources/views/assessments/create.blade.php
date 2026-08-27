@@ -532,6 +532,7 @@
     <strong>Pedoman respons:</strong>
     STS = sangat tidak sesuai, TS = tidak sesuai, KL = kurang lebih, S = sesuai, dan SS = sangat sesuai.
     Skor setiap item dipetakan menjadi 0 atau 1 sesuai arah item; hasil bukan diagnosis gangguan jiwa.
+    Skor total tetap valid bila maksimal satu item kosong, tetapi subskala yang memuat item kosong menjadi tidak valid.
 </div>
 
 @if($questions->count() <= 0)
@@ -579,6 +580,18 @@
                         value="{{ old('assessment_date', date('Y-m-d')) }}"
                         required
                     >
+                </div>
+
+                <div class="form-group">
+                    <label>Cara Pengisian</label>
+                    <select name="administration_mode" required>
+                        <option value="mandiri" {{ old('administration_mode', 'mandiri') === 'mandiri' ? 'selected' : '' }}>
+                            Mandiri
+                        </option>
+                        <option value="dibacakan" {{ old('administration_mode') === 'dibacakan' ? 'selected' : '' }}>
+                            Dibacakan oleh perawat
+                        </option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -687,7 +700,6 @@
                                     data-question="{{ $question->id }}"
                                     data-question-index="{{ $index }}"
                                     {{ (string) old('answers.' . $question->id) === (string) $score ? 'checked' : '' }}
-                                    required
                                 >
                                 <div class="answer-box">
                                     <div class="answer-label">{{ $label }}</div>
@@ -756,7 +768,7 @@
         </div>
 
         <div class="incomplete-note" id="incompleteNote">
-            Masih ada pertanyaan yang belum diisi. Lengkapi semua pertanyaan sebelum submit assessment.
+            Lebih dari satu pertanyaan belum diisi. Isi minimal 10 dari 11 pertanyaan agar skor total valid.
         </div>
 
         <div class="assessment-footer">
@@ -939,11 +951,16 @@
             const dominantDimensionFooter = document.getElementById('dominantDimensionFooter');
             const decisionCodePreview = document.getElementById('decisionCodePreview');
             const clinicalDecisionPreview = document.getElementById('clinicalDecisionPreview');
+            const incompleteNote = document.getElementById('incompleteNote');
 
             let category = '-';
             let interpretation = '-';
             let dominantDimension = '-';
             let decision = null;
+
+            if (incompleteNote && answered >= totalQuestions - 1) {
+                incompleteNote.style.display = 'none';
+            }
 
             if (emotionalScorePreview) {
                 emotionalScorePreview.innerText = dimensionScores.emotional;
@@ -961,22 +978,45 @@
                 dominantDimensionFooter.innerText = dominantDimension;
             }
 
-            if (answered === totalQuestions) {
+            if (answered >= totalQuestions - 1) {
                 const matchedCategory = findScoreCategory(totalScore);
+                const unansweredCards = getQuestionCards().filter(function(card) {
+                    const questionId = card.dataset.questionId;
+                    return !document.querySelector('input[name="answers[' + questionId + ']"]:checked');
+                });
+                const missingDimension = unansweredCards.length === 1
+                    ? unansweredCards[0].dataset.dimension
+                    : null;
 
                 category = matchedCategory ? matchedCategory.category : '-';
-                decision = decisionForScores(dimensionScores.emotional, dimensionScores.social, category);
-                interpretation = decision ? decision.interpretation : (matchedCategory ? matchedCategory.interpretation : '-');
-                dominantDimension = decision ? decision.profile : '-';
+                decision = answered === totalQuestions
+                    ? decisionForScores(dimensionScores.emotional, dimensionScores.social, category)
+                    : null;
+                interpretation = decision
+                    ? decision.interpretation
+                    : (matchedCategory
+                        ? matchedCategory.interpretation + ' Skor total tetap valid karena hanya satu item tidak terisi.'
+                        : '-');
+                dominantDimension = decision
+                    ? decision.profile
+                    : 'Tidak dapat ditentukan karena satu subskala tidak lengkap';
 
                 categoryPreview.innerText = category;
                 resultScorePreview.innerText = totalScore;
                 resultCategoryPreview.innerText = category;
                 interpretationPreview.innerText = interpretation;
+                emotionalScorePreview.innerText = missingDimension === 'emotional'
+                    ? 'Tidak valid'
+                    : dimensionScores.emotional;
+                socialScorePreview.innerText = missingDimension === 'social'
+                    ? 'Tidak valid'
+                    : dimensionScores.social;
                 dominantDimensionPreview.innerText = dominantDimension;
                 dominantDimensionFooter.innerText = dominantDimension;
                 decisionCodePreview.innerText = decision ? decision.code : '-';
-                clinicalDecisionPreview.innerText = decision ? decision.clinical_decision_note : '-';
+                clinicalDecisionPreview.innerText = decision
+                    ? decision.clinical_decision_note
+                    : 'Kode keputusan tidak diterbitkan sampai kedua subskala lengkap.';
 
                 resultPreviewBox.style.display = 'block';
 
@@ -1079,7 +1119,7 @@
             const answered = document.querySelectorAll('.answer-radio:checked').length;
             const note = document.getElementById('incompleteNote');
 
-            if (answered < totalQuestions) {
+            if (answered < totalQuestions - 1) {
                 event.preventDefault();
 
                 const firstUnanswered = findFirstUnansweredIndex();

@@ -187,6 +187,80 @@ class DeJongGierveldScale
         ]);
     }
 
+    public static function scoreResponses(array $responses): array
+    {
+        $dimensionScores = [
+            'emotional' => 0,
+            'social' => 0,
+        ];
+        $missingItems = [];
+        $scoredResponses = [];
+
+        foreach (array_keys(static::questions()) as $itemNumber) {
+            $answerValue = $responses[$itemNumber] ?? null;
+
+            if ($answerValue === null || $answerValue === '') {
+                $missingItems[] = $itemNumber;
+                $scoredResponses[$itemNumber] = null;
+                continue;
+            }
+
+            $answerValue = (int) $answerValue;
+
+            if ($answerValue < 1 || $answerValue > 5) {
+                throw new \InvalidArgumentException("Nilai respons item {$itemNumber} harus berada pada rentang 1 sampai 5.");
+            }
+
+            $score = static::scoreAnswer($itemNumber, $answerValue);
+            $dimension = static::dimensionForItem($itemNumber);
+            $dimensionScores[$dimension] += $score;
+            $scoredResponses[$itemNumber] = [
+                'answer_value' => $answerValue,
+                'score' => $score,
+            ];
+        }
+
+        if (count($missingItems) > 1) {
+            throw new \InvalidArgumentException('Maksimal satu item boleh tidak dijawab agar skor total tetap valid.');
+        }
+
+        $missingDimension = $missingItems === []
+            ? null
+            : static::dimensionForItem($missingItems[0]);
+        $totalScore = $dimensionScores['emotional'] + $dimensionScores['social'];
+
+        if ($missingItems === []) {
+            $result = static::decisionForScores(
+                $dimensionScores['emotional'],
+                $dimensionScores['social']
+            );
+        } else {
+            $category = static::resultForScore($totalScore);
+            $invalidDomain = $missingDimension === 'emotional' ? 'emotional' : 'social';
+            $invalidDomainLabel = ucfirst($invalidDomain) . ' loneliness';
+
+            $result = array_merge($category, [
+                'code' => null,
+                'profile' => 'Tidak dapat ditentukan karena subskala ' . $invalidDomainLabel . ' tidak lengkap',
+                'interpretation' => $category['interpretation'] . ' Skor total tetap valid karena hanya satu item tidak terisi, tetapi subskala ' . $invalidDomainLabel . ' tidak valid.',
+                'nursing_recommendation' => 'Pertahankan dukungan psikososial rutin dan lakukan asesmen ulang atau lengkapi item yang kosong sebelum menggunakan rekomendasi berbasis profil emotional-social.',
+                'family_education_recommendation' => 'Pertahankan dukungan yang tenang dan familiar sesuai preferensi serta kondisi pasien. Jangan meningkatkan intensitas dukungan hanya berdasarkan profil domain yang belum lengkap.',
+                'clinical_decision_note' => 'Satu item tidak terisi: skor total dapat digunakan sesuai aturan data hilang, tetapi kode keputusan dan profil domain tidak diterbitkan karena salah satu subskala tidak valid.',
+                'emotional_score' => $dimensionScores['emotional'],
+                'social_score' => $dimensionScores['social'],
+                'total_score' => $totalScore,
+            ]);
+        }
+
+        return array_merge($result, [
+            'scored_responses' => $scoredResponses,
+            'missing_items' => $missingItems,
+            'missing_item_count' => count($missingItems),
+            'emotional_score_valid' => $missingDimension !== 'emotional',
+            'social_score_valid' => $missingDimension !== 'social',
+        ]);
+    }
+
     public static function scoreAnswer(int $itemNumber, int $answerValue): int
     {
         if (in_array($itemNumber, self::EMOTIONAL_ITEMS, true)) {

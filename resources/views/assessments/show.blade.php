@@ -7,9 +7,13 @@
 @section('content')
 @php
     $totalScore = $assessment->total_score ?? 0;
-    $answerCount = $assessment->answers->count();
-    $maxScore = max($answerCount, 1);
+    $missingItemCount = (int) ($assessment->missing_item_count ?? 0);
+    $answerCount = $assessment->answers->where('is_missing', false)->count();
+    $maxScore = 11;
     $scorePercentage = min(100, round(($totalScore / $maxScore) * 100));
+    $administrationMode = ($assessment->administration_mode ?? 'mandiri') === 'dibacakan'
+        ? 'Dibacakan oleh perawat'
+        : 'Mandiri';
 
     $assessmentDate = $assessment->assessment_date
         ? \Carbon\Carbon::parse($assessment->assessment_date)->format('d/m/Y')
@@ -67,24 +71,20 @@
     }
 
     $dimensionScores = [
-        'emotional' => 0,
-        'social' => 0,
+        'emotional' => (int) ($assessment->emotional_score ?? 0),
+        'social' => (int) ($assessment->social_score ?? 0),
     ];
-
-    foreach ($assessment->answers as $answer) {
-        $question = $answer->question;
-        $dimension = \App\Support\DeJongGierveldScale::dimensionForQuestion($question);
-
-        $dimensionScores[$dimension] += (int) ($answer->score ?? 0);
-    }
-
-    $decision = \App\Support\DeJongGierveldScale::decisionForScores(
-        $dimensionScores['emotional'],
-        $dimensionScores['social']
-    );
-    $dominantDimension = $assessment->decision_profile ?: $decision['profile'];
-    $decisionCode = $assessment->decision_code ?: $decision['code'];
-    $clinicalDecisionNote = $assessment->clinical_decision_note ?: $decision['clinical_decision_note'];
+    $emotionalScoreValid = (bool) ($assessment->emotional_score_valid ?? true);
+    $socialScoreValid = (bool) ($assessment->social_score_valid ?? true);
+    $decision = $missingItemCount === 0
+        ? \App\Support\DeJongGierveldScale::decisionForScores(
+            $dimensionScores['emotional'],
+            $dimensionScores['social']
+        )
+        : null;
+    $dominantDimension = $assessment->decision_profile ?: ($decision['profile'] ?? '-');
+    $decisionCode = $assessment->decision_code ?: ($decision['code'] ?? '-');
+    $clinicalDecisionNote = $assessment->clinical_decision_note ?: ($decision['clinical_decision_note'] ?? '-');
     $personalizationTriggers = collect($assessment->personalization_triggers ?? [])
         ->map(fn (string $trigger) => \App\Support\DeJongGierveldScale::personalizationTriggers()[$trigger] ?? null)
         ->filter()
@@ -846,7 +846,12 @@
 
         <div>
             <span>Jumlah Pertanyaan</span>
-            <strong>{{ $answerCount }}</strong>
+            <strong>{{ $answerCount }} / 11</strong>
+        </div>
+
+        <div>
+            <span>Cara Pengisian</span>
+            <strong>{{ $administrationMode }}</strong>
         </div>
     </div>
 </div>
@@ -929,12 +934,12 @@
         <div class="dimension-grid">
             <div class="dimension-pill">
                 <span>Emotional Loneliness</span>
-                <strong>{{ $dimensionScores['emotional'] }}</strong>
+                <strong>{{ $emotionalScoreValid ? $dimensionScores['emotional'] : 'Tidak valid' }}</strong>
             </div>
 
             <div class="dimension-pill">
                 <span>Social Loneliness</span>
-                <strong>{{ $dimensionScores['social'] }}</strong>
+                <strong>{{ $socialScoreValid ? $dimensionScores['social'] : 'Tidak valid' }}</strong>
             </div>
 
             <div class="dimension-pill dimension-dominant">
@@ -944,6 +949,14 @@
         </div>
     </div>
 </div>
+
+@if($missingItemCount === 1)
+    <div class="clinical-warning" style="margin-bottom:22px;">
+        <strong>Aturan data hilang:</strong>
+        Skor total tetap valid karena hanya satu item tidak terisi. Subskala yang memuat item kosong tidak valid,
+        sehingga profil domain dan kode keputusan tidak diterbitkan sampai asesmen dilengkapi atau diulang.
+    </div>
+@endif
 
 <div class="result-stat-grid">
     <div class="result-stat-card">
@@ -956,8 +969,8 @@
     <div class="result-stat-card">
         <div class="result-stat-icon">❓</div>
         <div class="label">Jumlah Pertanyaan</div>
-        <div class="number">{{ $answerCount }}</div>
-        <div class="stat-sub">Item assessment yang dijawab</div>
+        <div class="number">{{ $answerCount }} / 11</div>
+        <div class="stat-sub">Item assessment yang terisi</div>
     </div>
 
     <div class="result-stat-card">
@@ -1108,7 +1121,7 @@
                         </td>
 
                         <td data-label="Skor Item">
-                            <span class="answer-score">{{ $answer->score }}</span>
+                            <span class="answer-score">{{ $answer->is_missing ? '-' : $answer->score }}</span>
                         </td>
                     </tr>
                 @empty

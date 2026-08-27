@@ -218,26 +218,27 @@
     $perawatName = $assessment->patient->nama_perawat_pengisi
         ?? optional($assessment->user)->name
         ?? '-';
+    $administrationMode = ($assessment->administration_mode ?? 'mandiri') === 'dibacakan'
+        ? 'Dibacakan oleh perawat'
+        : 'Mandiri';
+    $missingItemCount = (int) ($assessment->missing_item_count ?? 0);
+    $answeredItemCount = $assessment->answers->where('is_missing', false)->count();
 
     $dimensionScores = [
-        'emotional' => 0,
-        'social' => 0,
+        'emotional' => (int) ($assessment->emotional_score ?? 0),
+        'social' => (int) ($assessment->social_score ?? 0),
     ];
-
-    foreach ($assessment->answers as $answer) {
-        $question = $answer->question;
-        $dimension = \App\Support\DeJongGierveldScale::dimensionForQuestion($question);
-
-        $dimensionScores[$dimension] += (int) ($answer->score ?? 0);
-    }
-
-    $decision = \App\Support\DeJongGierveldScale::decisionForScores(
-        $dimensionScores['emotional'],
-        $dimensionScores['social']
-    );
-    $dominantDimension = $assessment->decision_profile ?: $decision['profile'];
-    $decisionCode = $assessment->decision_code ?: $decision['code'];
-    $clinicalDecisionNote = $assessment->clinical_decision_note ?: $decision['clinical_decision_note'];
+    $emotionalScoreValid = (bool) ($assessment->emotional_score_valid ?? true);
+    $socialScoreValid = (bool) ($assessment->social_score_valid ?? true);
+    $decision = $missingItemCount === 0
+        ? \App\Support\DeJongGierveldScale::decisionForScores(
+            $dimensionScores['emotional'],
+            $dimensionScores['social']
+        )
+        : null;
+    $dominantDimension = $assessment->decision_profile ?: ($decision['profile'] ?? '-');
+    $decisionCode = $assessment->decision_code ?: ($decision['code'] ?? '-');
+    $clinicalDecisionNote = $assessment->clinical_decision_note ?: ($decision['clinical_decision_note'] ?? '-');
     $personalizationTriggers = collect($assessment->personalization_triggers ?? [])
         ->map(fn (string $trigger) => \App\Support\DeJongGierveldScale::personalizationTriggers()[$trigger] ?? null)
         ->filter()
@@ -290,6 +291,10 @@
                 <th>Perawat Pengisi</th>
                 <td>{{ $perawatName }}</td>
             </tr>
+            <tr>
+                <th>Cara Pengisian</th>
+                <td>{{ $administrationMode }}</td>
+            </tr>
         </table>
     </div>
 
@@ -311,12 +316,12 @@
 
             <div class="summary-card">
                 <div class="summary-label">Emotional Loneliness</div>
-                <div class="summary-value">{{ $dimensionScores['emotional'] }}</div>
+                <div class="summary-value">{{ $emotionalScoreValid ? $dimensionScores['emotional'] : 'Tidak valid' }}</div>
             </div>
 
             <div class="summary-card">
                 <div class="summary-label">Social Loneliness</div>
-                <div class="summary-value">{{ $dimensionScores['social'] }}</div>
+                <div class="summary-value">{{ $socialScoreValid ? $dimensionScores['social'] : 'Tidak valid' }}</div>
             </div>
 
             <div class="summary-card">
@@ -332,10 +337,18 @@
             </div>
 
             <div class="summary-card">
-                <div class="summary-label">Jumlah Pertanyaan</div>
-                <div class="summary-value">{{ $assessment->answers->count() }}</div>
+                <div class="summary-label">Jumlah Item Terisi</div>
+                <div class="summary-value">{{ $answeredItemCount }} / 11</div>
             </div>
         </div>
+
+        @if($missingItemCount === 1)
+            <div class="clinical-note" style="margin-top:14px;">
+                <strong>Aturan data hilang:</strong>
+                Skor total tetap valid karena hanya satu item tidak terisi. Subskala yang memuat item kosong tidak valid;
+                profil domain dan kode keputusan tidak diterbitkan.
+            </div>
+        @endif
     </div>
 
     <div class="section">
@@ -426,7 +439,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $answer->question->question_text ?? $answer->question->question ?? '-' }}</td>
                         <td>{{ $answer->answer_text }}</td>
-                        <td>{{ $answer->score }}</td>
+                        <td>{{ $answer->is_missing ? '-' : $answer->score }}</td>
                     </tr>
                 @endforeach
             </tbody>

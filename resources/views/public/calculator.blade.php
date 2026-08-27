@@ -785,7 +785,7 @@
                     </div>
                     <div class="benefit-chip">
                         <strong>Hasil langsung</strong>
-                        <span>Kategori tampil setelah semua pertanyaan lengkap.</span>
+                        <span>Skor total tampil setelah minimal 10 dari 11 pertanyaan terisi.</span>
                     </div>
                 </div>
             </div>
@@ -1043,25 +1043,43 @@
             let clinicalDecisionNote = '';
             let dominantDimension = '-';
 
-            if (answered === totalQuestions) {
+            if (answered >= totalQuestions - 1) {
                 const matched = interpretations.find(function(item) {
                     return totalScore >= item.min_score && totalScore <= item.max_score;
                 });
+                const unansweredCards = Array.from(document.querySelectorAll('.question-card')).filter(function(card) {
+                    return !card.querySelector('.answer-radio:checked');
+                });
+                const missingDimension = unansweredCards.length === 1
+                    ? unansweredCards[0].dataset.dimension
+                    : null;
 
                 if (matched) {
                     category = matched.category;
-                    const decision = decisionForScores(
-                        dimensionScores.emotional,
-                        dimensionScores.social,
-                        category
-                    );
+                    const decision = answered === totalQuestions
+                        ? decisionForScores(
+                            dimensionScores.emotional,
+                            dimensionScores.social,
+                            category
+                        )
+                        : null;
 
-                    dominantDimension = decision.profile;
-                    decisionCode = decision.code;
-                    interpretation = decision.interpretation || matched.interpretation;
-                    nursingRecommendation = decision.nursing_recommendation || '';
-                    familyRecommendation = decision.family_education_recommendation || '';
-                    clinicalDecisionNote = decision.clinical_decision_note || '';
+                    dominantDimension = decision
+                        ? decision.profile
+                        : 'Tidak dapat ditentukan karena satu subskala tidak lengkap';
+                    decisionCode = decision ? decision.code : '-';
+                    interpretation = decision
+                        ? (decision.interpretation || matched.interpretation)
+                        : matched.interpretation + ' Skor total tetap valid karena hanya satu item tidak terisi.';
+                    nursingRecommendation = decision
+                        ? (decision.nursing_recommendation || '')
+                        : 'Lengkapi item yang kosong atau lakukan asesmen ulang sebelum menggunakan rekomendasi berbasis profil emotional-social.';
+                    familyRecommendation = decision
+                        ? (decision.family_education_recommendation || '')
+                        : 'Pertahankan dukungan yang tenang dan familiar sesuai preferensi serta kondisi pasien.';
+                    clinicalDecisionNote = decision
+                        ? (decision.clinical_decision_note || '')
+                        : 'Kode keputusan tidak diterbitkan karena salah satu subskala tidak valid.';
 
                     if (category.toLowerCase().includes('tidak')) {
                         categoryClass = 'cat-low';
@@ -1087,8 +1105,18 @@
             document.getElementById('categoryPreview').innerText = category;
             document.getElementById('dominantDimensionFooter').innerText = dominantDimension;
             document.getElementById('resultScore').innerText = totalScore;
-            document.getElementById('resultEmotionalScore').innerText = dimensionScores.emotional;
-            document.getElementById('resultSocialScore').innerText = dimensionScores.social;
+            const missingCard = Array.from(document.querySelectorAll('.question-card')).find(function(card) {
+                return !card.querySelector('.answer-radio:checked');
+            });
+            const missingDimension = answered === totalQuestions - 1 && missingCard
+                ? missingCard.dataset.dimension
+                : null;
+            document.getElementById('resultEmotionalScore').innerText = missingDimension === 'emotional'
+                ? 'Tidak valid'
+                : dimensionScores.emotional;
+            document.getElementById('resultSocialScore').innerText = missingDimension === 'social'
+                ? 'Tidak valid'
+                : dimensionScores.social;
             document.getElementById('resultDominantDimension').innerText = dominantDimension;
             document.getElementById('resultDecisionCode').innerText = decisionCode;
             document.getElementById('resultCategory').innerHTML = category === '-'
@@ -1143,8 +1171,8 @@
         function scrollToResult() {
             const answered = document.querySelectorAll('.answer-radio:checked').length;
 
-            if (answered < questions.length) {
-                showPageNotice('Lengkapi semua pertanyaan terlebih dahulu untuk melihat hasil.');
+            if (answered < questions.length - 1) {
+                showPageNotice('Isi minimal 10 dari 11 pertanyaan untuk melihat skor total yang valid.');
                 return;
             }
 

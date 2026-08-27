@@ -89,4 +89,53 @@ class DeJongGierveldScaleTest extends TestCase
         $this->assertSame('high', DeJongGierveldScale::categoryRiskLevel('Kesepian tingkat berat'));
         $this->assertSame('high', DeJongGierveldScale::categoryRiskLevel('Kesepian tingkat sangat berat'));
     }
+
+    public function test_complete_responses_keep_both_subscales_valid_and_return_a_decision(): void
+    {
+        $result = DeJongGierveldScale::scoreResponses(array_fill(1, 11, 1));
+
+        $this->assertSame(0, $result['missing_item_count']);
+        $this->assertTrue($result['emotional_score_valid']);
+        $this->assertTrue($result['social_score_valid']);
+        $this->assertNotNull($result['code']);
+    }
+
+    public function test_one_missing_emotional_item_keeps_total_valid_but_invalidates_emotional_subscale(): void
+    {
+        $responses = array_fill(1, 11, 1);
+        $responses[2] = null;
+
+        $result = DeJongGierveldScale::scoreResponses($responses);
+
+        $this->assertSame(1, $result['missing_item_count']);
+        $this->assertSame(5, $result['total_score']);
+        $this->assertFalse($result['emotional_score_valid']);
+        $this->assertTrue($result['social_score_valid']);
+        $this->assertNull($result['code']);
+        $this->assertStringContainsString('skor total tetap valid', mb_strtolower($result['interpretation']));
+    }
+
+    public function test_one_missing_social_item_invalidates_only_social_subscale(): void
+    {
+        $responses = array_fill(1, 11, 1);
+        $responses[1] = null;
+
+        $result = DeJongGierveldScale::scoreResponses($responses);
+
+        $this->assertTrue($result['emotional_score_valid']);
+        $this->assertFalse($result['social_score_valid']);
+        $this->assertNull($result['code']);
+    }
+
+    public function test_more_than_one_missing_item_is_rejected(): void
+    {
+        $responses = array_fill(1, 11, 1);
+        $responses[1] = null;
+        $responses[2] = null;
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Maksimal satu item');
+
+        DeJongGierveldScale::scoreResponses($responses);
+    }
 }

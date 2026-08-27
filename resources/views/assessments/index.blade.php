@@ -298,6 +298,9 @@
 
                         <td>
                             <span class="score-pill">{{ $assessment->total_score }}</span>
+                            @if((int) ($assessment->missing_item_count ?? 0) === 1)
+                                <div class="muted" style="margin-top:5px;">10/11 item terisi</div>
+                            @endif
                         </td>
 
                         <td>

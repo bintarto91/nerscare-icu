@@ -11,6 +11,11 @@ class AssessmentAnswer extends Model
         'assessment_question_id',
         'answer_text',
         'score',
+        'is_missing',
+    ];
+
+    protected $casts = [
+        'is_missing' => 'boolean',
     ];
 
     public function assessment()

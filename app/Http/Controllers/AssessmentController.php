@@ -8,6 +8,7 @@ use App\Models\AssessmentQuestion;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use App\Models\SiteSetting;
 use App\Support\DeJongGierveldScale;
 
@@ -115,6 +116,8 @@ class AssessmentController extends Controller
 
         $rules = [
             'assessment_date' => ['required', 'date'],
+            'administration_mode' => ['required', 'string', Rule::in(['mandiri', 'dibacakan'])],
+            'answers' => ['nullable', 'array'],
             'notes' => ['nullable', 'string'],
             'personalization_triggers' => ['nullable', 'array'],
             'personalization_triggers.*' => [
@@ -130,34 +133,24 @@ class AssessmentController extends Controller
         ];
 
         foreach ($questions as $question) {
-            $rules['answers.' . $question->id] = ['required', 'integer', 'min:1', 'max:5'];
+            $rules['answers.' . $question->id] = ['nullable', 'integer', 'min:1', 'max:5'];
         }
 
         $validated = $request->validate($rules);
 
-        $scoredAnswers = [];
-        $dimensionScores = [
-            'emotional' => 0,
-            'social' => 0,
-        ];
+        $responsesByItem = [];
 
         foreach ($questions as $question) {
-            $answerValue = (int) $validated['answers'][$question->id];
-            $itemScore = DeJongGierveldScale::scoreAnswer((int) $question->sort_order, $answerValue);
-
-            $scoredAnswers[$question->id] = [
-                'answer_value' => $answerValue,
-                'score' => $itemScore,
-            ];
-
-            $dimension = DeJongGierveldScale::dimensionForQuestion($question);
-            $dimensionScores[$dimension] += $itemScore;
+            $responsesByItem[(int) $question->sort_order] = $validated['answers'][$question->id] ?? null;
         }
 
-        $result = DeJongGierveldScale::decisionForScores(
-            $dimensionScores['emotional'],
-            $dimensionScores['social']
-        );
+        try {
+            $result = DeJongGierveldScale::scoreResponses($responsesByItem);
+        } catch (\InvalidArgumentException $exception) {
+            throw ValidationException::withMessages([
+                'answers' => $exception->getMessage(),
+            ]);
+        }
 
         $personalizationTriggers = array_values($validated['personalization_triggers'] ?? []);
         $safetyAlerts = array_values($validated['safety_alerts'] ?? []);
@@ -167,9 +160,13 @@ class AssessmentController extends Controller
             'patient_id' => $patient->id,
             'user_id' => auth()->id(),
             'assessment_date' => $validated['assessment_date'],
+            'administration_mode' => $validated['administration_mode'],
             'total_score' => $result['total_score'],
+            'missing_item_count' => $result['missing_item_count'],
             'emotional_score' => $result['emotional_score'],
+            'emotional_score_valid' => $result['emotional_score_valid'],
             'social_score' => $result['social_score'],
+            'social_score_valid' => $result['social_score_valid'],
             'category' => $result['category'],
             'decision_code' => $result['code'],
             'decision_profile' => $result['profile'],
@@ -187,14 +184,17 @@ class AssessmentController extends Controller
         ]);
 
         foreach ($questions as $question) {
-            $answerValue = $scoredAnswers[$question->id]['answer_value'];
-            $score = $scoredAnswers[$question->id]['score'];
+            $scoredResponse = $result['scored_responses'][(int) $question->sort_order];
+            $isMissing = $scoredResponse === null;
+            $answerValue = $isMissing ? null : $scoredResponse['answer_value'];
+            $score = $isMissing ? 0 : $scoredResponse['score'];
 
             AssessmentAnswer::create([
                 'assessment_id' => $assessment->id,
                 'assessment_question_id' => $question->id,
-                'answer_text' => $this->scoreLabel($answerValue),
+                'answer_text' => $isMissing ? 'Tidak diisi' : $this->scoreLabel($answerValue),
                 'score' => $score,
+                'is_missing' => $isMissing,
             ]);
         }
 
