@@ -42,6 +42,43 @@
             text-decoration: none;
         }
 
+        .back-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 50;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .95);
+            border: 1px solid rgba(15, 118, 110, .18);
+            color: var(--teal-deep);
+            font-size: 13px;
+            font-weight: 900;
+            box-shadow: 0 10px 26px rgba(8, 47, 73, .18);
+            backdrop-filter: blur(6px);
+            transition: .18s;
+        }
+
+        .back-home:hover {
+            background: white;
+            box-shadow: 0 14px 32px rgba(8, 47, 73, .24);
+            transform: translateY(-1px);
+        }
+
+        .back-home svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2.4;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .page {
             min-height: 100vh;
             display: grid;
@@ -413,9 +450,30 @@
                 min-height: 52px;
             }
         }
+
+        @media(max-width: 480px) {
+            .back-home {
+                top: 14px;
+                left: 14px;
+                width: 42px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            .back-home span {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <a href="{{ route('public.landing') }}" class="back-home" aria-label="Kembali ke beranda">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6"/>
+        </svg>
+        <span>Kembali ke Beranda</span>
+    </a>
+
     <main class="page">
         <section class="intro">
             <div class="intro-inner">
