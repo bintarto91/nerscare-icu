@@ -140,7 +140,7 @@
         }
 
         .reader {
-            padding: 38px 0 48px;
+            padding: 26px 0 44px;
         }
 
         .reader-intro {
@@ -148,7 +148,7 @@
             grid-template-columns: minmax(0, 1fr) auto;
             gap: 28px;
             align-items: end;
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
 
         .eyebrow {
@@ -168,7 +168,7 @@
         h1 {
             max-width: 820px;
             margin: 12px 0 10px;
-            font-size: clamp(30px, 4.2vw, 48px);
+            font-size: clamp(28px, 3.5vw, 40px);
             line-height: 1.08;
             letter-spacing: -1.15px;
         }
@@ -324,8 +324,8 @@
         .viewer-toolbar {
             min-height: 64px;
             display: grid;
-            grid-template-columns: minmax(170px, 1fr) minmax(180px, 320px) auto;
-            gap: 18px;
+            grid-template-columns: auto minmax(160px, 1fr) minmax(160px, 260px) auto;
+            gap: 14px;
             align-items: center;
             padding: 11px 16px;
             border-bottom: 1px solid var(--line);
@@ -385,10 +385,10 @@
 
         .page-stage {
             position: relative;
-            min-height: 660px;
+            min-height: 580px;
             display: grid;
             place-items: center;
-            padding: 26px;
+            padding: 22px 22px 42px;
             touch-action: pan-y;
             perspective: 2400px;
             background:
@@ -399,13 +399,105 @@
             background-size: 24px 24px;
         }
 
-        .flipbook {
+        .reader-book-wrap {
             position: relative;
-            width: min(100%, 1040px);
-            display: flex;
+            width: min(100%, 820px);
             aspect-ratio: 2380 / 1684;
+            perspective: 2400px;
+        }
+
+        .reader-closed-cover {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 12;
+            width: 43%;
+            aspect-ratio: 1190 / 1684;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+            border-radius: 5px 15px 15px 5px;
+            background: white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transform-origin: left center;
+            box-shadow:
+                5px 5px 0 -1px #f5f7f8,
+                9px 9px 0 -2px #dfe7ea,
+                13px 13px 0 -3px #cbd7dc,
+                0 28px 52px rgba(15, 43, 58, .3);
+            transition: opacity .62s cubic-bezier(.62, .02, .28, 1), transform .62s cubic-bezier(.62, .02, .28, 1);
+        }
+
+        .reader-closed-cover:hover {
+            transform: translate(-50%, -50%) translateY(-3px);
+        }
+
+        .reader-closed-cover img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reader-open-hint {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            background: rgba(16, 33, 43, .7);
+            color: white;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: .25px;
+            pointer-events: none;
+        }
+
+        .reader-book-wrap.is-open .reader-closed-cover {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) rotateY(-145deg) scale(.92);
+        }
+
+        .flipbook {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            display: flex;
+            opacity: 0;
+            transform: scale(.93);
             transform-style: preserve-3d;
+            pointer-events: none;
             filter: drop-shadow(0 28px 32px rgba(15, 43, 58, .22));
+            transition: opacity .58s cubic-bezier(.62, .02, .28, 1), transform .58s cubic-bezier(.62, .02, .28, 1);
+        }
+
+        .reader-book-wrap.is-open .flipbook {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .flipbook::before,
+        .flipbook::after {
+            position: absolute;
+            z-index: -2;
+            inset: 7px;
+            border-radius: 9px;
+            background: white;
+            content: '';
+            box-shadow: 0 12px 24px rgba(15, 43, 58, .12);
+        }
+
+        .flipbook::before {
+            transform: translate(9px, -7px);
+            opacity: .55;
+        }
+
+        .flipbook::after {
+            transform: translate(-9px, 7px);
+            opacity: .38;
         }
 
         .book-page {
@@ -417,6 +509,15 @@
                 linear-gradient(90deg, rgba(16, 33, 43, .025), transparent 7%),
                 white;
             transition: opacity .18s ease;
+        }
+
+        .book-page::after {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(15, 43, 58, .08);
+            content: '';
+            pointer-events: none;
+            box-shadow: inset 0 -5px 0 rgba(15, 43, 58, .035);
         }
 
         .book-page.left {
@@ -618,7 +719,7 @@
             }
 
             .viewer-toolbar {
-                grid-template-columns: minmax(0, 1fr) auto;
+                grid-template-columns: auto minmax(0, 1fr) auto;
             }
 
             .page-range {
@@ -632,9 +733,18 @@
         }
 
         @media(max-width: 899px) {
-            .flipbook {
+            .reader-book-wrap {
                 width: min(100%, 620px);
                 aspect-ratio: 1190 / 1684;
+            }
+
+            .reader-closed-cover {
+                width: 100%;
+            }
+
+            .flipbook {
+                width: 100%;
+                aspect-ratio: auto;
             }
 
             .book-page.left {
@@ -693,6 +803,17 @@
             .viewer-toolbar {
                 min-height: 58px;
                 padding: 8px 10px;
+                grid-template-columns: minmax(0, 1fr) auto;
+            }
+
+            .reader-audience-switch {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+
+            .reader-audience-switch a {
+                flex: 1;
+                justify-content: center;
             }
 
             .viewer-buttons button {
@@ -724,6 +845,11 @@
                 scroll-behavior: auto !important;
                 transition: none !important;
             }
+
+            .reader-closed-cover,
+            .flipbook {
+                transition: none !important;
+            }
         }
     </style>
 </head>
@@ -744,10 +870,6 @@
             </a>
 
             <div class="topbar-actions">
-                <nav class="audience-switch" aria-label="Pilih booklet">
-                    <a href="{{ route('public.booklet', 'keluarga') }}" class="{{ $audience === 'keluarga' ? 'active' : '' }}" @if($audience === 'keluarga') aria-current="page" @endif>Keluarga</a>
-                    <a href="{{ route('public.booklet', 'perawat') }}" class="{{ $audience === 'perawat' ? 'active' : '' }}" @if($audience === 'perawat') aria-current="page" @endif>Perawat</a>
-                </nav>
                 <a class="back-link" href="{{ route('public.landing') }}#booklet-edukasi">Kembali ke beranda</a>
             </div>
         </div>
@@ -794,9 +916,14 @@
             <div>
                 <div class="document-viewer">
                     <div class="viewer-toolbar">
+                        <nav class="audience-switch reader-audience-switch" aria-label="Pilih booklet">
+                            <a href="{{ route('public.booklet', 'keluarga') }}" class="{{ $audience === 'keluarga' ? 'active' : '' }}" @if($audience === 'keluarga') aria-current="page" @endif>Keluarga</a>
+                            <a href="{{ route('public.booklet', 'perawat') }}" class="{{ $audience === 'perawat' ? 'active' : '' }}" @if($audience === 'perawat') aria-current="page" @endif>Perawat</a>
+                        </nav>
+
                         <div class="page-status" aria-live="polite">
-                            <strong id="pageStatus">Halaman 1 dari {{ $booklet['page_count'] }}</strong>
-                            <span>Flipbook responsif: klik, geser, atau gunakan panah keyboard</span>
+                            <strong id="pageStatus">Sampul · klik untuk membuka</strong>
+                            <span>Flipbook manual: klik, geser, atau gunakan panah keyboard</span>
                         </div>
 
                         <input
@@ -817,26 +944,27 @@
                     </div>
 
                     <div class="page-stage" id="pageStage">
-                        <div class="flipbook" id="flipbook" aria-label="Flipbook {{ $booklet['title'] }}">
-                            <div class="book-page left blank" id="leftPage" aria-hidden="true">
-                                <img id="leftPageImage" src="{{ $firstPage['src'] }}" alt="" decoding="async">
-                            </div>
-                            <div class="book-page right" id="rightPage">
-                                <img
-                                    id="rightPageImage"
-                                    src="{{ $firstPage['src'] }}"
-                                    alt="{{ $firstPage['alt'] }}"
-                                    fetchpriority="high"
-                                    decoding="async"
-                                >
-                            </div>
-                            <div class="book-spine" aria-hidden="true"></div>
-                            <div class="turn-sheet" id="turnSheet" aria-hidden="true">
-                                <div class="turn-face turn-front">
-                                    <img id="turnFrontImage" src="{{ $firstPage['src'] }}" alt="">
+                        <div class="reader-book-wrap" id="readerBookWrap">
+                            <button type="button" class="reader-closed-cover" id="readerClosedCover" aria-label="Buka {{ $booklet['title'] }}">
+                                <img id="readerCoverImage" src="{{ $firstPage['src'] }}" alt="{{ $firstPage['alt'] }}" fetchpriority="high" decoding="async">
+                                <span class="reader-open-hint">Klik untuk membuka</span>
+                            </button>
+
+                            <div class="flipbook" id="flipbook" aria-label="Flipbook {{ $booklet['title'] }}">
+                                <div class="book-page left blank" id="leftPage" aria-hidden="true">
+                                    <img id="leftPageImage" src="{{ $firstPage['src'] }}" alt="" decoding="async">
                                 </div>
-                                <div class="turn-face turn-back">
-                                    <img id="turnBackImage" src="{{ $firstPage['src'] }}" alt="">
+                                <div class="book-page right" id="rightPage">
+                                    <img id="rightPageImage" src="{{ $firstPage['src'] }}" alt="{{ $firstPage['alt'] }}" decoding="async">
+                                </div>
+                                <div class="book-spine" aria-hidden="true"></div>
+                                <div class="turn-sheet" id="turnSheet" aria-hidden="true">
+                                    <div class="turn-face turn-front">
+                                        <img id="turnFrontImage" src="{{ $firstPage['src'] }}" alt="">
+                                    </div>
+                                    <div class="turn-face turn-back">
+                                        <img id="turnBackImage" src="{{ $firstPage['src'] }}" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -858,6 +986,8 @@
     <script>
         const bookletPages = @json($bookletPages);
         const bookletTitle = @json($booklet['title']);
+        const readerBookWrap = document.getElementById('readerBookWrap');
+        const readerClosedCover = document.getElementById('readerClosedCover');
         const flipbook = document.getElementById('flipbook');
         const leftPage = document.getElementById('leftPage');
         const rightPage = document.getElementById('rightPage');
@@ -878,6 +1008,7 @@
         let activePageIndex = Number.isInteger(requestedPage)
             ? Math.min(Math.max(requestedPage - 1, 0), bookletPages.length - 1)
             : 0;
+        let readerOpened = activePageIndex > 0;
         let pointerStartX = null;
         let isTurning = false;
 
@@ -946,6 +1077,31 @@
         }
 
         function renderPages(options = {}) {
+            readerBookWrap.classList.toggle('is-open', readerOpened);
+
+            if (!readerOpened) {
+                activePageIndex = 0;
+                pageStatus.textContent = 'Sampul \u00b7 klik untuk membuka';
+                pageRange.value = 1;
+                pageProgress.style.width = (1 / bookletPages.length * 100) + '%';
+                previousPage.disabled = true;
+                nextPage.disabled = isTurning || bookletPages.length < 2;
+                nextPage.setAttribute('aria-label', 'Buka booklet');
+                nextPage.title = 'Buka booklet';
+                thumbnailButtons.forEach(function(button, index) {
+                    button.classList.toggle('active', index === 0);
+                    if (index === 0) {
+                        button.setAttribute('aria-current', 'page');
+                    } else {
+                        button.removeAttribute('aria-current');
+                    }
+                });
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', 1);
+                window.history.replaceState({}, '', url);
+                return;
+            }
+
             activePageIndex = normalizePageIndex(activePageIndex);
             const visibleIndexes = visiblePageIndexes();
             const actualIndexes = visibleIndexes.filter(index => index !== null);
@@ -965,8 +1121,10 @@
                 : 'Halaman ' + firstNumber + '\u2013' + lastNumber + ' dari ' + bookletPages.length;
             pageRange.value = firstNumber;
             pageProgress.style.width = ((lastNumber / bookletPages.length) * 100) + '%';
-            previousPage.disabled = targetPageIndex(-1) === null || isTurning;
+            previousPage.disabled = isTurning;
             nextPage.disabled = targetPageIndex(1) === null || isTurning;
+            nextPage.setAttribute('aria-label', 'Halaman berikutnya');
+            nextPage.title = 'Halaman berikutnya';
 
             thumbnailButtons.forEach(function(button, index) {
                 const isActive = actualIndexes.includes(index);
@@ -995,9 +1153,41 @@
             }
         }
 
+        function openReaderBook() {
+            if (readerOpened || isTurning || bookletPages.length < 2) {
+                return;
+            }
+            readerOpened = true;
+            activePageIndex = 1;
+            renderPages();
+        }
+
+        function closeReaderBook() {
+            if (!readerOpened || isTurning) {
+                return;
+            }
+            readerOpened = false;
+            activePageIndex = 0;
+            renderPages();
+        }
+
         function changePage(direction) {
+            if (isTurning) {
+                return;
+            }
+            if (!readerOpened) {
+                if (direction > 0) {
+                    openReaderBook();
+                }
+                return;
+            }
+            if (direction < 0 && activePageIndex <= 1) {
+                closeReaderBook();
+                return;
+            }
+
             const nextIndex = targetPageIndex(direction);
-            if (nextIndex === null || isTurning) {
+            if (nextIndex === null) {
                 return;
             }
 
@@ -1037,21 +1227,39 @@
                 if (isTurning) {
                     return;
                 }
-                activePageIndex = Number.parseInt(button.dataset.pageIndex, 10);
+                const selectedIndex = Number.parseInt(button.dataset.pageIndex, 10);
+                if (selectedIndex === 0) {
+                    closeReaderBook();
+                    return;
+                }
+                readerOpened = true;
+                activePageIndex = selectedIndex;
                 renderPages({ scrollThumbnail: false });
             });
         });
+
+        readerClosedCover.addEventListener('click', openReaderBook);
 
         previousPage.addEventListener('click', function() {
             changePage(-1);
         });
 
         nextPage.addEventListener('click', function() {
-            changePage(1);
+            if (readerOpened) {
+                changePage(1);
+            } else {
+                openReaderBook();
+            }
         });
 
         pageRange.addEventListener('input', function() {
-            activePageIndex = Number.parseInt(pageRange.value, 10) - 1;
+            const selectedIndex = Number.parseInt(pageRange.value, 10) - 1;
+            if (selectedIndex === 0) {
+                closeReaderBook();
+                return;
+            }
+            readerOpened = true;
+            activePageIndex = selectedIndex;
             renderPages();
         });
 
@@ -1061,9 +1269,15 @@
             }
 
             if (event.key === 'ArrowLeft') {
-                changePage(-1);
+                if (readerOpened) {
+                    changePage(-1);
+                }
             } else if (event.key === 'ArrowRight') {
-                changePage(1);
+                if (readerOpened) {
+                    changePage(1);
+                } else {
+                    openReaderBook();
+                }
             }
         });
 
@@ -1078,6 +1292,11 @@
 
             const distance = event.clientX - pointerStartX;
             pointerStartX = null;
+
+            if (!readerOpened) {
+                openReaderBook();
+                return;
+            }
 
             if (Math.abs(distance) >= 45) {
                 changePage(distance > 0 ? -1 : 1);

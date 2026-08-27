@@ -51,10 +51,11 @@ class ExampleTest extends TestCase
         $response
             ->assertOk()
             ->assertSee('Pilih halaman')
-            ->assertSee('Halaman 1 dari 10')
+            ->assertSee('Sampul · klik untuk membuka')
             ->assertSee('booklets/keluarga/page-01.jpg', false)
             ->assertSee('id="flipbook"', false)
-            ->assertSee('Flipbook responsif')
+            ->assertSee('id="readerClosedCover"', false)
+            ->assertSee('Flipbook manual')
             ->assertSee('turnPageNext', false)
             ->assertDontSee('Otomatis membuka halaman');
     }
@@ -132,7 +133,8 @@ class ExampleTest extends TestCase
         $this->get('/booklet/keluarga')
             ->assertOk()
             ->assertSee($page->image_path, false)
-            ->assertSee('Halaman 1 dari 11');
+            ->assertSee('11 halaman')
+            ->assertSee('Sampul · klik untuk membuka');
     }
 
     public function test_non_admin_cannot_manage_booklets(): void

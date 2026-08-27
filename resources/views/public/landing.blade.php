@@ -2311,13 +2311,14 @@
         }
 
         .home-flipbook-toolbar {
+            position: relative;
+            z-index: 3;
             min-height: 72px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 18px;
             padding: 13px 18px;
-            border-bottom: 1px solid #dce7eb;
             background: #f9fbfc;
         }
 
@@ -2356,10 +2357,10 @@
 
         .home-flipbook-stage {
             position: relative;
-            min-height: 570px;
+            min-height: 430px;
             display: grid;
             place-items: center;
-            padding: 26px;
+            padding: 22px 22px 40px;
             perspective: 2400px;
             touch-action: pan-y;
             background:
@@ -2367,13 +2368,110 @@
                 linear-gradient(135deg, var(--home-accent-soft), #edf3f5 72%);
         }
 
-        .home-book {
+        .home-book-wrap {
             position: relative;
-            width: min(100%, 920px);
-            display: flex;
+            width: min(100%, 720px);
             aspect-ratio: 2380 / 1684;
+        }
+
+        .home-closed-cover {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 5;
+            width: 44%;
+            aspect-ratio: 1190 / 1684;
+            padding: 0;
+            border: 0;
+            border-radius: 5px 15px 15px 5px;
+            overflow: hidden;
+            background: white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            box-shadow:
+                5px 5px 0 -1px #eef3f5,
+                9px 9px 0 -2px #dfe8eb,
+                13px 12px 0 -3px #cfdbe0,
+                0 26px 48px rgba(16, 50, 66, .28);
+            transition: opacity .5s cubic-bezier(.62, .02, .28, 1), transform .5s cubic-bezier(.62, .02, .28, 1);
+        }
+
+        .home-closed-cover:hover {
+            transform: translate(-50%, -50%) translateY(-3px);
+        }
+
+        .home-closed-cover img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .home-closed-cover .home-open-hint {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 12px;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .home-closed-cover .home-open-hint span {
+            padding: 7px 13px;
+            border-radius: 999px;
+            background: rgba(16, 33, 43, .64);
+            backdrop-filter: blur(6px);
+            color: white;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: .35px;
+            text-transform: uppercase;
+        }
+
+        .home-book-wrap.is-open .home-closed-cover {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%) rotateY(-35deg) scale(.94);
+        }
+
+        .home-book {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            opacity: 0;
+            transform: scale(.93);
             transform-style: preserve-3d;
+            pointer-events: none;
             filter: drop-shadow(0 25px 28px rgba(16, 50, 66, .23));
+            transition: opacity .5s cubic-bezier(.62, .02, .28, 1), transform .5s cubic-bezier(.62, .02, .28, 1);
+        }
+
+        .home-book::before,
+        .home-book::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 8px;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .home-book::before {
+            transform: translate(8px, -6px);
+            opacity: .5;
+            box-shadow: 0 14px 26px rgba(16, 50, 66, .1);
+        }
+
+        .home-book::after {
+            transform: translate(-8px, 6px);
+            opacity: .35;
+        }
+
+        .home-book-wrap.is-open .home-book {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
         }
 
         .home-book-page {
@@ -2476,14 +2574,22 @@
         }
 
         .home-flipbook-controls {
-            min-height: 62px;
+            position: relative;
+            z-index: 4;
+            width: fit-content;
+            max-width: calc(100% - 32px);
+            min-height: 54px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 14px;
-            padding: 10px 18px;
-            border-top: 1px solid #dce7eb;
-            border-bottom: 1px solid #dce7eb;
+            margin: -34px auto 0;
+            padding: 8px 18px;
+            border: 1px solid rgba(215, 229, 233, .9);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 14px 30px rgba(16, 50, 66, .16);
             color: #5b6f7d;
             font-size: 12px;
             font-weight: 800;
@@ -2511,7 +2617,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 28px;
-            padding: 22px 24px 24px;
+            padding: 30px 24px 24px;
         }
 
         .home-flipbook-details h3 {
@@ -2555,12 +2661,16 @@
         @media(max-width: 899px) {
             .home-flipbook-stage {
                 min-height: 0;
-                padding: 16px;
+                padding: 14px 14px 34px;
             }
 
-            .home-book {
-                width: min(100%, 570px);
+            .home-book-wrap {
+                width: min(100%, 420px);
                 aspect-ratio: 1190 / 1684;
+            }
+
+            .home-closed-cover {
+                width: 100%;
             }
 
             .home-book-page.left {
@@ -2614,7 +2724,7 @@
             }
 
             .home-flipbook-stage {
-                padding: 10px;
+                padding: 10px 10px 28px;
             }
 
             .home-flipbook-controls span {
@@ -2641,6 +2751,11 @@
             .home-book.turn-next .home-turn-sheet,
             .home-book.turn-previous .home-turn-sheet {
                 animation: none;
+            }
+
+            .home-closed-cover,
+            .home-book {
+                transition: none;
             }
         }
     </style>
@@ -2751,21 +2866,28 @@
                         <button type="button" class="active" data-home-audience="family" aria-pressed="true">Untuk Keluarga</button>
                         <button type="button" data-home-audience="nurse" aria-pressed="false">Untuk Perawat</button>
                     </div>
-                    <div class="home-page-status" id="homePageStatus" aria-live="polite">Halaman 1 dari {{ count($homeBooklets['family']['pages']) }}</div>
+                    <div class="home-page-status" id="homePageStatus" aria-live="polite">Sampul · ketuk untuk membuka</div>
                 </div>
 
                 <div class="home-flipbook-stage" id="homeFlipbookStage" tabindex="0" aria-label="Balik halaman booklet">
-                    <div class="home-book" id="homeBook" aria-label="Pratinjau flipbook edukasi">
-                        <div class="home-book-page left blank" id="homeLeftPage" aria-hidden="true">
-                            <img id="homeLeftImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="">
-                        </div>
-                        <div class="home-book-page right" id="homeRightPage">
-                            <img id="homeRightImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="Halaman 1 booklet keluarga">
-                        </div>
-                        <div class="home-book-spine" aria-hidden="true"></div>
-                        <div class="home-turn-sheet" id="homeTurnSheet" aria-hidden="true">
-                            <div class="home-turn-face front"><img id="homeTurnFront" src="{{ $homeBooklets['family']['pages'][0] }}" alt=""></div>
-                            <div class="home-turn-face back"><img id="homeTurnBack" src="{{ $homeBooklets['family']['pages'][0] }}" alt=""></div>
+                    <div class="home-book-wrap" id="homeBookWrap">
+                        <button type="button" class="home-closed-cover" id="homeClosedCover" aria-label="Buka booklet edukasi">
+                            <img id="homeCoverImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="Sampul booklet keluarga">
+                            <span class="home-open-hint"><span>Ketuk untuk membuka</span></span>
+                        </button>
+
+                        <div class="home-book" id="homeBook" aria-label="Pratinjau flipbook edukasi">
+                            <div class="home-book-page left blank" id="homeLeftPage" aria-hidden="true">
+                                <img id="homeLeftImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="">
+                            </div>
+                            <div class="home-book-page right" id="homeRightPage">
+                                <img id="homeRightImage" src="{{ $homeBooklets['family']['pages'][0] }}" alt="Halaman 1 booklet keluarga">
+                            </div>
+                            <div class="home-book-spine" aria-hidden="true"></div>
+                            <div class="home-turn-sheet" id="homeTurnSheet" aria-hidden="true">
+                                <div class="home-turn-face front"><img id="homeTurnFront" src="{{ $homeBooklets['family']['pages'][0] }}" alt=""></div>
+                                <div class="home-turn-face back"><img id="homeTurnBack" src="{{ $homeBooklets['family']['pages'][0] }}" alt=""></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2773,7 +2895,7 @@
                 <div class="home-flipbook-controls">
                     <button type="button" id="homePreviousPage" aria-label="Halaman booklet sebelumnya" disabled>&larr;</button>
                     <span>Otomatis setiap {{ $bookletSettings['booklet_autoplay_seconds'] }} detik · klik, geser, atau gunakan tombol</span>
-                    <button type="button" id="homeNextPage" aria-label="Halaman booklet berikutnya">&rarr;</button>
+                    <button type="button" id="homeNextPage" aria-label="Buka booklet">&rarr;</button>
                 </div>
 
                 <div class="home-flipbook-details">
@@ -3019,6 +3141,9 @@
         const homeBooklets = @json($homeBooklets);
         const homeAutoplayMilliseconds = {{ (int) $bookletSettings['booklet_autoplay_seconds'] * 1000 }};
         const homePanel = document.getElementById('homeFlipbookPanel');
+        const homeBookWrap = document.getElementById('homeBookWrap');
+        const homeClosedCover = document.getElementById('homeClosedCover');
+        const homeCoverImage = document.getElementById('homeCoverImage');
         const homeBook = document.getElementById('homeBook');
         const homeStage = document.getElementById('homeFlipbookStage');
         const homeLeftPage = document.getElementById('homeLeftPage');
@@ -3040,6 +3165,7 @@
         const homeReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         let homeAudience = 'family';
         let homeActiveIndex = 0;
+        let homeOpened = false;
         let homePointerStartX = null;
         let homeIsTurning = false;
         let homeAutoplayTimer = null;
@@ -3106,6 +3232,31 @@
 
         function renderHomeFlipbook() {
             const booklet = homeBooklets[homeAudience];
+            homeCoverImage.src = booklet.pages[0];
+            homeCoverImage.alt = 'Sampul booklet ' + booklet.label.toLowerCase();
+            homeBookWrap.classList.toggle('is-open', homeOpened);
+            homePanel.classList.toggle('family', homeAudience === 'family');
+            homePanel.classList.toggle('nurse', homeAudience === 'nurse');
+            homeAudienceBadge.textContent = booklet.label;
+            homeBookletTitle.textContent = booklet.title;
+            homeBookletDescription.textContent = booklet.description;
+            homeReaderLink.href = booklet.reader;
+            homePdfLink.href = booklet.pdf;
+
+            homeAudienceButtons.forEach(function(button) {
+                const active = button.dataset.homeAudience === homeAudience;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+
+            if (!homeOpened) {
+                homePageStatus.textContent = 'Sampul \u00b7 ketuk untuk membuka';
+                homePreviousPage.disabled = true;
+                homeNextPage.disabled = homeIsTurning;
+                homeNextPage.setAttribute('aria-label', 'Buka booklet');
+                return;
+            }
+
             homeActiveIndex = normalizeHomeIndex(homeActiveIndex);
             const visible = visibleHomeIndexes();
             const actual = visible.filter(index => index !== null);
@@ -3123,21 +3274,27 @@
             homePageStatus.textContent = first === last
                 ? 'Halaman ' + first + ' dari ' + booklet.pages.length
                 : 'Halaman ' + first + '\u2013' + last + ' dari ' + booklet.pages.length;
-            homePreviousPage.disabled = targetHomeIndex(-1) === null || homeIsTurning;
+            homeNextPage.setAttribute('aria-label', 'Halaman booklet berikutnya');
+            homePreviousPage.disabled = homeIsTurning;
             homeNextPage.disabled = targetHomeIndex(1) === null || homeIsTurning;
-            homePanel.classList.toggle('family', homeAudience === 'family');
-            homePanel.classList.toggle('nurse', homeAudience === 'nurse');
-            homeAudienceBadge.textContent = booklet.label;
-            homeBookletTitle.textContent = booklet.title;
-            homeBookletDescription.textContent = booklet.description;
-            homeReaderLink.href = booklet.reader;
-            homePdfLink.href = booklet.pdf;
+        }
 
-            homeAudienceButtons.forEach(function(button) {
-                const active = button.dataset.homeAudience === homeAudience;
-                button.classList.toggle('active', active);
-                button.setAttribute('aria-pressed', active ? 'true' : 'false');
-            });
+        function openHomeBook() {
+            if (homeOpened || homeIsTurning) {
+                return;
+            }
+            homeOpened = true;
+            homeActiveIndex = homeBooklets[homeAudience].pages.length > 1 ? 1 : 0;
+            renderHomeFlipbook();
+        }
+
+        function closeHomeBook() {
+            if (!homeOpened || homeIsTurning) {
+                return;
+            }
+            homeOpened = false;
+            homeActiveIndex = 0;
+            renderHomeFlipbook();
         }
 
         function changeHomePage(direction, automated = false) {
@@ -3145,10 +3302,15 @@
             if (homeIsTurning) {
                 return;
             }
+            if (direction < 0 && homeOpened && homeActiveIndex <= 1) {
+                if (!automated) {
+                    closeHomeBook();
+                }
+                return;
+            }
             if (nextIndex === null) {
                 if (automated) {
-                    homeActiveIndex = 0;
-                    renderHomeFlipbook();
+                    closeHomeBook();
                 }
                 return;
             }
@@ -3193,12 +3355,25 @@
                 }
                 homeAudience = button.dataset.homeAudience;
                 homeActiveIndex = 0;
+                homeOpened = false;
                 renderHomeFlipbook();
             });
         });
 
+        homeClosedCover.addEventListener('click', function() {
+            stopHomeAutoplay();
+            openHomeBook();
+        });
+
         homePreviousPage.addEventListener('click', function() { stopHomeAutoplay(); changeHomePage(-1); });
-        homeNextPage.addEventListener('click', function() { stopHomeAutoplay(); changeHomePage(1); });
+        homeNextPage.addEventListener('click', function() {
+            stopHomeAutoplay();
+            if (!homeOpened) {
+                openHomeBook();
+                return;
+            }
+            changeHomePage(1);
+        });
 
         homeStage.addEventListener('pointerdown', function(event) {
             stopHomeAutoplay();
@@ -3211,6 +3386,12 @@
             }
             const distance = event.clientX - homePointerStartX;
             homePointerStartX = null;
+
+            if (!homeOpened) {
+                openHomeBook();
+                return;
+            }
+
             if (Math.abs(distance) >= 45) {
                 changeHomePage(distance > 0 ? -1 : 1);
                 return;
@@ -3224,20 +3405,31 @@
             if (event.key === 'ArrowLeft') {
                 stopHomeAutoplay();
                 event.preventDefault();
-                changeHomePage(-1);
+                if (homeOpened) {
+                    changeHomePage(-1);
+                }
             } else if (event.key === 'ArrowRight') {
                 stopHomeAutoplay();
                 event.preventDefault();
-                changeHomePage(1);
+                if (homeOpened) {
+                    changeHomePage(1);
+                } else {
+                    openHomeBook();
+                }
             }
         });
         homeSpreadMedia.addEventListener('change', renderHomeFlipbook);
         renderHomeFlipbook();
         if (!homeReducedMotion.matches && homeAutoplayMilliseconds > 0) {
             homeAutoplayTimer = window.setInterval(function() {
-                if (!document.hidden) {
-                    changeHomePage(1, true);
+                if (document.hidden) {
+                    return;
                 }
+                if (!homeOpened) {
+                    openHomeBook();
+                    return;
+                }
+                changeHomePage(1, true);
             }, homeAutoplayMilliseconds);
         }
 
