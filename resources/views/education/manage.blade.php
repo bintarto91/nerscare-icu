@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Konten Edukasi')
-@section('page_title', 'Manajemen Konten Edukasi')
-@section('page_subtitle', 'Kelola materi edukasi untuk perawat dan keluarga pasien ICU.')
+@section('title', 'Artikel Edukasi Non-Booklet')
+@section('page_title', 'Artikel Edukasi Non-Booklet')
+@section('page_subtitle', 'Kelola artikel pendamping yang terpisah dari PDF dan halaman flipbook.')
 
 @section('content')
 <style>
@@ -122,29 +122,30 @@
 
 <div class="manage-hero">
     <div>
-        <h2>Manajemen Konten Edukasi</h2>
+        <h2>Artikel Edukasi Non-Booklet</h2>
         <p>
-            Tambahkan dan kelola materi edukasi untuk perawat maupun keluarga.
-            Materi dapat disimpan sebagai draft atau dipublikasikan.
+            Tambahkan artikel pendamping untuk perawat maupun keluarga.
+            Materi di halaman ini bukan isi PDF atau halaman flipbook.
         </p>
     </div>
 
-    <a href="{{ route('education.create') }}" class="btn">
-        + Tambah Materi
-    </a>
+    <div class="actions">
+        <a href="{{ route('booklet-pages.index') }}" class="btn btn-light">Kelola Flipbook</a>
+        <a href="{{ route('education.create') }}" class="btn">+ Tambah Artikel</a>
+    </div>
 </div>
 
 <div class="clinical-note">
-    <strong>Catatan:</strong>
-    Materi yang tampil pada menu Edukasi Perawat dan Edukasi Keluarga hanya materi dengan status
-    <strong>Published</strong>. Materi berstatus <strong>Draft</strong> hanya terlihat oleh admin.
+    <strong>Perbedaan konten:</strong>
+    Untuk mengganti halaman, judul, PDF, atau tampilan flipbook gunakan <strong>Kelola Booklet</strong>.
+    Halaman ini hanya mengelola artikel edukasi tambahan; artikel berstatus <strong>Draft</strong> hanya terlihat oleh admin.
 </div>
 
 <div class="panel">
     <div class="panel-header">
         <div>
-            <h3>Daftar Materi Edukasi</h3>
-            <p>Kelola judul, sasaran materi, kategori, status publikasi, dan isi konten.</p>
+            <h3>Daftar Artikel Edukasi</h3>
+            <p>Kelola judul, sasaran pembaca, kategori, status publikasi, dan isi artikel.</p>
         </div>
     </div>
 

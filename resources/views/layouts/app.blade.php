@@ -57,7 +57,29 @@
             position: fixed;
             inset: 0 auto 0 0;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(186, 245, 239, .58) transparent;
             z-index: 20;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(186, 245, 239, .48);
+            border: 2px solid transparent;
+            border-radius: 999px;
+            background-clip: padding-box;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(216, 255, 251, .75);
+            background-clip: padding-box;
         }
 
         .brand {
@@ -953,25 +975,34 @@
             @endif
 
             @if($role !== 'keluarga')
-                <div class="menu-title">Edukasi</div>
+                <div class="menu-title">Booklet Edukasi</div>
 
                 <a href="{{ route('public.booklet', 'perawat') }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'book'])</span>
-                    <span>Edukasi Perawat</span>
+                    <span>Lihat Booklet Perawat</span>
                 </a>
+            @else
+                <div class="menu-title">Booklet Edukasi</div>
             @endif
 
             <a href="{{ route('public.booklet', 'keluarga') }}">
                 <span class="menu-icon">@include('partials.ui-icon', ['name' => 'family'])</span>
-                <span>Edukasi Keluarga</span>
+                <span>Lihat Booklet Keluarga</span>
             </a>
+
+            @if($role === 'admin')
+                <a href="{{ route('booklet-pages.index') }}" class="{{ request()->routeIs('booklet-pages.*') || request()->routeIs('booklet-settings.*') ? 'active' : '' }}">
+                    <span class="menu-icon">@include('partials.ui-icon', ['name' => 'booklet'])</span>
+                    <span>Kelola Booklet</span>
+                </a>
+            @endif
 
             @if($role === 'admin')
                 <div class="menu-title">Administrator</div>
 
                 <a href="{{ route('education.manage') }}" class="{{ request()->routeIs('education.manage') || request()->routeIs('education.create') || request()->routeIs('education.edit') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'content'])</span>
-                    <span>Manajemen Konten</span>
+                    <span>Artikel Edukasi</span>
                 </a>
                 <a href="{{ route('interpretations.index') }}" class="{{ request()->routeIs('interpretations.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'settings'])</span>
@@ -984,10 +1015,6 @@
                 <a href="{{ route('site-settings.index') }}" class="{{ request()->routeIs('site-settings.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'landing'])</span>
                     <span>Pengaturan Landing</span>
-                </a>
-                <a href="{{ route('booklet-pages.index') }}" class="{{ request()->routeIs('booklet-pages.*') || request()->routeIs('booklet-settings.*') ? 'active' : '' }}">
-                    <span class="menu-icon">@include('partials.ui-icon', ['name' => 'booklet'])</span>
-                    <span>Kelola Booklet</span>
                 </a>
                 <a href="{{ route('report-settings.index') }}" class="{{ request()->routeIs('report-settings.*') ? 'active' : '' }}">
                     <span class="menu-icon">@include('partials.ui-icon', ['name' => 'report'])</span>

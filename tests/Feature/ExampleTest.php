@@ -143,4 +143,25 @@ class ExampleTest extends TestCase
 
         $this->actingAs($user)->get('/admin/booklet-pages')->assertForbidden();
     }
+
+    public function test_admin_sidebar_distinguishes_booklet_preview_from_editing(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Booklet Edukasi')
+            ->assertSee('Lihat Booklet Perawat')
+            ->assertSee('Lihat Booklet Keluarga')
+            ->assertSee('Kelola Booklet')
+            ->assertSee('Artikel Edukasi')
+            ->assertSee('scrollbar-width: thin', false)
+            ->assertDontSee('Manajemen Konten</span>', false);
+
+        $this->actingAs($admin)->get('/admin/education-management')
+            ->assertOk()
+            ->assertSee('Artikel Edukasi Non-Booklet')
+            ->assertSee('Untuk mengganti halaman, judul, PDF, atau tampilan flipbook')
+            ->assertSee('Kelola Flipbook');
+    }
 }
