@@ -857,11 +857,17 @@
     @php
         $bookletPages = collect($booklet['pages']);
         $firstPage = $bookletPages->first();
+        $returnUrl = auth()->check()
+            ? route('dashboard')
+            : route('public.landing') . '#booklet-edukasi';
+        $returnLabel = auth()->check()
+            ? 'Kembali ke Dashboard'
+            : 'Kembali ke beranda';
     @endphp
 
     <header class="topbar">
         <div class="topbar-inner">
-            <a class="brand" href="{{ route('public.landing') }}">
+            <a class="brand" href="{{ $returnUrl }}">
                 <img src="{{ asset('icons/icon.svg') }}" alt="NersCare ICU">
                 <div>
                     NersCare ICU
@@ -870,7 +876,7 @@
             </a>
 
             <div class="topbar-actions">
-                <a class="back-link" href="{{ route('public.landing') }}#booklet-edukasi">Kembali ke beranda</a>
+                <a class="back-link" href="{{ $returnUrl }}">{{ $returnLabel }}</a>
             </div>
         </div>
     </header>

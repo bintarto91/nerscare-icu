@@ -56,8 +56,20 @@ class ExampleTest extends TestCase
             ->assertSee('id="flipbook"', false)
             ->assertSee('id="readerClosedCover"', false)
             ->assertSee('Flipbook manual')
+            ->assertSee('Kembali ke beranda')
             ->assertSee('turnPageNext', false)
             ->assertDontSee('Otomatis membuka halaman');
+    }
+
+    public function test_authenticated_booklet_reader_returns_to_dashboard_without_relogin(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)->get('/booklet/keluarga')
+            ->assertOk()
+            ->assertSee('Kembali ke Dashboard')
+            ->assertSee('href="' . route('dashboard') . '"', false)
+            ->assertDontSee('Kembali ke beranda');
     }
 
     public function test_clinical_instrument_and_decision_matrix_are_read_only(): void
