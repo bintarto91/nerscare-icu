@@ -79,70 +79,70 @@ class DeJongGierveldScale
     {
         return [
             'N0' => [
-                'interpretation' => 'Hasil skor pada saat asesmen menunjukkan kategori tidak kesepian. Tidak ditemukan kebutuhan emotional maupun social yang menonjol berdasarkan skor saat ini.',
-                'nursing_recommendation' => 'Pertahankan dukungan psikososial rutin: komunikasi terapeutik, orientasi, privasi dan martabat, pilihan sederhana, serta pemantauan perubahan kebutuhan selama perawatan.',
-                'family_education_recommendation' => 'Hadir dengan tenang, dengarkan pasien, berikan kabar yang familiar, dan pertahankan komunikasi sesuai keinginan serta kondisi pasien.',
-                'clinical_decision_note' => 'Hasil menggambarkan kondisi saat asesmen dan bukan diagnosis. Lakukan asesmen ulang bila kondisi atau kebutuhan pasien berubah.',
+                'interpretation' => 'Hasil asesmen menunjukkan kategori tidak kesepian. Pada saat asesmen tidak tampak kebutuhan emosional maupun sosial yang menonjol berdasarkan skor.',
+                'nursing_recommendation' => 'Pertahankan dukungan psikososial rutin melalui komunikasi terapeutik, orientasi, penghormatan terhadap privasi dan martabat, pemberian pilihan sederhana, serta pemantauan perubahan kebutuhan selama perawatan.',
+                'family_education_recommendation' => 'Hadir dengan tenang, dengarkan pasien, sampaikan kabar yang familiar, dan pertahankan komunikasi sesuai keinginan serta kondisi pasien.',
+                'clinical_decision_note' => 'Hasil menggambarkan kondisi pasien pada saat asesmen dan bukan diagnosis. Lakukan asesmen ulang bila kondisi klinis atau kebutuhan pasien berubah.',
             ],
             'NE' => [
-                'interpretation' => 'Hasil skor menunjukkan kategori tidak kesepian, tetapi terdapat kecenderungan kebutuhan pada aspek emotional.',
-                'nursing_recommendation' => 'Pertahankan dukungan rutin dan kehadiran terapeutik. Beri kesempatan pasien berbicara, dengarkan, validasi perasaan, dan pertahankan rasa aman serta kontrol.',
-                'family_education_recommendation' => 'Dengarkan pasien tanpa memaksa berbicara. Gunakan komunikasi yang tenang, familiar, dan memberi rasa aman.',
-                'clinical_decision_note' => 'Skor total belum menunjukkan loneliness; rekomendasi bersifat dukungan dan pemantauan, bukan terapi berdasarkan skor.',
+                'interpretation' => 'Hasil asesmen menunjukkan kategori tidak kesepian, tetapi terdapat kecenderungan kebutuhan pada aspek emosional.',
+                'nursing_recommendation' => 'Pertahankan dukungan rutin dan kehadiran terapeutik. Beri kesempatan pasien berbicara, dengarkan secara aktif, validasi perasaan, dan bantu pasien mempertahankan rasa aman serta kontrol selama perawatan.',
+                'family_education_recommendation' => 'Dengarkan pasien tanpa memaksa untuk berbicara. Gunakan komunikasi yang tenang, familiar, dan memberikan rasa aman.',
+                'clinical_decision_note' => 'Skor total belum menunjukkan loneliness. Rekomendasi pada tahap ini bersifat dukungan dan pemantauan, bukan terapi khusus berdasarkan skor.',
             ],
             'NS' => [
-                'interpretation' => 'Hasil skor menunjukkan kategori tidak kesepian, tetapi terdapat kecenderungan kebutuhan pada aspek social.',
-                'nursing_recommendation' => 'Pertahankan dukungan rutin dan koneksi sosial. Identifikasi orang yang bermakna serta pertahankan hubungan pasien dengan keluarga sesuai preferensi.',
-                'family_education_recommendation' => 'Pertahankan kontak melalui kunjungan, pesan, suara, telepon, atau cara lain yang paling nyaman dan diperbolehkan.',
-                'clinical_decision_note' => 'Skor total belum menunjukkan loneliness. Bentuk keterlibatan keluarga tetap mempertimbangkan kondisi klinis dan preferensi pasien.',
+                'interpretation' => 'Hasil asesmen menunjukkan kategori tidak kesepian, tetapi terdapat kecenderungan kebutuhan pada aspek sosial.',
+                'nursing_recommendation' => 'Pertahankan dukungan rutin dan koneksi sosial. Identifikasi orang yang bermakna bagi pasien dan bantu mempertahankan hubungan dengan keluarga atau orang terdekat sesuai preferensi pasien.',
+                'family_education_recommendation' => 'Pertahankan kontak melalui kunjungan, pesan, suara, telepon, video, atau cara lain yang paling nyaman dan diperbolehkan.',
+                'clinical_decision_note' => 'Skor total belum menunjukkan loneliness. Keterlibatan keluarga tetap perlu mempertimbangkan kondisi klinis dan preferensi pasien.',
             ],
             'NB' => [
-                'interpretation' => 'Hasil skor menunjukkan kategori tidak kesepian. Kebutuhan emotional dan social relatif seimbang dan belum menunjukkan loneliness bermakna berdasarkan skor total.',
-                'nursing_recommendation' => 'Pertahankan komunikasi terapeutik, koneksi keluarga, dan personalisasi perawatan.',
-                'family_education_recommendation' => 'Hadir, dengarkan, sampaikan kabar familiar, dan bantu pasien tetap merasa terhubung.',
-                'clinical_decision_note' => 'Tidak diperlukan intensifikasi intervensi berdasarkan skor saja. Pantau perubahan selama perawatan ICU.',
+                'interpretation' => 'Hasil asesmen menunjukkan kategori tidak kesepian. Kebutuhan emosional dan sosial relatif seimbang dan belum menunjukkan loneliness yang bermakna berdasarkan skor total.',
+                'nursing_recommendation' => 'Pertahankan komunikasi terapeutik, koneksi dengan keluarga atau orang bermakna, serta personalisasi perawatan sesuai kebutuhan pasien.',
+                'family_education_recommendation' => 'Hadir, dengarkan pasien, sampaikan kabar yang familiar, dan bantu pasien tetap merasa terhubung.',
+                'clinical_decision_note' => 'Tidak diperlukan intensifikasi dukungan hanya berdasarkan skor saat ini. Tetap pantau perubahan kebutuhan selama perawatan di ICU.',
             ],
             'ME' => [
-                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sedang dengan kebutuhan emotional lebih menonjol. Pasien membutuhkan dukungan untuk merasa didengar, dipahami, aman, dan memiliki kontrol selama perawatan.',
-                'nursing_recommendation' => 'Prioritas 1: I1 Kehadiran terapeutik dan pendekatan naratif/humanistik. Dengarkan, gunakan pertanyaan terbuka singkat, validasi emosi, dan beri waktu merespons. Prioritas 2: I5 Personalisasi psikososial. Tambahkan I3 bila terdapat kebutuhan spiritual atau makna.',
-                'family_education_recommendation' => 'Hadir dengan tenang dan dengarkan lebih banyak. Jangan memaksa pasien untuk kuat atau segera merasa lebih baik. Ceritakan kabar familiar dan beri kesempatan pasien beristirahat.',
-                'clinical_decision_note' => 'Pilih 1-2 intervensi yang paling sesuai. Dukungan spiritual hanya diberikan berdasarkan preferensi atau kebutuhan pasien.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sedang dengan kebutuhan emosional yang lebih menonjol. Pasien membutuhkan dukungan agar merasa didengar, dipahami, aman, dan tetap memiliki kontrol selama perawatan.',
+                'nursing_recommendation' => 'Prioritaskan kehadiran terapeutik dan pendekatan yang humanistik. Dengarkan pasien, gunakan pertanyaan terbuka yang singkat, validasi emosi, dan berikan waktu untuk merespons. Personalisasikan dukungan psikososial; fasilitasi dukungan spiritual, makna, atau harapan bila dibutuhkan atau diinginkan pasien.',
+                'family_education_recommendation' => 'Hadir dengan tenang dan lebih banyak mendengarkan. Hindari memaksa pasien untuk "kuat", segera merasa lebih baik, atau berpikir positif. Sampaikan kabar yang familiar dan beri kesempatan pasien beristirahat.',
+                'clinical_decision_note' => 'Pilih satu sampai dua bentuk dukungan yang paling sesuai dengan kebutuhan pasien. Dukungan spiritual diberikan berdasarkan preferensi atau kebutuhan pasien, bukan secara otomatis.',
             ],
             'MS' => [
-                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sedang dengan kebutuhan koneksi social lebih menonjol. Pasien membutuhkan dukungan untuk tetap terhubung dengan keluarga atau orang yang bermakna.',
-                'nursing_recommendation' => 'Prioritas 1: I4 Keterlibatan keluarga. Identifikasi siapa yang ingin dihubungi dan pertimbangkan kunjungan, rekaman suara, telepon, atau video. Tambahkan I2 bila pasien sulit berkomunikasi dan I5 untuk kontinuitas relasi.',
-                'family_education_recommendation' => 'Tanyakan bentuk komunikasi yang paling nyaman bagi pasien. Berikan pesan singkat, familiar, dan menenangkan. Gunakan kunjungan, suara, telepon, atau video sesuai kondisi dan arahan ICU.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sedang dengan kebutuhan koneksi sosial yang lebih menonjol. Pasien membutuhkan dukungan untuk tetap terhubung dengan keluarga atau orang yang bermakna.',
+                'nursing_recommendation' => 'Prioritaskan pemeliharaan hubungan dengan orang yang bermakna. Identifikasi siapa yang ingin dihubungi pasien dan pertimbangkan kunjungan, rekaman suara, telepon, atau video sesuai kondisi. Bila pasien sulit berkomunikasi, gunakan bantuan komunikasi yang sederhana dan pertahankan kontinuitas relasi.',
+                'family_education_recommendation' => 'Tanyakan bentuk komunikasi yang paling nyaman bagi pasien. Berikan pesan yang singkat, familiar, dan menenangkan. Gunakan kunjungan, suara, telepon, atau video sesuai kondisi pasien dan arahan ICU.',
                 'clinical_decision_note' => 'Teknologi bukan kewajiban. Pilih metode komunikasi yang paling sederhana, aman, bermakna, dan dapat ditoleransi pasien.',
             ],
             'MB' => [
-                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sedang. Kebutuhan emotional dan social relatif seimbang, sehingga dukungan perlu membantu pasien merasa didengar sekaligus tetap terhubung dengan orang yang bermakna.',
-                'nursing_recommendation' => 'Prioritas 1: I1 Kehadiran terapeutik. Prioritas 2: I4 Keterlibatan keluarga. Tambahkan satu dari I2, I3, atau I5 sesuai kebutuhan pasien.',
-                'family_education_recommendation' => 'Hadir dengan tenang, dengarkan pasien, sampaikan kabar familiar, dan tanyakan siapa atau hal apa yang ingin dihubungkan dengan pasien. Sesuaikan durasi interaksi dengan toleransi pasien.',
-                'clinical_decision_note' => 'Pilih 1-3 intervensi berdasarkan kebutuhan dominan setelah asesmen. Jangan memberikan seluruh intervensi secara otomatis hanya karena skor.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sedang. Kebutuhan emosional dan sosial relatif seimbang, sehingga dukungan perlu membantu pasien merasa didengar sekaligus tetap terhubung dengan orang yang bermakna.',
+                'nursing_recommendation' => 'Prioritaskan kehadiran terapeutik dan keterlibatan keluarga atau orang yang bermakna. Tambahkan satu bentuk dukungan lain sesuai kebutuhan pasien, seperti bantuan komunikasi, dukungan spiritual, atau personalisasi psikososial dan lingkungan.',
+                'family_education_recommendation' => 'Hadir dengan tenang, dengarkan pasien, sampaikan kabar yang familiar, dan tanyakan siapa atau hal apa yang ingin tetap dihubungkan dengan pasien. Sesuaikan durasi interaksi dengan toleransi pasien.',
+                'clinical_decision_note' => 'Pilih satu sampai tiga bentuk dukungan berdasarkan kebutuhan dominan setelah asesmen. Jangan memberikan seluruh dukungan secara otomatis hanya karena skor.',
             ],
             'HE' => [
-                'interpretation' => 'Hasil skor menunjukkan loneliness tingkat berat dengan kebutuhan emotional lebih menonjol. Diperlukan dukungan psikososial yang lebih terarah terhadap rasa dipahami, keamanan emosional, kontrol, dan kebutuhan personal pasien.',
-                'nursing_recommendation' => 'Prioritas: I1 Kehadiran terapeutik + I5 Personalisasi psikososial. Pertimbangkan I3 bila terdapat kebutuhan spiritual atau makna dan I4 bila pasien menginginkan keterlibatan orang bermakna. Evaluasi respons setelah intervensi.',
-                'family_education_recommendation' => 'Berikan kehadiran yang konsisten tetapi tidak berlebihan. Dengarkan tanpa menghakimi atau memaksa berpikir positif. Gunakan kabar familiar dan komunikasi yang menenangkan.',
-                'clinical_decision_note' => 'Skor berat bukan otomatis indikasi rujukan psikolog atau psikiater. Pertimbangkan kondisi klinis dan tanda bahaya secara terpisah. Dokumentasikan respons dan tindak lanjut.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat berat dengan kebutuhan emosional yang lebih menonjol. Diperlukan dukungan psikososial yang lebih terarah terhadap rasa dipahami, keamanan emosional, kontrol, dan kebutuhan personal pasien.',
+                'nursing_recommendation' => 'Prioritaskan kehadiran terapeutik yang konsisten dan personalisasi dukungan psikososial. Pertimbangkan dukungan spiritual, makna, atau harapan bila terdapat kebutuhan, dan libatkan orang yang bermakna bila pasien menginginkannya. Evaluasi respons setelah dukungan diberikan.',
+                'family_education_recommendation' => 'Berikan kehadiran yang konsisten tetapi tidak berlebihan. Dengarkan tanpa menghakimi atau memaksa pasien berpikir positif. Gunakan kabar yang familiar dan komunikasi yang menenangkan.',
+                'clinical_decision_note' => 'Skor berat bukan otomatis menjadi indikasi rujukan psikolog atau psikiater. Pertimbangkan kondisi klinis dan tanda bahaya secara terpisah. Dokumentasikan respons pasien dan tindak lanjut.',
             ],
             'HS' => [
-                'interpretation' => 'Hasil skor menunjukkan loneliness tingkat berat dengan kebutuhan koneksi social lebih menonjol. Dukungan diarahkan terutama pada pemeliharaan hubungan pasien dengan orang yang bermakna.',
-                'nursing_recommendation' => 'Prioritas: I4 Keterlibatan keluarga + I5 kontinuitas relasi atau personalisasi. Tambahkan I2 bila hambatan komunikasi menghalangi pasien berinteraksi. Evaluasi toleransi terhadap kontak keluarga.',
-                'family_education_recommendation' => 'Prioritaskan orang yang paling bermakna bagi pasien. Gunakan kunjungan, suara familiar, telepon, atau video sesuai preferensi. Buat kontak singkat dan bermakna; hentikan bila pasien lelah atau distress.',
-                'clinical_decision_note' => 'Intensitas koneksi tidak harus berarti durasi lebih panjang. Sesuaikan dengan kemampuan komunikasi, kondisi medis, privasi, dan kebijakan ICU.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat berat dengan kebutuhan koneksi sosial yang lebih menonjol. Dukungan diarahkan terutama pada pemeliharaan hubungan pasien dengan orang yang bermakna.',
+                'nursing_recommendation' => 'Prioritaskan keterlibatan keluarga atau orang yang bermakna serta kontinuitas relasi. Bila hambatan komunikasi menghalangi pasien berinteraksi, gunakan bantuan komunikasi yang sesuai. Evaluasi toleransi pasien terhadap kontak keluarga atau orang terdekat.',
+                'family_education_recommendation' => 'Prioritaskan orang yang paling bermakna bagi pasien. Gunakan kunjungan, suara familiar, telepon, atau video sesuai preferensi. Buat kontak singkat dan bermakna; hentikan atau kurangi bila pasien lelah atau mengalami distres.',
+                'clinical_decision_note' => 'Intensitas koneksi tidak harus berarti durasi yang lebih panjang. Sesuaikan dengan kemampuan komunikasi, kondisi medis, privasi, dan kebijakan ICU.',
             ],
             'HB' => [
-                'interpretation' => 'Hasil skor menunjukkan loneliness tingkat berat dengan kebutuhan emotional dan social sama-sama menonjol. Pendekatan multimodal diperlukan untuk mendukung hubungan terapeutik dan keterhubungan sosial.',
-                'nursing_recommendation' => 'Prioritas 1: I1 Kehadiran terapeutik. Prioritas 2: I4 Keterlibatan keluarga. Prioritas 3: pilih I2, I3, atau I5 berdasarkan asesmen kebutuhan. Evaluasi dan dokumentasikan respons pasien.',
-                'family_education_recommendation' => 'Dengarkan tanpa menghakimi, pertahankan hubungan familiar, dan tanyakan preferensi pasien. Hindari terlalu banyak orang atau komunikasi panjang yang dapat menyebabkan kelelahan.',
-                'clinical_decision_note' => 'Gunakan maksimal 1-3 intervensi prioritas pada satu tahap, kemudian evaluasi respons. Skor bukan diagnosis dan bukan satu-satunya dasar keputusan klinis.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat berat dengan kebutuhan emosional dan sosial yang sama-sama menonjol. Diperlukan pendekatan multimodal untuk mendukung hubungan terapeutik dan keterhubungan sosial.',
+                'nursing_recommendation' => 'Prioritaskan kehadiran terapeutik dan keterlibatan keluarga atau orang yang bermakna. Tambahkan satu bentuk dukungan lain berdasarkan asesmen, seperti bantuan komunikasi, dukungan spiritual, atau personalisasi psikososial dan lingkungan. Evaluasi dan dokumentasikan respons pasien.',
+                'family_education_recommendation' => 'Dengarkan tanpa menghakimi, pertahankan hubungan yang familiar, dan tanyakan preferensi pasien. Hindari terlalu banyak orang atau komunikasi yang terlalu panjang karena dapat menyebabkan kelelahan.',
+                'clinical_decision_note' => 'Gunakan maksimal satu sampai tiga bentuk dukungan prioritas pada satu tahap, kemudian evaluasi respons pasien. Skor bukan diagnosis dan bukan satu-satunya dasar keputusan klinis.',
             ],
             'VHB' => [
-                'interpretation' => 'Hasil skor menunjukkan loneliness tingkat sangat berat. Kebutuhan emotional dan social sama-sama sangat menonjol. Pasien membutuhkan dukungan psikososial yang terarah dan individual.',
-                'nursing_recommendation' => 'Prioritas 1: I1 Kehadiran terapeutik. Prioritas 2: I4 Keterlibatan keluarga. Prioritas 3: pilih I2, I3, atau I5 sesuai kebutuhan. Evaluasi kenyamanan, komunikasi, rasa terhubung, kelelahan, dan distress. Dokumentasikan untuk tindak lanjut antar-shift.',
-                'family_education_recommendation' => 'Hadir secara konsisten, dengarkan pasien, pertahankan kontak dengan orang yang bermakna, gunakan komunikasi familiar, dan sesuaikan durasi dengan toleransi pasien. Koordinasikan semua bentuk dukungan dengan perawat.',
-                'clinical_decision_note' => 'Hasil bukan diagnosis gangguan jiwa. Skor sangat tinggi tidak otomatis berarti rujukan. Lakukan evaluasi klinis terpisah untuk distress berat, risiko keselamatan, delirium, psikosis, atau kondisi lain yang memerlukan eskalasi.',
+                'interpretation' => 'Hasil asesmen menunjukkan loneliness tingkat sangat berat. Kebutuhan emosional dan sosial sama-sama sangat menonjol. Pasien membutuhkan dukungan psikososial yang terarah dan individual.',
+                'nursing_recommendation' => 'Prioritaskan kehadiran terapeutik dan keterlibatan keluarga atau orang yang bermakna. Tambahkan dukungan lain sesuai kebutuhan pasien, seperti bantuan komunikasi, dukungan spiritual, atau personalisasi psikososial dan lingkungan. Evaluasi kenyamanan, komunikasi, rasa terhubung, kelelahan, dan distres. Dokumentasikan hasil untuk tindak lanjut antar-shift.',
+                'family_education_recommendation' => 'Hadir secara konsisten, dengarkan pasien, pertahankan kontak dengan orang yang bermakna, gunakan komunikasi yang familiar, dan sesuaikan durasi dengan toleransi pasien. Koordinasikan semua bentuk dukungan dengan perawat.',
+                'clinical_decision_note' => 'Hasil bukan diagnosis gangguan jiwa. Skor sangat tinggi tidak otomatis berarti rujukan. Lakukan evaluasi klinis terpisah untuk distres berat, risiko keselamatan, delirium, psikosis, atau kondisi lain yang memerlukan eskalasi.',
             ],
         ];
     }
@@ -161,8 +161,8 @@ class DeJongGierveldScale
 
             if (abs($emotionalPercentage - $socialPercentage) <= 15) {
                 $profile = $totalScore === 11
-                    ? 'Emotional dan Social sangat menonjol'
-                    : 'Emotional dan Social relatif seimbang';
+                    ? 'Emosional & sosial sangat menonjol'
+                    : 'Emosional & sosial relatif seimbang';
                 $code = match ($category['category']) {
                     'Tidak kesepian' => 'NB',
                     'Kesepian tingkat sedang' => 'MB',
@@ -170,10 +170,10 @@ class DeJongGierveldScale
                     default => 'VHB',
                 };
             } elseif ($emotionalPercentage > $socialPercentage) {
-                $profile = 'Emotional dominan';
+                $profile = 'Emosional dominan';
                 $code = $category['category'] === 'Tidak kesepian' ? 'NE' : ($category['category'] === 'Kesepian tingkat sedang' ? 'ME' : 'HE');
             } else {
-                $profile = 'Social dominan';
+                $profile = 'Sosial dominan';
                 $code = $category['category'] === 'Tidak kesepian' ? 'NS' : ($category['category'] === 'Kesepian tingkat sedang' ? 'MS' : 'HS');
             }
         }
@@ -236,14 +236,13 @@ class DeJongGierveldScale
             );
         } else {
             $category = static::resultForScore($totalScore);
-            $invalidDomain = $missingDimension === 'emotional' ? 'emotional' : 'social';
-            $invalidDomainLabel = ucfirst($invalidDomain) . ' loneliness';
+            $invalidDomainLabel = ($missingDimension === 'emotional' ? 'emosional' : 'sosial') . ' loneliness';
 
             $result = array_merge($category, [
                 'code' => null,
                 'profile' => 'Tidak dapat ditentukan karena subskala ' . $invalidDomainLabel . ' tidak lengkap',
                 'interpretation' => $category['interpretation'] . ' Skor total tetap valid karena hanya satu item tidak terisi, tetapi subskala ' . $invalidDomainLabel . ' tidak valid.',
-                'nursing_recommendation' => 'Pertahankan dukungan psikososial rutin dan lakukan asesmen ulang atau lengkapi item yang kosong sebelum menggunakan rekomendasi berbasis profil emotional-social.',
+                'nursing_recommendation' => 'Pertahankan dukungan psikososial rutin dan lakukan asesmen ulang atau lengkapi item yang kosong sebelum menggunakan rekomendasi berbasis profil emosional-sosial.',
                 'family_education_recommendation' => 'Pertahankan dukungan yang tenang dan familiar sesuai preferensi serta kondisi pasien. Jangan meningkatkan intensitas dukungan hanya berdasarkan profil domain yang belum lengkap.',
                 'clinical_decision_note' => 'Satu item tidak terisi: skor total dapat digunakan sesuai aturan data hilang, tetapi kode keputusan dan profil domain tidak diterbitkan karena salah satu subskala tidak valid.',
                 'emotional_score' => $dimensionScores['emotional'],
@@ -369,42 +368,50 @@ class DeJongGierveldScale
             'communication_barrier' => [
                 'code' => 'I2',
                 'label' => 'Pasien sulit bicara atau terintubasi tetapi masih mampu berkomunikasi',
-                'recommendation' => 'Mengembalikan suara pasien: gunakan papan YA/TIDAK, alfabet atau pictogram, satu pertanyaan setiap kali, dan konfirmasi pesan.',
+                'focus' => 'Dukungan komunikasi pasien',
+                'recommendation' => 'Gunakan papan YA/TIDAK, alfabet atau pictogram, satu pertanyaan setiap kali, dan konfirmasi kembali pesan pasien.',
             ],
             'family_contact' => [
                 'code' => 'I4',
                 'label' => 'Pasien ingin menghubungi keluarga atau orang tertentu',
-                'recommendation' => 'Keterlibatan keluarga: identifikasi orang bermakna; pilih kunjungan, rekaman suara, telepon, atau video sesuai kondisi.',
+                'focus' => 'Keterlibatan keluarga atau orang bermakna',
+                'recommendation' => 'Identifikasi orang yang bermakna; pilih kunjungan, suara, telepon, atau video sesuai kondisi dan preferensi pasien.',
             ],
             'spiritual_need' => [
                 'code' => 'I3',
                 'label' => 'Pasien takut, kehilangan harapan, meminta doa, atau ritual',
-                'recommendation' => 'Dukungan spiritual, makna, dan harapan: kaji preferensi dan fasilitasi sesuai keinginan pasien tanpa pemaksaan.',
+                'focus' => 'Dukungan spiritual, makna, dan harapan',
+                'recommendation' => 'Kaji preferensi pasien, fasilitasi sesuai keinginan, dan hindari pemaksaan.',
             ],
             'loss_of_control' => [
                 'code' => 'I5',
                 'label' => 'Pasien merasa kehilangan kontrol',
-                'recommendation' => 'Pilihan dan kontrol: berikan pilihan kecil yang aman dan realistis.',
+                'focus' => 'Pilihan dan kontrol',
+                'recommendation' => 'Berikan pilihan kecil yang aman dan realistis sesuai kondisi pasien.',
             ],
             'familiar_activity' => [
                 'code' => 'I5',
                 'label' => 'Pasien bosan atau membutuhkan hal yang familiar',
-                'recommendation' => 'Aktivitas bermakna: pertimbangkan musik, foto, cerita, objek familiar, atau kegiatan sederhana sesuai kondisi.',
+                'focus' => 'Aktivitas bermakna',
+                'recommendation' => 'Gunakan musik, foto, cerita, objek yang familiar, atau kegiatan sederhana sesuai kondisi pasien.',
             ],
             'sleep_calm' => [
                 'code' => 'I5',
                 'label' => 'Pasien sulit tidur atau terganggu kebisingan',
-                'recommendation' => 'Tidur dan ketenangan: kurangi stimulasi tidak perlu dan dukung rutinitas istirahat.',
+                'focus' => 'Tidur dan ketenangan',
+                'recommendation' => 'Kurangi stimulasi yang tidak perlu dan dukung rutinitas istirahat.',
             ],
             'orientation_need' => [
                 'code' => 'I5',
                 'label' => 'Pasien kehilangan orientasi',
-                'recommendation' => 'Orientasi: sampaikan hari atau tanggal, lokasi, petugas, dan rencana hari secara sederhana.',
+                'focus' => 'Orientasi',
+                'recommendation' => 'Sampaikan hari/tanggal, lokasi, petugas, dan rencana hari secara sederhana.',
             ],
             'privacy_dignity' => [
                 'code' => 'I5',
                 'label' => 'Privasi atau martabat menjadi masalah',
-                'recommendation' => 'Privasi dan martabat: jaga tirai, paparan tubuh, izin sebelum melibatkan keluarga, dan kerahasiaan informasi.',
+                'focus' => 'Privasi dan martabat',
+                'recommendation' => 'Jaga tirai dan paparan tubuh, minta izin sebelum melibatkan keluarga, dan pertahankan kerahasiaan informasi.',
             ],
         ];
     }
@@ -414,27 +421,27 @@ class DeJongGierveldScale
         return [
             'self_harm' => [
                 'label' => 'Pasien menyatakan ingin menyakiti diri',
-                'response' => 'Prioritaskan evaluasi klinis segera dan lakukan eskalasi sesuai SOP serta kebijakan rumah sakit.',
+                'response' => 'Prioritaskan evaluasi klinis segera dan eskalasi sesuai jalur pelayanan atau SOP rumah sakit.',
                 'urgency' => 'segera',
             ],
             'severe_confusion_agitation' => [
                 'label' => 'Kebingungan berat atau agitasi berat',
-                'response' => 'Lakukan evaluasi klinis, pertimbangkan kemungkinan delirium, dan eskalasi sesuai temuan serta SOP rumah sakit.',
+                'response' => 'Lakukan evaluasi klinis dan pertimbangkan kondisi lain seperti delirium sesuai penilaian klinis.',
                 'urgency' => 'prioritas',
             ],
             'hallucination_psychosis' => [
                 'label' => 'Halusinasi atau gejala psikosis',
-                'response' => 'Lakukan evaluasi profesional untuk halusinasi atau gejala psikosis dan eskalasi sesuai SOP rumah sakit.',
+                'response' => 'Koordinasikan evaluasi profesional sesuai jalur klinis.',
                 'urgency' => 'prioritas',
             ],
             'severe_distress' => [
-                'label' => 'Distress berat',
-                'response' => 'Lakukan evaluasi klinis dan eskalasi sesuai SOP rumah sakit berdasarkan tingkat distress dan kondisi pasien.',
+                'label' => 'Distres berat',
+                'response' => 'Evaluasi kondisi dan lakukan eskalasi sesuai SOP rumah sakit.',
                 'urgency' => 'prioritas',
             ],
             'beyond_routine_support' => [
                 'label' => 'Masalah psikologis melampaui dukungan keperawatan rutin',
-                'response' => 'Koordinasikan evaluasi dan penanganan dengan tenaga profesional yang sesuai serta dokumentasikan tindak lanjutnya.',
+                'response' => 'Koordinasikan dengan tenaga profesional sesuai kebutuhan.',
                 'urgency' => 'koordinasi',
             ],
         ];

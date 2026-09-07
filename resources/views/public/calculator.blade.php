@@ -1133,16 +1133,16 @@
 
                 if (Math.abs(emotionalPercentage - socialPercentage) <= 15) {
                     profile = emotionalScore + socialScore === 11
-                        ? 'Emotional dan Social sangat menonjol'
-                        : 'Emotional dan Social relatif seimbang';
+                        ? 'Emosional & sosial sangat menonjol'
+                        : 'Emosional & sosial relatif seimbang';
                     code = category === 'Tidak kesepian'
                         ? 'NB'
                         : (category === 'Kesepian tingkat sedang' ? 'MB' : (category === 'Kesepian tingkat berat' ? 'HB' : 'VHB'));
                 } else if (emotionalPercentage > socialPercentage) {
-                    profile = 'Emotional dominan';
+                    profile = 'Emosional dominan';
                     code = category === 'Tidak kesepian' ? 'NE' : (category === 'Kesepian tingkat sedang' ? 'ME' : 'HE');
                 } else {
-                    profile = 'Social dominan';
+                    profile = 'Sosial dominan';
                     code = category === 'Tidak kesepian' ? 'NS' : (category === 'Kesepian tingkat sedang' ? 'MS' : 'HS');
                 }
             }
