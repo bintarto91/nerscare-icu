@@ -3,7 +3,7 @@
 <head>
     <link rel="manifest" href="{{ asset('manifest.json') }}?v=8">
     <meta name="theme-color" content="#0b6f73">
-    <link rel="icon" href="{{ asset('icons/icon.svg') }}?v=8" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('icons/icon.png') }}?v=9" type="image/png">
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}?v=8" type="image/x-icon">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}?v=8">
     <meta charset="UTF-8">
@@ -929,7 +929,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="brand">
             <div class="brand-logo">
-                <img src="{{ asset('icons/icon.svg') }}?v=8" alt="NersCare ICU">
+                <img src="{{ asset('icons/icon.png') }}?v=9" alt="NersCare ICU">
             </div>
             <div class="brand-title">
                 <strong>AI Assessment ICU</strong>

@@ -237,7 +237,6 @@
         )
         : null;
     $dominantDimension = $assessment->decision_profile ?: ($decision['profile'] ?? '-');
-    $decisionCode = $assessment->decision_code ?: ($decision['code'] ?? '-');
     $clinicalDecisionNote = $assessment->clinical_decision_note ?: ($decision['clinical_decision_note'] ?? '-');
     $personalizationTriggers = collect($assessment->personalization_triggers ?? [])
         ->map(fn (string $trigger) => \App\Support\DeJongGierveldScale::personalizationTriggers()[$trigger] ?? null)
@@ -329,11 +328,6 @@
                 <div>
                     <span class="category">{{ $dominantDimension }}</span>
                 </div>
-            </div>
-
-            <div class="summary-card">
-                <div class="summary-label">Kode Keputusan</div>
-                <div class="summary-value">{{ $decisionCode }}</div>
             </div>
 
             <div class="summary-card">

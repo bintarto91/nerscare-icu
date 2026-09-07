@@ -83,7 +83,6 @@
         )
         : null;
     $dominantDimension = $assessment->decision_profile ?: ($decision['profile'] ?? '-');
-    $decisionCode = $assessment->decision_code ?: ($decision['code'] ?? '-');
     $clinicalDecisionNote = $assessment->clinical_decision_note ?: ($decision['clinical_decision_note'] ?? '-');
     $personalizationTriggers = collect($assessment->personalization_triggers ?? [])
         ->map(fn (string $trigger) => \App\Support\DeJongGierveldScale::personalizationTriggers()[$trigger] ?? null)
@@ -997,12 +996,6 @@
         <div class="stat-sub">Status tindak lanjut perawat</div>
     </div>
 
-    <div class="result-stat-card">
-        <div class="result-stat-icon">AI</div>
-        <div class="label">Kode Keputusan</div>
-        <div class="number">{{ $decisionCode }}</div>
-        <div class="stat-sub">Lookup rekomendasi berdasarkan skor dan profil kebutuhan</div>
-    </div>
 </div>
 
 <div class="panel" style="margin-bottom: 22px;">

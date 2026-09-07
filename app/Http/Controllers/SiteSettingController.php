@@ -20,16 +20,14 @@ class SiteSettingController extends Controller
     {
         $this->ensureAdmin();
 
-        $validated = $request->validate([
-            'app_name' => ['required', 'string', 'max:255'],
-            'landing_badge' => ['nullable', 'string', 'max:255'],
-            'landing_title' => ['required', 'string', 'max:255'],
-            'landing_description' => ['required', 'string'],
-            'landing_calculator_title' => ['required', 'string', 'max:255'],
-            'landing_calculator_description' => ['required', 'string'],
-            'clinical_disclaimer' => ['required', 'string'],
-            'footer_text' => ['required', 'string', 'max:255'],
-        ]);
+        $rules = collect(SiteSetting::PUBLIC_DEFAULTS)
+            ->mapWithKeys(fn (string $value, string $key) => [
+                $key => ['required', 'string'],
+            ])
+            ->all();
+        $rules['landing_badge'] = ['nullable', 'string', 'max:255'];
+
+        $validated = $request->validate($rules);
 
         foreach ($validated as $key => $value) {
             SiteSetting::updateOrCreate(

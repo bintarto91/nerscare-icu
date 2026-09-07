@@ -610,7 +610,7 @@
             <div class="panel-header">
                 <div>
                     <h3>Personalisasi Rekomendasi</h3>
-                    <p>Pilih kondisi yang ditemukan. Sistem menambahkan fokus intervensi I2-I5 pada hasil keputusan.</p>
+                    <p>Pilih kondisi yang ditemukan. Sistem menambahkan fokus intervensi tambahan pada hasil keputusan.</p>
                 </div>
             </div>
 
@@ -624,7 +624,7 @@
                             {{ in_array($trigger, old('personalization_triggers', []), true) ? 'checked' : '' }}
                         >
                         <span>
-                            <strong>{{ $detail['code'] }} - {{ $detail['label'] }}</strong>
+                            <strong>{{ $detail['label'] }}</strong>
                             <span>{{ $detail['recommendation'] }}</span>
                         </span>
                     </label>
@@ -744,11 +744,6 @@
             <div class="dimension-note" style="margin-bottom:16px;">
                 Profil kebutuhan:
                 <strong id="dominantDimensionPreview">-</strong>
-            </div>
-
-            <div class="dimension-note" style="margin-bottom:16px;">
-                Kode output keputusan:
-                <strong id="decisionCodePreview">-</strong>
             </div>
 
             <div class="clinical-note">
@@ -949,7 +944,6 @@
             const socialScorePreview = document.getElementById('socialScorePreview');
             const dominantDimensionPreview = document.getElementById('dominantDimensionPreview');
             const dominantDimensionFooter = document.getElementById('dominantDimensionFooter');
-            const decisionCodePreview = document.getElementById('decisionCodePreview');
             const clinicalDecisionPreview = document.getElementById('clinicalDecisionPreview');
             const incompleteNote = document.getElementById('incompleteNote');
 
@@ -1013,7 +1007,6 @@
                     : dimensionScores.social;
                 dominantDimensionPreview.innerText = dominantDimension;
                 dominantDimensionFooter.innerText = dominantDimension;
-                decisionCodePreview.innerText = decision ? decision.code : '-';
                 clinicalDecisionPreview.innerText = decision
                     ? decision.clinical_decision_note
                     : 'Kode keputusan tidak diterbitkan sampai kedua subskala lengkap.';
@@ -1027,7 +1020,6 @@
                 categoryPreview.innerText = '-';
                 dominantDimensionPreview.innerText = '-';
                 dominantDimensionFooter.innerText = '-';
-                decisionCodePreview.innerText = '-';
                 clinicalDecisionPreview.innerText = '-';
                 resultPreviewBox.style.display = 'none';
 

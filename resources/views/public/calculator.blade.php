@@ -851,11 +851,6 @@
                 </div>
 
                 <div class="result-box">
-                    <div class="result-label">Kode Keputusan</div>
-                    <div class="result-number" id="resultDecisionCode">-</div>
-                </div>
-
-                <div class="result-box">
                     <div class="result-label">Jumlah Pertanyaan</div>
                     <div class="result-number">{{ $questions->count() }}</div>
                 </div>
@@ -1037,7 +1032,6 @@
             let category = '-';
             let categoryClass = '';
             let interpretation = '';
-            let decisionCode = '-';
             let nursingRecommendation = '';
             let familyRecommendation = '';
             let clinicalDecisionNote = '';
@@ -1067,7 +1061,6 @@
                     dominantDimension = decision
                         ? decision.profile
                         : 'Tidak dapat ditentukan karena satu subskala tidak lengkap';
-                    decisionCode = decision ? decision.code : '-';
                     interpretation = decision
                         ? (decision.interpretation || matched.interpretation)
                         : matched.interpretation + ' Skor total tetap valid karena hanya satu item tidak terisi.';
@@ -1118,7 +1111,6 @@
                 ? 'Tidak valid'
                 : dimensionScores.social;
             document.getElementById('resultDominantDimension').innerText = dominantDimension;
-            document.getElementById('resultDecisionCode').innerText = decisionCode;
             document.getElementById('resultCategory').innerHTML = category === '-'
                 ? '-'
                 : '<span class="category ' + categoryClass + '">' + category + '</span>';
