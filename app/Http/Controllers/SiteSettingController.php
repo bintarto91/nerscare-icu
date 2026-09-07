@@ -20,14 +20,16 @@ class SiteSettingController extends Controller
     {
         $this->ensureAdmin();
 
-        $rules = collect(SiteSetting::PUBLIC_DEFAULTS)
-            ->mapWithKeys(fn (string $value, string $key) => [
-                $key => ['required', 'string'],
-            ])
-            ->all();
-        $rules['landing_badge'] = ['nullable', 'string', 'max:255'];
-
-        $validated = $request->validate($rules);
+        $validated = $request->validate([
+            'app_name' => ['required', 'string', 'max:255'],
+            'landing_badge' => ['nullable', 'string', 'max:255'],
+            'landing_title' => ['required', 'string', 'max:255'],
+            'landing_description' => ['required', 'string'],
+            'landing_calculator_title' => ['required', 'string', 'max:255'],
+            'landing_calculator_description' => ['required', 'string'],
+            'clinical_disclaimer' => ['required', 'string'],
+            'footer_text' => ['required', 'string', 'max:255'],
+        ]);
 
         foreach ($validated as $key => $value) {
             SiteSetting::updateOrCreate(
@@ -39,6 +41,19 @@ class SiteSettingController extends Controller
         return redirect()
             ->route('site-settings.index')
             ->with('success', 'Pengaturan landing page berhasil diperbarui.');
+    }
+
+    public function resetDefaults()
+    {
+        $this->ensureAdmin();
+
+        SiteSetting::query()
+            ->whereIn('setting_key', array_keys(SiteSetting::PUBLIC_DEFAULTS))
+            ->delete();
+
+        return redirect()
+            ->route('site-settings.index')
+            ->with('success', 'Teks landing page dan kalkulator dikembalikan ke revisi terbaru.');
     }
 
     private function ensureAdmin(): void

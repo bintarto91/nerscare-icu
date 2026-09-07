@@ -2770,7 +2770,7 @@
                 </div>
                 <div>
                     <strong>{{ $settings['app_name'] }}</strong>
-                    <span>Loneliness Assessment & Edukasi</span>
+                    <span>{{ $settings['brand_tagline'] }}</span>
                 </div>
             </a>
 
@@ -2788,63 +2788,70 @@
                 <p>{{ $settings['landing_description'] }}</p>
 
                 <div class="hero-actions">
-                    <a href="{{ route('public.calculator') }}" class="btn btn-white">Coba Kalkulator Loneliness</a>
-                    <a href="#booklet-edukasi" class="btn">Lihat Booklet Edukasi</a>
-                    <a href="{{ route('login') }}" class="btn">Masuk ke Sistem</a>
+                    <a href="{{ route('public.calculator') }}" class="btn btn-white">{{ $settings['hero_primary_cta'] }}</a>
+                    <a href="#booklet-edukasi" class="btn">{{ $settings['hero_education_cta'] }}</a>
+                    <a href="{{ route('login') }}" class="btn">{{ $settings['hero_login_cta'] }}</a>
                 </div>
 
                 <div class="trust-row">
                     <div class="trust-item">
-                        <strong>Assessment Terstruktur</strong>
-                        <span>Skor, kategori, interpretasi, dan riwayat tersimpan rapi.</span>
+                        <strong>{{ $settings['trust_assessment_title'] }}</strong>
+                        <span>{{ $settings['trust_assessment_description'] }}</span>
                     </div>
                     <div class="trust-item">
-                        <strong>Konteks ICU</strong>
-                        <span>Dirancang untuk pasien sadar dan mampu berkomunikasi.</span>
+                        <strong>{{ $settings['trust_clinical_title'] }}</strong>
+                        <span>{{ $settings['trust_clinical_description'] }}</span>
                     </div>
                     <div class="trust-item">
-                        <strong>Edukasi Lanjutan</strong>
-                        <span>Rekomendasi untuk perawat dan keluarga pasien.</span>
+                        <strong>{{ $settings['trust_education_title'] }}</strong>
+                        <span>{{ $settings['trust_education_description'] }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="flow-card">
-                <h2>Alur Penggunaan Sistem</h2>
+                <h2>{{ $settings['flow_title'] }}</h2>
                 <div class="flow-list">
                     <div class="flow-item">
                         <div class="flow-number">1</div>
                         <div>
-                            <strong>Login petugas</strong>
-                            <span>Masuk sebagai admin, perawat, atau keluarga.</span>
+                            <strong>{{ $settings['flow_step_1_title'] }}</strong>
+                            <span>{{ $settings['flow_step_1_description'] }}</span>
                         </div>
                     </div>
                     <div class="flow-item">
                         <div class="flow-number">2</div>
                         <div>
-                            <strong>Pilih pasien ICU</strong>
-                            <span>Pastikan pasien sadar dan mampu berkomunikasi.</span>
+                            <strong>{{ $settings['flow_step_2_title'] }}</strong>
+                            <span>{{ $settings['flow_step_2_description'] }}</span>
                         </div>
                     </div>
                     <div class="flow-item">
                         <div class="flow-number">3</div>
                         <div>
-                            <strong>Isi assessment</strong>
-                            <span>Jawab instrumen loneliness secara bertahap.</span>
+                            <strong>{{ $settings['flow_step_3_title'] }}</strong>
+                            <span>{{ $settings['flow_step_3_description'] }}</span>
                         </div>
                     </div>
                     <div class="flow-item">
                         <div class="flow-number">4</div>
                         <div>
-                            <strong>Lihat hasil</strong>
-                            <span>Skor, kategori, interpretasi, dan rekomendasi edukasi.</span>
+                            <strong>{{ $settings['flow_step_4_title'] }}</strong>
+                            <span>{{ $settings['flow_step_4_description'] }}</span>
                         </div>
                     </div>
                     <div class="flow-item">
                         <div class="flow-number">5</div>
                         <div>
-                            <strong>Cetak laporan</strong>
-                            <span>Dokumentasikan hasil dan tindak lanjut pasien.</span>
+                            <strong>{{ $settings['flow_step_5_title'] }}</strong>
+                            <span>{{ $settings['flow_step_5_description'] }}</span>
+                        </div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-number">6</div>
+                        <div>
+                            <strong>{{ $settings['flow_step_6_title'] }}</strong>
+                            <span>{{ $settings['flow_step_6_description'] }}</span>
                         </div>
                     </div>
                 </div>
@@ -2922,11 +2929,8 @@
         <div class="section-inner">
             <div class="section-title">
                 <div class="section-kicker">Kenapa web ini membantu</div>
-                <h2>Fitur Utama Web</h2>
-                <p>
-                    Satu alur kerja untuk mendata pasien, melakukan assessment, membaca hasil,
-                    dan menyiapkan edukasi yang sesuai untuk perawat maupun keluarga.
-                </p>
+                <h2>{{ $settings['features_title'] }}</h2>
+                <p>{{ $settings['features_description'] }}</p>
             </div>
 
             <div class="feature-grid">
@@ -2939,9 +2943,9 @@
                             <path d="M17 10h4"/>
                         </svg>
                     </div>
-                    <h3>Data Pasien ICU</h3>
-                    <p>Mengelola identitas pasien, kondisi komunikasi, status kesadaran, dan kelayakan assessment.</p>
-                    <a href="{{ route('login') }}" class="feature-link">Kelola data</a>
+                    <h3>{{ $settings['feature_patient_title'] }}</h3>
+                    <p>{{ $settings['feature_patient_description'] }}</p>
+                    <a href="{{ route('login') }}" class="feature-link">{{ $settings['feature_patient_action'] }}</a>
                 </div>
 
                 <div class="feature-card feature-blue">
@@ -2952,9 +2956,9 @@
                             <path d="M8 18h8"/>
                         </svg>
                     </div>
-                    <h3>Assessment Loneliness</h3>
-                    <p>Instrumen diisi bertahap dengan skor otomatis, kategori, interpretasi, dan rekomendasi awal.</p>
-                    <a href="{{ route('login') }}" class="feature-link">Mulai assessment</a>
+                    <h3>{{ $settings['feature_assessment_title'] }}</h3>
+                    <p>{{ $settings['feature_assessment_description'] }}</p>
+                    <a href="{{ route('login') }}" class="feature-link">{{ $settings['feature_assessment_action'] }}</a>
                 </div>
 
                 <div class="feature-card feature-amber">
@@ -2966,9 +2970,9 @@
                             <path d="M18 7h1v1"/>
                         </svg>
                     </div>
-                    <h3>Hasil dan Riwayat</h3>
-                    <p>Riwayat assessment dapat dilihat kembali, ditindaklanjuti, dan dicetak untuk dokumentasi.</p>
-                    <a href="{{ route('login') }}" class="feature-link">Lihat hasil</a>
+                    <h3>{{ $settings['feature_history_title'] }}</h3>
+                    <p>{{ $settings['feature_history_description'] }}</p>
+                    <a href="{{ route('login') }}" class="feature-link">{{ $settings['feature_history_action'] }}</a>
                 </div>
 
                 <div class="feature-card feature-blue">
@@ -2980,9 +2984,9 @@
                             <path d="M10 14h4"/>
                         </svg>
                     </div>
-                    <h3>Edukasi Perawat</h3>
-                    <p>Materi komunikasi terapeutik, dukungan emosional, dan dokumentasi edukasi keperawatan.</p>
-                    <a href="{{ route('public.booklet', 'perawat') }}" class="feature-link">Buka booklet</a>
+                    <h3>{{ $settings['feature_nurse_title'] }}</h3>
+                    <p>{{ $settings['feature_nurse_description'] }}</p>
+                    <a href="{{ route('public.booklet', 'perawat') }}" class="feature-link">{{ $settings['feature_nurse_action'] }}</a>
                 </div>
 
                 <div class="feature-card feature-rose">
@@ -2994,9 +2998,9 @@
                             <path d="M12 20a5 5 0 0 1 10 0"/>
                         </svg>
                     </div>
-                    <h3>Edukasi Keluarga</h3>
-                    <p>Panduan komunikasi positif dan dukungan emosional keluarga sesuai arahan petugas ICU.</p>
-                    <a href="{{ route('public.booklet', 'keluarga') }}" class="feature-link">Buka booklet</a>
+                    <h3>{{ $settings['feature_family_title'] }}</h3>
+                    <p>{{ $settings['feature_family_description'] }}</p>
+                    <a href="{{ route('public.booklet', 'keluarga') }}" class="feature-link">{{ $settings['feature_family_action'] }}</a>
                 </div>
 
                 <div class="feature-card feature-amber">
@@ -3012,9 +3016,9 @@
                             <path d="M16 15h.01"/>
                         </svg>
                     </div>
-                    <h3>Kalkulator Public</h3>
-                    <p>Simulasi edukatif tanpa login, tanpa menyimpan data, dan bukan pengganti penilaian klinis.</p>
-                    <a href="{{ route('public.calculator') }}" class="feature-link">Coba sekarang</a>
+                    <h3>{{ $settings['feature_calculator_title'] }}</h3>
+                    <p>{{ $settings['feature_calculator_description'] }}</p>
+                    <a href="{{ route('public.calculator') }}" class="feature-link">{{ $settings['feature_calculator_action'] }}</a>
                 </div>
             </div>
         </div>
@@ -3028,8 +3032,8 @@
                     <h2>{{ $settings['landing_calculator_title'] }}</h2>
                     <p>{{ $settings['landing_calculator_description'] }}</p>
                     <div class="cta-actions">
-                        <a href="{{ route('public.calculator') }}" class="btn btn-white">Mulai Cek Loneliness</a>
-                        <a href="{{ route('login') }}" class="btn">Masuk sebagai Petugas</a>
+                        <a href="{{ route('public.calculator') }}" class="btn btn-white">{{ $settings['calculator_primary_cta'] }}</a>
+                        <a href="{{ route('login') }}" class="btn">{{ $settings['calculator_secondary_cta'] }}</a>
                     </div>
                     <div class="cta-note">
                         {{ $settings['clinical_disclaimer'] }}
@@ -3067,11 +3071,8 @@
         <div class="section-inner">
             <div class="section-title section-title-center">
                 <div class="section-kicker">Dibuat agar mudah dipahami</div>
-                <h2>Nyaman Dipakai oleh Perawat, Keluarga, dan Pengunjung Awam</h2>
-                <p>
-                    Tampilan dibuat ringkas supaya pengguna tidak merasa sedang membaca sistem yang rumit.
-                    Setiap bagian memberi konteks, langkah, dan hasil yang mudah dipahami.
-                </p>
+                <h2>{{ $settings['audience_title'] }}</h2>
+                <p>{{ $settings['audience_description'] }}</p>
             </div>
 
             <div class="audience-grid">
@@ -3084,12 +3085,12 @@
                             <path d="M8 15c1.1 1 2.4 1.5 4 1.5s2.9-.5 4-1.5"/>
                         </svg>
                     </div>
-                    <h3>Pengunjung Awam</h3>
-                    <p>Bisa mencoba simulasi tanpa login dan memahami gambaran loneliness secara edukatif.</p>
+                    <h3>{{ $settings['audience_public_title'] }}</h3>
+                    <p>{{ $settings['audience_public_description'] }}</p>
                     <ul class="audience-list">
-                        <li>Bahasa sederhana dan tidak terasa teknis.</li>
-                        <li>Hasil langsung tampil setelah pertanyaan dijawab.</li>
-                        <li>Ada catatan bahwa hasil bukan diagnosis klinis.</li>
+                        @foreach(preg_split('/\r?\n/', trim($settings['audience_public_features'])) as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -3103,12 +3104,12 @@
                             <path d="M12 17v-6"/>
                         </svg>
                     </div>
-                    <h3>Perawat ICU</h3>
-                    <p>Alur kerja dibuat tertata untuk mendata pasien, menilai, membaca hasil, dan menyiapkan edukasi.</p>
+                    <h3>{{ $settings['audience_nurse_title'] }}</h3>
+                    <p>{{ $settings['audience_nurse_description'] }}</p>
                     <ul class="audience-list">
-                        <li>Assessment bertahap dengan skor otomatis.</li>
-                        <li>Riwayat dapat dipantau dan dicetak.</li>
-                        <li>Rekomendasi awal membantu dokumentasi edukasi.</li>
+                        @foreach(preg_split('/\r?\n/', trim($settings['audience_nurse_features'])) as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -3121,12 +3122,12 @@
                             <path d="M14 21a4 4 0 0 1 8 0"/>
                         </svg>
                     </div>
-                    <h3>Keluarga Pasien</h3>
-                    <p>Materi edukasi membantu keluarga memahami bentuk dukungan emosional yang aman dan positif.</p>
+                    <h3>{{ $settings['audience_family_title'] }}</h3>
+                    <p>{{ $settings['audience_family_description'] }}</p>
                     <ul class="audience-list">
-                        <li>Panduan komunikasi lebih mudah diikuti.</li>
-                        <li>Fokus pada dukungan yang realistis di ruang ICU.</li>
-                        <li>Tetap mengikuti arahan petugas kesehatan.</li>
+                        @foreach(preg_split('/\r?\n/', trim($settings['audience_family_features'])) as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

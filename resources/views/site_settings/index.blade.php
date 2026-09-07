@@ -82,6 +82,22 @@
 
 <div class="preview-link-box">
     <div>
+        <strong>Reset ke teks revisi terbaru</strong><br>
+        <span class="muted">Pakai ini setelah update aplikasi bila landing page masih menampilkan teks lama yang tersimpan di database.</span>
+    </div>
+
+    <div class="actions">
+        <form method="POST" action="{{ route('site-settings.reset-defaults') }}" onsubmit="return confirm('Kembalikan semua teks landing page dan kalkulator ke revisi terbaru? Perubahan manual yang tersimpan akan hilang.');">
+            @csrf
+            <button type="submit" class="btn btn-light btn-sm">
+                Reset ke Default
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="preview-link-box">
+    <div>
         <strong>Preview halaman public</strong><br>
         <span class="muted">Cek hasil perubahan setelah disimpan.</span>
     </div>

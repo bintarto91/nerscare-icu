@@ -932,8 +932,8 @@
                 <img src="{{ asset('icons/icon.png') }}?v=9" alt="NersCare ICU">
             </div>
             <div class="brand-title">
-                <strong>AI Assessment ICU</strong>
-                <span>Loneliness Assessment & Edukasi</span>
+                <strong>NersCare-ICU</strong>
+                <span>Psychosocial Screening</span>
             </div>
 
             <button type="button" class="sidebar-close" onclick="closeSidebar()" aria-label="Tutup menu">

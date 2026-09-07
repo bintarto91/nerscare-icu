@@ -43,8 +43,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/site-settings', [SiteSettingController::class, 'index'])
     ->name('site-settings.index');
 
-    Route::put('/admin/site-settings', [SiteSettingController::class, 'update'])    
+    Route::put('/admin/site-settings', [SiteSettingController::class, 'update'])
     ->name('site-settings.update');
+
+    Route::post('/admin/site-settings/reset-defaults', [SiteSettingController::class, 'resetDefaults'])
+    ->name('site-settings.reset-defaults');
 
     Route::put('/admin/booklet-settings', [BookletPageController::class, 'updateSettings'])
         ->name('booklet-settings.update');
