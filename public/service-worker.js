@@ -1,19 +1,19 @@
-const CACHE_NAME = 'icu-assessment-pwa-v8';
+const CACHE_NAME = 'icu-assessment-pwa-v9';
 
 const STATIC_ASSETS = [
     '/',
     '/manifest.json',
-    '/manifest.json?v=8',
+    '/manifest.json?v=9',
     '/offline.html',
     '/favicon.ico',
-    '/icons/icon.svg',
-    '/icons/icon.svg?v=8',
+    '/icons/icon.png',
+    '/icons/icon.png?v=9',
     '/icons/icon-192.png',
-    '/icons/icon-192.png?v=8',
+    '/icons/icon-192.png?v=9',
     '/icons/maskable-512.png',
-    '/icons/maskable-512.png?v=8',
+    '/icons/maskable-512.png?v=9',
     '/icons/apple-touch-icon.png',
-    '/icons/apple-touch-icon.png?v=8'
+    '/icons/apple-touch-icon.png?v=9'
 ];
 
 self.addEventListener('install', function (event) {

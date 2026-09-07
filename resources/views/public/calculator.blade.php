@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <link rel="manifest" href="{{ asset('manifest.json') }}?v=8">
+    <link rel="manifest" href="{{ asset('manifest.json') }}?v=9">
     <meta name="theme-color" content="#0b6f73">
     <link rel="icon" href="{{ asset('icons/icon.svg') }}?v=8" type="image/svg+xml">
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}?v=8" type="image/x-icon">
